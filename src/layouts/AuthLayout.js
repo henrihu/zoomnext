@@ -4,7 +4,7 @@ import { useSession } from 'next-auth/react';
 import { useTheme } from 'next-themes';
 import { Toaster } from 'react-hot-toast';
 
-const AuthLayout = ({ children }) => {
+const AuthLayout = ({ children, color }) => {
   const router = useRouter();
   const { status } = useSession();
   const { setTheme } = useTheme();
@@ -19,7 +19,10 @@ const AuthLayout = ({ children }) => {
 
   if (status === 'loading') return <></>;
   return (
-    <main className="relative flex flex-col items-center justify-center h-screen p-10 space-y-10">
+    <main
+      className="relative flex flex-col items-center justify-center h-screen p-10 space-y-10"
+      style={{ backgroundColor: color }}
+    >
       <Toaster position="bottom-center" toastOptions={{ duration: 10000 }} />
       {children}
     </main>

@@ -10,6 +10,8 @@ import progressBarConfig from '@/config/progress-bar/index';
 import swrConfig from '@/config/swr/index';
 import WorkspaceProvider from '@/providers/workspace';
 
+import wrapper from 'src/store';
+
 import '@/styles/globals.css';
 
 const App = ({ Component, pageProps }) => {
@@ -53,4 +55,4 @@ const App = ({ Component, pageProps }) => {
   );
 };
 
-export default App;
+export default wrapper.withRedux(App);

@@ -2,6 +2,7 @@
   "compilerOptions": {
     "baseUrl": ".",
     "paths": {
+      "@/api/*": ["src/api/*"],
       "@/prisma/*": ["prisma/*"],
       "@/components/*": ["src/components/*"],
       "@/config/*": ["src/config/*"],
