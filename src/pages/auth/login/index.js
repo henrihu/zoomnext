@@ -1,14 +1,13 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import Link from 'next/link';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useRouter } from 'next/router';
 
 // Components
 import Meta from '@/components/Meta/index';
 import { AuthLayout } from '@/layouts/index';
-import { Button, Radio, Input } from 'antd';
-// API
-import { signInWithEmail } from 'src/api/auth';
+import { Button, Radio, Input, Form } from 'antd';
+import { GoogleOutlined, FacebookOutlined } from '@ant-design/icons';
 // Constants
 import {
   COLOR_CUSTOMER,
@@ -16,36 +15,37 @@ import {
   TYPE_CUSTOMER,
   TYPE_PRODIVER,
 } from 'src/utils/constants';
+// Actions
+import { setType, signInWithEmail } from 'src/store/auth/actions';
 
 const socialProviders = [
-  { id: '1', name: 'Facebook', color: '#3B5998', icon: 'facebook' },
-  { id: '2', name: 'Google', color: '#D94634', icon: 'google' },
+  {
+    id: '1',
+    name: 'Facebook',
+    color: '#3B5998',
+    icon: 'facebook',
+    icon: <FacebookOutlined />,
+  },
+  {
+    id: '2',
+    name: 'Google',
+    color: '#D94634',
+    icon: <GoogleOutlined />,
+  },
 ];
 
 const Login = () => {
   const dispatch = useDispatch();
   const router = useRouter();
+  const { type } = useSelector(({ auth }) => auth);
+  const [pending, setPending] = useState(false);
 
-  const [type, setType] = useState(TYPE_CUSTOMER);
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [isSubmitting, setSubmittingState] = useState(false);
-
-  const handleSignInWithEmail = async (event) => {
-    event.preventDefault();
-    setSubmittingState(true);
-    signInWithEmail({ email, password, type })
-      .then((res) => {
-        console.log('Success');
-        setSubmittingState(false);
-      })
-      .catch(() => {
-        console.error('Fail');
-        setSubmittingState(false);
-      });
+  const handleSignInWithEmail = async (values) => {
+    setPending(true);
+    await dispatch(signInWithEmail({ ...values, type }));
+    router.push('/customer/dashboard/');
+    setPending(false);
   };
-
-  const signInWithSocial = (socialId) => {};
 
   return (
     <AuthLayout
@@ -67,7 +67,7 @@ const Login = () => {
         <Radio.Group
           optionType="button"
           value={type}
-          onChange={(e) => setType(e.target.value)}
+          onChange={(e) => dispatch(setType(e.target.value))}
         >
           <Radio.Button value={TYPE_CUSTOMER} key="customer">
             Customer
@@ -76,37 +76,41 @@ const Login = () => {
             Provider
           </Radio.Button>
         </Radio.Group>
-        <form className="flex flex-col w-full">
-          <Input
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            placeholder="Enter Username"
-            type="email"
-            size="large"
-            className="mb-3"
-          />
-          <Input
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            placeholder="Enter Password"
-            type="password"
-            size="large"
-          />
-          <div className="flex justify-end mb-1">
+        <Form className="w-full" onFinish={handleSignInWithEmail}>
+          <Form.Item
+            name="email"
+            rules={[
+              { type: 'email', message: 'Please input correct email!' },
+              { required: true, message: 'Please input your email!' },
+            ]}
+          >
+            <Input placeholder="Enter Username" size="large" />
+          </Form.Item>
+          <Form.Item
+            name="password"
+            className="mb-0"
+            rules={[{ required: true, message: 'Please input your password!' }]}
+          >
+            <Input.Password placeholder="Enter Password" size="large" />
+          </Form.Item>
+          <div className="flex justify-end mb-2">
             <Button type="link" size="small">
               Forgot Password?
             </Button>
           </div>
-          <Button
-            type="dashed"
-            loading={isSubmitting}
-            onClick={handleSignInWithEmail}
-            shape="round"
-            size="large"
-          >
-            Login
-          </Button>
-        </form>
+          <Form.Item>
+            <Button
+              type="primary"
+              loading={pending}
+              shape="round"
+              size="large"
+              className="w-full"
+              htmlType="submit"
+            >
+              Login
+            </Button>
+          </Form.Item>
+        </Form>
 
         {socialProviders.length > 0 && (
           <div className="flex flex-col justify-center">
@@ -118,8 +122,7 @@ const Login = () => {
                 <Button
                   key={index}
                   shape="round"
-                  onClick={() => signInWithSocial(provider.id)}
-                  disabled={isSubmitting}
+                  disabled={pending}
                   style={{
                     backgroundColor: provider.color,
                     color: 'white',
@@ -138,7 +141,7 @@ const Login = () => {
           type="link"
           size="small"
           className="flex flex-col justify-center"
-          onClick={() => router.replace(`/auth/register/?${type}`)}
+          onClick={() => router.replace('/auth/register/')}
         >
           <span className="text-center w-full">Don't have an account?</span>
           <span className="text-center w-full">

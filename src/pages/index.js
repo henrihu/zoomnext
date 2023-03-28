@@ -1,3 +1,4 @@
+import { useSelector } from 'react-redux';
 import Meta from '@/components/Meta/index';
 import { LandingLayout } from '@/layouts/index';
 import {
@@ -11,13 +12,11 @@ import {
 } from '@/sections/index';
 
 const Home = () => {
+  const { authenticated } = useSelector(({ auth }) => auth);
   return (
     <LandingLayout>
-      <Meta
-        title="NextJS SaaS Boilerplate"
-        description="A boilerplate for your NextJS SaaS projects."
-      />
-      <Hero />
+      <Meta title="Zoom Errands" description="Zoom Errands" />
+      {authenticated ? <Hero /> : <Hero />}
       <Features />
       <Pricing />
       <Guides />
