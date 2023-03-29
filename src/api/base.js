@@ -8,11 +8,15 @@ const instance = axios.create({
 });
 
 export const setHeader = (key, value) => {
-  instance.headers[key] = value;
+  instance.set(key, value);
 };
 
 export const removeHeader = (key) => {
-  instance.headers[key] = '';
+  instance.delete(key);
+};
+
+export const setAuthorization = (token) => {
+  instance.setAuthorization('Bearer ' + token);
 };
 
 export default instance;

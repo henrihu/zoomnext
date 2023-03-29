@@ -1,75 +1,116 @@
-import { useState } from 'react';
-import { useSelector } from 'react-redux';
-import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline';
-import { useSession } from 'next-auth/react';
 import Link from 'next/link';
+import { useRouter } from 'next/router';
+import { Layout, Menu, Dropdown, Avatar } from 'antd';
+import {
+  ShopOutlined,
+  MessageOutlined,
+  BellOutlined,
+  AntDesignOutlined,
+  LoginOutlined,
+  ProfileOutlined,
+  SettingOutlined,
+  UsergroupAddOutlined,
+} from '@ant-design/icons';
+const { Header } = Layout;
 
-const MENU_LIST = [
+const ITEM_LIST = [
   {
+    key: '1',
+    label: 'SERVICES',
+    icon: <ShopOutlined />,
+    href: '/customer/services',
+  },
+  {
+    key: '2',
     label: 'MY TASK',
+    icon: <ShopOutlined />,
+    href: '/customer/mytask',
   },
+  { key: '3', label: 'BROWSE TASK', icon: <ShopOutlined /> },
+  { key: '4', label: 'PAYMENT', icon: <ShopOutlined /> },
+  { key: '5', label: 'PAYMENT HISTORY', icon: <ShopOutlined /> },
+];
+
+const items = [
+  { key: '1', label: 'NOTIFICATION', icon: <BellOutlined /> },
+  { key: '2', label: 'MESSAGES', icon: <MessageOutlined /> },
+  { key: '3', label: 'SETTINGS', icon: <SettingOutlined /> },
+  { key: '4', label: 'PROFILE', icon: <ProfileOutlined /> },
+  { key: '8', label: 'REFER A FRIENDS', icon: <UsergroupAddOutlined /> },
+  { type: 'divider' },
   {
-    label: 'BROWSE TASK',
-  },
-  {
-    label: 'MESSAGES',
-  },
-  {
-    label: 'PAYMENT',
-  },
-  {
-    label: 'PAYMENT HISTORY',
-  },
-  {
-    label: 'NOTIFICATION',
+    key: '5',
+    label: 'LOGOUT',
+    icon: <LoginOutlined />,
   },
 ];
 
-const Hero = () => {
-  const [showMenu, setMenuVisibility] = useState(false);
-
-  const toggleMenu = () => setMenuVisibility(!showMenu);
-
+export default () => {
+  const router = useRouter();
   return (
-    <div className="w-full pb-10">
-      <div className="relative flex flex-col px-10 mx-auto space-y-5 md:w-3/4">
-        <header className="flex items-center justify-between space-x-3 border-bottom-1">
-          <Link href="/" className="text-2xl font-bold">
-            Zoom Errands
-          </Link>
-          <button className="md:hidden" onClick={toggleMenu}>
-            {!showMenu ? (
-              <Bars3Icon className="w-8 h-8" />
-            ) : (
-              <XMarkIcon className="w-8 h-8" />
-            )}
-          </button>
-          <div
-            className={[
-              'items-center justify-center md:flex-row md:flex md:relative md:bg-transparent md:shadow-none md:top-0 md:backdrop-blur-none md:space-x-3',
-              showMenu
-                ? 'absolute z-50 flex flex-col py-5 space-x-0 rounded shadow-xl md:py-0 left-8 right-8 bg-white top-24 space-y-3 md:space-y-0 px-5'
-                : 'hidden',
-            ].join(' ')}
-          >
-            <nav className="flex flex-col w-full space-x-0 space-y-3 text-center md:space-y-0 md:space-x-3 md:flex-row">
-              {MENU_LIST.map(({ label }) => (
-                <a className="px-5 py-2 rounded hover:bg-gray-100">{label}</a>
-              ))}
-              <a className="px-5 py-2 rounded hover:bg-gray-100">Pricing</a>
-              <a className="px-5 py-2 rounded hover:bg-gray-100">Blog</a>
-            </nav>
-            <Link
-              href={'/dashboard'}
-              className="w-full px-5 py-2 text-center text-white bg-blue-600 rounded shadow hover:bg-blue-500"
+    <Header
+      style={{
+        position: 'sticky',
+        top: 0,
+        zIndex: 1,
+        backgroundColor: 'white',
+        height: 120,
+      }}
+      className="flex items-center justify-between"
+    >
+      <Link
+        href="/customer/services"
+        className="text-4xl font-bold"
+        style={{
+          minWidth: 250,
+          background: 'white',
+          marginLeft: 24,
+        }}
+      >
+        Zoom Errands
+      </Link>
+
+      <div className="flex items-center w-full">
+        <Menu
+          mode="horizontal"
+          defaultSelectedKeys={
+            ITEM_LIST.find(({ href }) => router.pathname.indexOf(href) !== -1)
+              .key
+          }
+          className="w-full flex justify-between"
+        >
+          {ITEM_LIST.map((item) => (
+            <Menu.Item
+              key={item.key}
+              icon={item.icon}
+              onClick={() => item.href && router.push(item.href)}
             >
-              Go to Dashboard
-            </Link>
-          </div>
-        </header>
+              {item.label}
+            </Menu.Item>
+          ))}
+        </Menu>
       </div>
-    </div>
+
+      <div
+        style={{
+          minWidth: 200,
+          background: 'white',
+        }}
+        className="flex justify-center items-center"
+      >
+        <Dropdown
+          menu={{
+            items,
+          }}
+        >
+          <div className="flex justify-center items-center cursor-pointer">
+            <Avatar className="mr-4" size={40} icon={<AntDesignOutlined />} />
+            <h2 className="font-bold" style={{ fontSize: 18 }}>
+              WYATT LITTLE
+            </h2>
+          </div>
+        </Dropdown>
+      </div>
+    </Header>
   );
 };
-
-export default Hero;

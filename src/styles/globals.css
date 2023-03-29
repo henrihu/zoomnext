@@ -40,7 +40,7 @@ audio,
 iframe,
 embed,
 object {
-  display: block;
+  display: block !important;
   vertical-align: middle;
 }
 

@@ -1,4 +1,7 @@
-import auth from './auth/reducer';
 import { combineReducers } from 'redux';
 
-export default combineReducers({ auth });
+import auth from './auth/reducer';
+import common from './common/reducer';
+import c_jobs from './c_jobs/reducer';
+
+export default combineReducers({ auth, common, c_jobs });

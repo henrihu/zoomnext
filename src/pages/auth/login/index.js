@@ -43,7 +43,7 @@ const Login = () => {
   const handleSignInWithEmail = async (values) => {
     setPending(true);
     await dispatch(signInWithEmail({ ...values, type }));
-    router.push('/customer/dashboard/');
+    router.push(`/${type}/services/`);
     setPending(false);
   };
 

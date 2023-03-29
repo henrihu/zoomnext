@@ -23,6 +23,7 @@
     "date-fns": "^2.29.3",
     "express-validator": "^6.14.2",
     "micro": "^9.4.1",
+    "moment": "^2.29.4",
     "next": "^13.2.4",
     "next-auth": "^4.12.3",
     "next-redux-wrapper": "^8.1.0",
