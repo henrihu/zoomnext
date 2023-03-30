@@ -12,11 +12,9 @@ import {
 } from '@/sections/index';
 
 const Home = () => {
-  const { authenticated } = useSelector(({ auth }) => auth);
   return (
     <LandingLayout>
       <Meta title="Zoom Errands" description="Zoom Errands" />
-      {authenticated ? <Hero /> : <Hero />}
       <Features />
       <Pricing />
       <Guides />

@@ -25,9 +25,9 @@ export default () => {
     <CustomerLayout title="Zoom Errands | Services" description="Zoom Errands">
       <Spin spinning={loading}>
         <Row justify="center">
-          <Col span={8} className="mb-4">
+          <Col sm={24} md={8} className="mb-4">
             <Input
-              placeholder="Search"
+              placeholder="Search Services"
               prefix={<SearchOutlined />}
               size="large"
               value={search}

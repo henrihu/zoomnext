@@ -5,6 +5,10 @@ import { useRouter } from 'next/router';
 // Components
 import { CustomerLayout } from 'src/layouts';
 import { Divider, Row, Col, Spin, Button } from 'antd';
+import { ArrowLeftOutlined } from '@ant-design/icons';
+import DetailCard from './DetailCard';
+import BidList from './BidList';
+import StatusList from './StatusList';
 
 // Actions
 import { getJobDetail } from 'src/store/c_jobs/actions';
@@ -25,11 +29,23 @@ export default () => {
 
   return (
     <CustomerLayout title="Zoom Errands | My Task" description="Zoom Errands">
-      <Button type="primary" onClick={() => router.push('/customer/mytask')}>
-        Back
-      </Button>
-      <div>{data && data.title}</div>
-      <div>123123</div>
+      <Row gutter={[16, 16]}>
+        <Col span={24}>
+          <Button
+            type="link"
+            onClick={() => router.push('/customer/jobs')}
+            icon={<ArrowLeftOutlined />}
+          >
+            Back to List
+          </Button>
+        </Col>
+        <Col sm={24} md={8}>
+          <DetailCard data={data} loading={loading} />
+        </Col>
+        <Col sm={24} md={16}>
+          {data.status == 'pending' ? <BidList /> : <StatusList />}
+        </Col>
+      </Row>
     </CustomerLayout>
   );
 };

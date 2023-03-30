@@ -6,10 +6,8 @@ import { useRouter } from 'next/router';
 import { List, Card, Descriptions, Row, Col, Tag, Button } from 'antd';
 import { DoubleRightOutlined } from '@ant-design/icons';
 
-const JOB_STATUS = {
-  assigned: { label: 'Assigned', color: '#00A110' },
-  pending: { label: 'Pending', color: '#FFC53D' },
-};
+// Constants
+import { JOB_STATUS } from 'src/utils/constants';
 
 export default ({ data }) => {
   const router = useRouter();
@@ -30,7 +28,7 @@ export default ({ data }) => {
                 type="dashed"
                 shape="round"
                 size="small"
-                onClick={() => router.push(`/customer/mytask/${item.title}/`)}
+                onClick={() => router.push(`/customer/jobs/${item.title}/`)}
               >
                 Detail
               </Button>

@@ -57,3 +57,7 @@ video {
   border-style: solid;
   border-color: theme('borderColor.DEFAULT', currentColor);
 }
+
+.text-gray {
+  color: gray;
+}

@@ -12,7 +12,6 @@ export default ({ filter, onSetFilter }) => {
     <Row gutter={8}>
       <Col span={6}>
         <Button
-          size="large"
           icon={
             date === 'asc' ? (
               <SortAscendingOutlined />
@@ -33,7 +32,6 @@ export default ({ filter, onSetFilter }) => {
       </Col>
       <Col span={6}>
         <Button
-          size="large"
           icon={
             totalPrice === 'asc' ? (
               <SortAscendingOutlined />
@@ -53,11 +51,7 @@ export default ({ filter, onSetFilter }) => {
         </Button>
       </Col>
       <Col span={6}>
-        <Button
-          size="large"
-          icon={<SortAscendingOutlined />}
-          className="w-full"
-        >
+        <Button icon={<SortAscendingOutlined />} className="w-full">
           Location
         </Button>
       </Col>

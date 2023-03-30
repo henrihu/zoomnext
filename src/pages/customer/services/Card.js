@@ -1,22 +1,23 @@
 import { Card } from 'antd';
-import { GoogleOutlined } from '@ant-design/icons';
+import Image from 'next/image';
 
 export default ({ data }) => {
   return (
     <Card
       hoverable
       bodyStyle={{
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-        border: '1px solid black',
-        width: 200,
+        padding: 0,
+        width: 150,
         height: 150,
-        margin: 16,
       }}
     >
-      <GoogleOutlined style={{ fontSize: 60 }} />
-      <h2 className="font-bold">{data.label}</h2>
+      <Image src="/images/service.png" fill style={{ borderRadius: 8 }} />
+      <h3
+        className="font-bold text-white text-center"
+        style={{ position: 'absolute', bottom: 8, width: '100%' }}
+      >
+        {data.label}
+      </h3>
     </Card>
   );
 };

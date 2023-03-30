@@ -7,7 +7,6 @@ import { useRouter } from 'next/router';
 import Meta from '@/components/Meta/index';
 import { AuthLayout } from '@/layouts/index';
 import { Button, Radio, Input, Form, Row, Col } from 'antd';
-import { GoogleOutlined, FacebookOutlined } from '@ant-design/icons';
 // Constants
 import {
   COLOR_CUSTOMER,
@@ -16,40 +15,23 @@ import {
   TYPE_HELPER,
 } from 'src/utils/constants';
 // Actions
-import { setType, signInWithEmail } from 'src/store/auth/actions';
+import { setType, signUp } from 'src/store/auth/actions';
 
-const socialProviders = [
-  {
-    id: '1',
-    name: 'Facebook',
-    color: '#3B5998',
-    icon: 'facebook',
-    icon: <FacebookOutlined />,
-  },
-  {
-    id: '2',
-    name: 'Google',
-    color: '#D94634',
-    icon: <GoogleOutlined />,
-  },
-];
-
-const Login = () => {
+export default () => {
   const dispatch = useDispatch();
   const router = useRouter();
   const { type } = useSelector(({ auth }) => auth);
   const [pending, setPending] = useState(false);
 
-  const handleSignInWithEmail = async (values) => {
+  const handleSignUp = async (values) => {
     setPending(true);
-    await dispatch(signInWithEmail({ ...values, type }));
-    router.push(`/${type}/services/`);
+    await dispatch(signUp({ ...values, type }));
     setPending(false);
   };
 
   return (
     <AuthLayout color={type === TYPE_CUSTOMER ? COLOR_CUSTOMER : COLOR_HELPER}>
-      <Meta title="Zoom Errands | Login" description="Zoom Errands Login" />
+      <Meta title="Zoom Errands | Sign Up" description="Zoom Errands Sign Up" />
       <Row
         align="center"
         justify="center"
@@ -64,7 +46,7 @@ const Login = () => {
           </Link>
         </Col>
         <Col span={24} className="text-center">
-          <h2 className="text-gray-600">Log In</h2>
+          <h2 className="text-gray-600">Sign Up</h2>
         </Col>
         <Col span={24} className="flex justify-center">
           <Radio.Group
@@ -81,7 +63,13 @@ const Login = () => {
           </Radio.Group>
         </Col>
         <Col span={24}>
-          <Form className="w-full" onFinish={handleSignInWithEmail}>
+          <Form className="w-full" onFinish={handleSignUp}>
+            <Form.Item
+              name="name"
+              rules={[{ required: true, message: 'Please input your name!' }]}
+            >
+              <Input placeholder="Full Name" size="large" />
+            </Form.Item>
             <Form.Item
               name="email"
               rules={[
@@ -89,22 +77,32 @@ const Login = () => {
                 { required: true, message: 'Please input your email!' },
               ]}
             >
-              <Input placeholder="Enter Email" size="large" />
+              <Input placeholder="Email" size="large" />
             </Form.Item>
             <Form.Item
               name="password"
-              className="mb-0"
               rules={[
                 { required: true, message: 'Please input your password!' },
               ]}
             >
-              <Input.Password placeholder="Enter Password" size="large" />
+              <Input.Password placeholder="Password" size="large" />
             </Form.Item>
-            <div className="flex justify-end mb-2">
-              <Button type="link" size="small">
-                Forgot Password?
-              </Button>
-            </div>
+            <Form.Item
+              name="mobile"
+              rules={[
+                { required: true, message: 'Please input your mobile number!' },
+              ]}
+            >
+              <Input placeholder="Mobile Number" size="large" />
+            </Form.Item>
+            <Form.Item
+              name="location"
+              rules={[
+                { required: true, message: 'Please input your location!' },
+              ]}
+            >
+              <Input placeholder="Location" size="large" />
+            </Form.Item>
             <Form.Item>
               <Button
                 type="primary"
@@ -114,65 +112,25 @@ const Login = () => {
                 className="w-full"
                 htmlType="submit"
               >
-                Log In
+                Sign Up
               </Button>
             </Form.Item>
           </Form>
         </Col>
         <Col span={24} className="flex justify-center items-center">
           <span className="text-center cursor-default">
-            Don't have an account?
-          </span>
+            Already have an account?
+          </span>{' '}
           <Button
             type="link"
             size="small"
-            onClick={() => router.replace('/auth/signup/')}
+            className="flex flex-col justify-center"
+            onClick={() => router.replace('/auth/login/')}
           >
-            Create Account
+            Login
           </Button>
         </Col>
-        <Col span={24} className="flex flex-col items-center">
-          <span className="cursor-default">
-            By using this app you agree to our
-          </span>
-          <div>
-            <Button type="link" size="small">
-              terms
-            </Button>
-            and
-            <Button type="link" size="small">
-              privacy policy
-            </Button>
-          </div>
-        </Col>
       </Row>
-
-      {/* {socialProviders.length > 0 && (
-          <div className="flex flex-col justify-center">
-            <div className="text-sm text-gray-400 mb-2 text-center">
-              Or Login With
-            </div>
-            <div className="flex justify-center w-full space-x-2">
-              {socialProviders.map((provider, index) => (
-                <Button
-                  key={index}
-                  shape="round"
-                  disabled={pending}
-                  style={{
-                    backgroundColor: provider.color,
-                    color: 'white',
-                    fontWeight: 900,
-                  }}
-                  icon={provider.icon}
-                >
-                  {provider.name}
-                </Button>
-              ))}
-            </div>
-          </div>
-        )} */}
     </AuthLayout>
   );
 };
-
-export default Login;

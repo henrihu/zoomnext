@@ -41,8 +41,9 @@ export const getJobDetail = (params) => {
       // await API.getJobDetail(params);
       const data = {
         title: 'Cleaning',
-        status: 'assigned',
+        status: 'pending',
         date: moment(),
+        location: '#12, Ahmedabad, GJ, Ahmedabad, India, 380006',
         price: 200,
       };
       dispatch(setData(key, data));

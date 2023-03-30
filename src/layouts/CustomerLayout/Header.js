@@ -10,33 +10,33 @@ import {
   ProfileOutlined,
   SettingOutlined,
   UsergroupAddOutlined,
+  HomeOutlined,
 } from '@ant-design/icons';
 const { Header } = Layout;
 
 const ITEM_LIST = [
   {
     key: '1',
-    label: 'SERVICES',
-    icon: <ShopOutlined />,
+    label: 'Home',
+    icon: <HomeOutlined />,
     href: '/customer/services',
   },
   {
     key: '2',
-    label: 'MY TASK',
+    label: 'My Jobs',
     icon: <ShopOutlined />,
-    href: '/customer/mytask',
+    href: '/customer/jobs',
   },
-  { key: '3', label: 'BROWSE TASK', icon: <ShopOutlined /> },
-  { key: '4', label: 'PAYMENT', icon: <ShopOutlined /> },
-  { key: '5', label: 'PAYMENT HISTORY', icon: <ShopOutlined /> },
+  { key: '4', label: 'Payment Method', icon: <ShopOutlined /> },
+  { key: '5', label: 'Payment History', icon: <ShopOutlined /> },
 ];
 
 const items = [
-  { key: '1', label: 'NOTIFICATION', icon: <BellOutlined /> },
-  { key: '2', label: 'MESSAGES', icon: <MessageOutlined /> },
-  { key: '3', label: 'SETTINGS', icon: <SettingOutlined /> },
-  { key: '4', label: 'PROFILE', icon: <ProfileOutlined /> },
-  { key: '8', label: 'REFER A FRIENDS', icon: <UsergroupAddOutlined /> },
+  { key: '1', label: 'Notifications', icon: <BellOutlined /> },
+  { key: '2', label: 'Messages', icon: <MessageOutlined /> },
+  { key: '3', label: "FAQ's", icon: <SettingOutlined /> },
+  { key: '4', label: 'Help', icon: <ProfileOutlined /> },
+  { key: '8', label: 'Refer Friends', icon: <UsergroupAddOutlined /> },
   { type: 'divider' },
   {
     key: '5',
