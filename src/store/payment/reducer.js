@@ -1,8 +1,7 @@
 import { SET_DATA, SET_LOADING } from './actions';
 
 const initialState = {
-  service_list: { data: [], loading: false },
-  help_list: { data: [], loading: false },
+  card_list: { data: [], loading: false },
 };
 
 export default (state = initialState, action) => {

@@ -12,6 +12,14 @@ import {
   Steps,
 } from 'antd';
 import { useState, useMemo } from 'react';
+import {
+  BUDGET_OPTION_HOURLY,
+  BUDGET_OPTION_LIST,
+  BUDGET_OPTION_TOTAL_JOB,
+  POST_OPTION_FIRST_HELPER,
+  POST_OPTION_LIST,
+  TIME_FORMAT,
+} from 'src/utils/constants';
 
 export default ({ form, budget, estimateBudget }) => {
   return (
@@ -20,21 +28,25 @@ export default ({ form, budget, estimateBudget }) => {
         <Form
           name="basic"
           layout="vertical"
-          initialValues={{ helper: 'apple', budget: 'total' }}
+          initialValues={{
+            post: POST_OPTION_FIRST_HELPER,
+            budget: BUDGET_OPTION_TOTAL_JOB,
+          }}
           requiredMark={false}
           form={form}
         >
           <Form.Item
             label="Post job for helpers to accept?"
-            name="helper"
+            name="post"
             rules={[{ required: true, message: 'Please input your username!' }]}
           >
             <Radio.Group>
               <Space direction="vertical">
-                <Radio value="apple">
-                  Award job to first helper who accepts my budget
-                </Radio>
-                <Radio value="pear">Send me bids to review</Radio>
+                {Object.keys(POST_OPTION_LIST).map((key) => (
+                  <Radio value={key} key={key}>
+                    {POST_OPTION_LIST[key].label}
+                  </Radio>
+                ))}
               </Space>
             </Radio.Group>
           </Form.Item>
@@ -94,7 +106,11 @@ export default ({ form, budget, estimateBudget }) => {
               className="w-full"
               rules={[{ required: true, message: 'Please select time!' }]}
             >
-              <TimePicker className="w-full" minuteStep={15} format="h:mm A" />
+              <TimePicker
+                className="w-full"
+                minuteStep={15}
+                format={TIME_FORMAT}
+              />
             </Form.Item>
           </Space.Compact>
           <Form.Item
@@ -103,25 +119,27 @@ export default ({ form, budget, estimateBudget }) => {
             rules={[{ required: true, message: 'Please input budget!' }]}
           >
             <Radio.Group>
-              <Radio value="total">Total Job</Radio>
-              <Radio value="hourly">Hourly</Radio>
+              {Object.keys(BUDGET_OPTION_LIST).map((key) => (
+                <Radio value={key} key={key}>
+                  {BUDGET_OPTION_LIST[key].label}
+                </Radio>
+              ))}
             </Radio.Group>
           </Form.Item>
-
           <Row gutter={8}>
-            <Col span={budget === 'hourly' ? 12 : 24}>
+            <Col span={budget === BUDGET_OPTION_HOURLY ? 12 : 24}>
               <Form.Item
                 name="amount"
                 rules={[{ required: true, message: 'Please input amount!' }]}
               >
                 <InputNumber
                   addonBefore="$"
-                  addonAfter={budget === 'hourly' && '/hr'}
+                  addonAfter={budget === BUDGET_OPTION_HOURLY && '/hr'}
                   className="w-full"
                 />
               </Form.Item>
             </Col>
-            {budget === 'hourly' && (
+            {budget === BUDGET_OPTION_HOURLY && (
               <Col span={12}>
                 <Form.Item name="hour">
                   <InputNumber addonAfter="hours" className="w-full" />

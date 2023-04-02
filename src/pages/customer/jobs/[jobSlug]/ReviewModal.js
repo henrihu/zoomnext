@@ -27,9 +27,6 @@ export default ({ open, onOk, onCancel }) => {
   const modal_props = {
     title: 'Rate & Review',
     open,
-    maskClosable: false,
-    mask: false,
-    closable: false,
     okText: 'Submit',
     cancelButtonProps: {
       style: { display: 'none' },
@@ -37,6 +34,7 @@ export default ({ open, onOk, onCancel }) => {
     onOk: () => {
       onCancel();
     },
+    onCancel,
   };
   return (
     <Modal {...modal_props}>

@@ -1,7 +1,19 @@
 import { useState, useMemo } from 'react';
+
+// Components
 import { Modal, Form, Divider, Row, Col, Steps, Button, Space } from 'antd';
 import JobStep from './JobStep';
 import ReviewStep from './ReviewStep';
+
+// Utils & Constants
+import { formatNumber } from 'src/utils/common';
+import { BUDGET_OPTION_TOTAL_JOB, FEE } from 'src/utils/constants';
+
+const calcBudget = (option, amount, hour) => {
+  if (option === BUDGET_OPTION_TOTAL_JOB)
+    return amount ? amount * (1 + FEE / 100) : 0;
+  return amount && hour ? amount * hour * (1 + FEE / 100) : 0;
+};
 
 export default ({ data, open, onOk, onCancel }) => {
   const [step, setStep] = useState(0);
@@ -10,17 +22,20 @@ export default ({ data, open, onOk, onCancel }) => {
   const budget = Form.useWatch('budget', form);
   const amount = Form.useWatch('amount', form);
   const hour = Form.useWatch('hour', form);
-  const estimateBudget = useMemo(() => {
-    if (budget === 'total') return amount ? amount * 1.05 : 0;
-    return amount && hour ? amount * hour * 1.05 : 0;
+  const estimatedBudget = useMemo(() => {
+    if (step === 0) {
+      return calcBudget(budget, amount, hour);
+    }
+    return calcBudget(values.budget, values.amount, values.hour);
   }, [budget, amount, hour, step]);
   const STEP_ITEMS = {
     0: {
       title: 'Job',
       okText: 'Next',
-      props: { form, budget, estimateBudget },
+      props: { form, budget },
       onOk: () => {
         setStep(1);
+        setValues({ ...form.getFieldValue() });
         // form
         //   .validateFields()
         //   .then((v) => {
@@ -37,6 +52,7 @@ export default ({ data, open, onOk, onCancel }) => {
       title: 'Review',
       okText: 'Post Job',
       cancelText: 'Prev',
+      props: { data: values },
       onOk: () => {
         Modal.confirm({
           content: 'Confirm your post?',
@@ -54,7 +70,6 @@ export default ({ data, open, onOk, onCancel }) => {
     open,
     maskClosable: false,
     mask: false,
-    closable: false,
     onCancel,
   };
   return (
@@ -77,10 +92,12 @@ export default ({ data, open, onOk, onCancel }) => {
         <Col span={24}>
           <div className="flex justify-between items-end">
             <Space direction="vertical" size={4}>
-              <h2>Estimate Budget</h2>
+              <div style={{ fontSize: 20, fontWeight: 900 }}>
+                Estimate Budget
+              </div>
               <span className="text-gray">(Includes 5% processing fee)</span>
             </Space>
-            <h1 className="font-bold">${estimateBudget}</h1>
+            <h1 className="font-bold">${estimatedBudget}</h1>
           </div>
         </Col>
         <Col span={24} className="flex justify-end">
@@ -96,7 +113,6 @@ export default ({ data, open, onOk, onCancel }) => {
           </Space>
         </Col>
       </Row>
-      <Divider style={{ margin: 0 }} />
     </Modal>
   );
 };

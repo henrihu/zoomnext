@@ -50,7 +50,7 @@ export default ({ data }) => {
             <Col span={24} className="flex justify-center">
               <Descriptions bordered className="w-full">
                 <Descriptions.Item label="Date">
-                  {moment(item.date).format('YYYY-MM-DD')}
+                  {moment(item.date).format('YYYY-MM-DD ss s LTS')}
                 </Descriptions.Item>
                 <Descriptions.Item label="Price">
                   ${item.price}

@@ -27,22 +27,33 @@ const ITEM_LIST = [
     icon: <ShopOutlined />,
     href: '/customer/jobs',
   },
-  { key: '4', label: 'Payment Method', icon: <ShopOutlined /> },
-  { key: '5', label: 'Payment History', icon: <ShopOutlined /> },
+  {
+    key: '4',
+    label: 'Payment Method',
+    icon: <ShopOutlined />,
+    href: '/customer/payment_method',
+  },
+  {
+    key: '5',
+    label: 'Payment History',
+    icon: <ShopOutlined />,
+    href: '/customer/payment_history',
+  },
+  {
+    key: '6',
+    label: 'Help',
+    icon: <ProfileOutlined />,
+    href: '/customer/help',
+  },
+  { key: '7', label: "FAQ's", icon: <SettingOutlined /> },
+  { key: '8', label: 'Refer Friends', icon: <UsergroupAddOutlined /> },
 ];
 
 const items = [
   { key: '1', label: 'Notifications', icon: <BellOutlined /> },
   { key: '2', label: 'Messages', icon: <MessageOutlined /> },
-  { key: '3', label: "FAQ's", icon: <SettingOutlined /> },
-  { key: '4', label: 'Help', icon: <ProfileOutlined /> },
-  { key: '8', label: 'Refer Friends', icon: <UsergroupAddOutlined /> },
   { type: 'divider' },
-  {
-    key: '5',
-    label: 'LOGOUT',
-    icon: <LoginOutlined />,
-  },
+  { key: '3', label: 'LOGOUT', icon: <LoginOutlined /> },
 ];
 
 export default () => {
@@ -70,25 +81,20 @@ export default () => {
         Zoom Errands
       </Link>
 
-      <div className="flex items-center w-full">
+      <div className="flex items-center justify-end w-full">
         <Menu
           mode="horizontal"
           defaultSelectedKeys={
             ITEM_LIST.find(({ href }) => router.pathname.indexOf(href) !== -1)
               .key
           }
-          className="w-full flex justify-between"
-        >
-          {ITEM_LIST.map((item) => (
-            <Menu.Item
-              key={item.key}
-              icon={item.icon}
-              onClick={() => item.href && router.push(item.href)}
-            >
-              {item.label}
-            </Menu.Item>
-          ))}
-        </Menu>
+          style={{ minWidth: 0, flex: 'auto' }}
+          className="flex justify-between"
+          items={ITEM_LIST}
+          onClick={({ item }) => {
+            item.props.href && router.push(item.props.href);
+          }}
+        />
       </div>
 
       <div
@@ -101,6 +107,9 @@ export default () => {
         <Dropdown
           menu={{
             items,
+            onClick: ({ item }) => {
+              item.props.href && router.push(item.props.href);
+            },
           }}
         >
           <div className="flex justify-center items-center cursor-pointer">
