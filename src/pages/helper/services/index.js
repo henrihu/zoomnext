@@ -22,7 +22,7 @@ export default () => {
   }, []);
 
   return (
-    <>
+    <div>
       <Meta title="Services | Zoom Errands" description="Zoom Errands" />
       <Spin spinning={loading}>
         <Row justify="center">
@@ -51,6 +51,6 @@ export default () => {
           </Col>
         </Row>
       </Spin>
-    </>
+    </div>
   );
 };

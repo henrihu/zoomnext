@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Button, Radio, Row, Col } from 'antd';
+import { Button, Row, Col } from 'antd';
 import {
   SortAscendingOutlined,
   SortDescendingOutlined,
@@ -9,8 +9,8 @@ export default ({ filter, onSetFilter }) => {
   const [date, setDate] = useState('asc');
   const [totalPrice, setTotalPrice] = useState('asc');
   return (
-    <Row gutter={8}>
-      <Col span={6}>
+    <Row gutter={[8, 8]}>
+      <Col span={24}>
         <Button
           icon={
             date === 'asc' ? (
@@ -30,7 +30,7 @@ export default ({ filter, onSetFilter }) => {
           Date
         </Button>
       </Col>
-      <Col span={6}>
+      <Col span={24}>
         <Button
           icon={
             totalPrice === 'asc' ? (
@@ -50,7 +50,7 @@ export default ({ filter, onSetFilter }) => {
           Price
         </Button>
       </Col>
-      <Col span={6}>
+      <Col span={24}>
         <Button icon={<SortAscendingOutlined />} className="w-full">
           Location
         </Button>

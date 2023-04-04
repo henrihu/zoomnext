@@ -3,7 +3,8 @@ import moment from 'moment';
 import { useRouter } from 'next/router';
 
 // Components
-import { List, Card, Descriptions, Row, Col, Tag, Button } from 'antd';
+import Image from 'next/image';
+import { List, Card, Descriptions, Row, Col, Tag, Button, Space } from 'antd';
 import { DoubleRightOutlined } from '@ant-design/icons';
 
 // Constants
@@ -46,41 +47,61 @@ export default ({ data }) => {
             }`,
           }}
         >
-          <Row gutter={[8, 8]}>
-            <Col span={24} className="flex justify-center">
-              <Descriptions bordered className="w-full">
-                <Descriptions.Item label="Date">
-                  {moment(item.date).format('YYYY-MM-DD ss s LTS')}
-                </Descriptions.Item>
-                <Descriptions.Item label="Price">
-                  ${item.price}
-                </Descriptions.Item>
-                <Descriptions.Item label="Status">
-                  <div
-                    style={{
-                      color:
-                        JOB_STATUS[item.status] &&
-                        JOB_STATUS[item.status].color,
-                    }}
-                  >
-                    <Tag
-                      color={
-                        JOB_STATUS[item.status] && JOB_STATUS[item.status].color
-                      }
+          <Space className="flex flex-col sm:flex-row">
+            <Card
+              hoverable
+              bodyStyle={{
+                padding: 0,
+                width: 150,
+                height: 150,
+                cursor: 'default',
+              }}
+            >
+              <Image
+                src="/images/service.png"
+                fill
+                style={{ borderRadius: 8 }}
+              />
+            </Card>
+            <Row gutter={[8, 8]}>
+              <Col span={24} className="flex justify-center">
+                <Descriptions bordered className="w-full">
+                  <Descriptions.Item label="Date">
+                    {moment(item.date).format('YYYY-MM-DD')}
+                  </Descriptions.Item>
+                  <Descriptions.Item label="Price">
+                    ${item.price}
+                  </Descriptions.Item>
+                  <Descriptions.Item label="Status">
+                    <div
+                      style={{
+                        color:
+                          JOB_STATUS[item.status] &&
+                          JOB_STATUS[item.status].color,
+                      }}
                     >
-                      {JOB_STATUS[item.status] && JOB_STATUS[item.status].label}
-                    </Tag>
-                  </div>
-                </Descriptions.Item>
-              </Descriptions>
-            </Col>
-            <Col span={24} className="flex justify-center">
-              An open-source starter kit that will help you build full-stack
-              multi-tenant SaaS platforms efficiently and help you focus on
-              developing your core SaaS features. Built on top of popular and
-              modern technologies such as Next JS, Tailwind, Prisma, and Stripe
-            </Col>
-          </Row>
+                      <Tag
+                        color={
+                          JOB_STATUS[item.status] &&
+                          JOB_STATUS[item.status].color
+                        }
+                      >
+                        {JOB_STATUS[item.status] &&
+                          JOB_STATUS[item.status].label}
+                      </Tag>
+                    </div>
+                  </Descriptions.Item>
+                </Descriptions>
+              </Col>
+              <Col span={24} className="flex justify-center">
+                An open-source starter kit that will help you build full-stack
+                multi-tenant SaaS platforms efficiently and help you focus on
+                developing your core SaaS features. Built on top of popular and
+                modern technologies such as Next JS, Tailwind, Prisma, and
+                Stripe
+              </Col>
+            </Row>
+          </Space>
         </Card>
       )}
       pagination={{}}

@@ -4,11 +4,16 @@ import { useTheme } from 'next-themes';
 import { Toaster } from 'react-hot-toast';
 import { useSelector } from 'react-redux';
 
+import Meta from '@/components/Meta/index';
 import { Breadcrumb, Layout } from 'antd';
 import CustomerHeader from './Header';
 const { Content, Footer } = Layout;
 
-const CustomerLayout = ({ children }) => {
+const CustomerLayout = ({
+  children,
+  title = 'Zoom Errands',
+  description = 'Zoom Errands',
+}) => {
   const router = useRouter();
   const { setTheme } = useTheme();
   const { authenticated } = useSelector(({ auth }) => auth);
@@ -22,6 +27,7 @@ const CustomerLayout = ({ children }) => {
 
   return (
     <Layout>
+      <Meta title={title} description={description} />
       <CustomerHeader />
       <Content
         className="site-layout p-5"

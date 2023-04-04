@@ -2,7 +2,7 @@ import { useEffect, useMemo, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 
 // Components
-import { CustomerLayout } from 'src/layouts';
+import Meta from '@/components/Meta/index';
 import { Input, Collapse, Row, Col, Spin, Space, Divider, Button } from 'antd';
 import { SearchOutlined } from '@ant-design/icons';
 // Actions
@@ -22,7 +22,8 @@ export default () => {
   }, []);
 
   return (
-    <CustomerLayout title="Zoom Errands | Services" description="Zoom Errands">
+    <>
+      <Meta title="Help | Zoom Errands" description="Zoom Errands" />
       <Spin spinning={loading}>
         <Row justify="center">
           <Col sm={24} md={8} className="mb-4">
@@ -68,6 +69,6 @@ export default () => {
           onCancel={() => setModal({ open: false })}
         />
       </Spin>
-    </CustomerLayout>
+    </>
   );
 };

@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 
 // Components
-import { CustomerLayout } from 'src/layouts';
+import Meta from '@/components/Meta/index';
 import { Button, Row, Col, Spin } from 'antd';
 import { PlusOutlined } from '@ant-design/icons';
 import Filter from './Filter';
@@ -29,23 +29,28 @@ export default () => {
   }, [filter]);
 
   return (
-    <CustomerLayout title="Zoom Errands | My Jobs" description="Zoom Errands">
+    <>
+      <Meta title="My Jobs | Zoom Errands" description="Zoom Errands" />
       <Spin spinning={loading}>
         <Row justify="center" gutter={[8, 8]}>
-          <Col span={18}>
-            <Filter filter={filter} onSetFilter={handleSetFilter} />
-          </Col>
-          <Col span={6}>
-            <Button
-              danger
-              icon={<PlusOutlined />}
-              onClick={() => setModal({ open: true })}
-            >
-              Click here to post more task!
-            </Button>
-          </Col>
-          <Col span={24}>
+          <Col xs={24} sm={24} md={18}>
             <List data={data} />
+          </Col>
+          <Col xs={24} sm={24} md={6}>
+            <Row gutter={[8, 8]}>
+              <Col span={24}>
+                <Filter filter={filter} onSetFilter={handleSetFilter} />
+              </Col>
+              <Col span={24}>
+                <Button
+                  danger
+                  icon={<PlusOutlined />}
+                  onClick={() => setModal({ open: true })}
+                >
+                  Click here to post more task!
+                </Button>
+              </Col>
+            </Row>
           </Col>
         </Row>
         <NewJobModal
@@ -54,6 +59,6 @@ export default () => {
           onCancel={() => setModal({ open: false })}
         />
       </Spin>
-    </CustomerLayout>
+    </>
   );
 };

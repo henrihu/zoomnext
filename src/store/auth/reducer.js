@@ -1,8 +1,8 @@
-import { TYPE_CUSTOMER } from 'src/utils/constants';
+import { TYPE_CUSTOMER, TYPE_HELPER } from 'src/utils/constants';
 import { SET_DATA } from './actions';
 
 const initialState = {
-  authenticated: false,
+  authenticated: true,
   type: TYPE_CUSTOMER,
 };
 

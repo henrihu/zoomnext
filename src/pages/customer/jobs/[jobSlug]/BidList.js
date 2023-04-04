@@ -56,7 +56,9 @@ export default () => (
         dataSource={data}
         renderItem={(item, index) => (
           <List.Item
-            extra={<h2 style={{ color: '#87CD9B' }}>${item.amount}</h2>}
+            extra={
+              <h2 style={{ color: '#87CD9B', width: 150 }}>${item.amount}</h2>
+            }
           >
             <List.Item.Meta
               avatar={<Avatar src={item.avatar} />}

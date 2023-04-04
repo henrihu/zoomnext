@@ -1,5 +1,5 @@
 export const TYPE_CUSTOMER = 'customer';
-export const TYPE_HELPER = 'prodiver';
+export const TYPE_HELPER = 'helper';
 export const COLOR_CUSTOMER = '#4EBDD9';
 export const COLOR_HELPER = '#F77B25';
 
@@ -48,4 +48,4 @@ export const DATE_FORMAT = 'YYYY-MM-DD';
 export const TIME_FORMAT = 'h:mm A';
 
 // Fee
-export const FEE = 5;
+export const FEE_RATE = 5;

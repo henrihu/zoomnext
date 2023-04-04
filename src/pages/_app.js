@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
 import Router, { useRouter } from 'next/router';
 import { ThemeProvider } from 'next-themes';
 import ReactGA from 'react-ga';
@@ -8,10 +9,16 @@ import progressBarConfig from '@/config/progress-bar/index';
 import wrapper from 'src/store';
 
 import '@/styles/globals.css';
+import { TYPE_CUSTOMER, TYPE_HELPER } from 'src/utils/constants';
+
+import { CustomerLayout, HelperLayout } from '../layouts';
 
 const App = ({ Component, pageProps }) => {
   const [progress, setProgress] = useState(false);
+  const { authenticated, type } = useSelector(({ auth }) => auth);
   const router = useRouter();
+
+  console.log('auth', authenticated, type);
 
   Router.events.on('routeChangeStart', () => setProgress(true));
   Router.events.on('routeChangeComplete', () => setProgress(false));
@@ -38,7 +45,17 @@ const App = ({ Component, pageProps }) => {
   return (
     <ThemeProvider attribute="class">
       {progress && <TopBarProgress />}
-      <Component {...pageProps} />
+      {authenticated && type === TYPE_CUSTOMER && (
+        <CustomerLayout>
+          <Component {...pageProps} />
+        </CustomerLayout>
+      )}
+      {authenticated && type === TYPE_HELPER && (
+        <HelperLayout>
+          <Component {...pageProps} />
+        </HelperLayout>
+      )}
+      {!authenticated && <Component {...pageProps} />}
     </ThemeProvider>
   );
 };

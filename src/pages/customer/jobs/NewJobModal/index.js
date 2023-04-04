@@ -7,12 +7,12 @@ import ReviewStep from './ReviewStep';
 
 // Utils & Constants
 import { formatNumber } from 'src/utils/common';
-import { BUDGET_OPTION_TOTAL_JOB, FEE } from 'src/utils/constants';
+import { BUDGET_OPTION_TOTAL_JOB, FEE_RATE } from 'src/utils/constants';
 
 const calcBudget = (option, amount, hour) => {
   if (option === BUDGET_OPTION_TOTAL_JOB)
-    return amount ? amount * (1 + FEE / 100) : 0;
-  return amount && hour ? amount * hour * (1 + FEE / 100) : 0;
+    return amount ? amount * (1 + FEE_RATE / 100) : 0;
+  return amount && hour ? amount * hour * (1 + FEE_RATE / 100) : 0;
 };
 
 export default ({ data, open, onOk, onCancel }) => {

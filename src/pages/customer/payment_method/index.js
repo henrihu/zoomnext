@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 
 // Components
-import { CustomerLayout } from 'src/layouts';
+import Meta from '@/components/Meta/index';
 import { Space, Row, Col, Spin, Button } from 'antd';
 import PaymentCard from './Card';
 import NewCardModal from './NewCardModal';
@@ -20,7 +20,8 @@ export default () => {
   }, []);
 
   return (
-    <CustomerLayout title="Zoom Errands | Services" description="Zoom Errands">
+    <>
+      <Meta title="Payment Method | Zoom Errands" description="Zoom Errands" />
       <Spin spinning={loading}>
         <Row justify="center" gutter={[16, 16]}>
           <Col span={24}>
@@ -52,6 +53,6 @@ export default () => {
         onOk={() => setModal({ open: false })}
         onCancel={() => setModal({ open: false })}
       />
-    </CustomerLayout>
+    </>
   );
 };

@@ -1,17 +1,19 @@
 import API from 'src/api/auth';
-import { useRouter } from 'next/router';
 
-export const SET_DATA = '[AUTH] SET DATA]';
+export const SET_DATA = '[AUTH] SET DATA';
 
 export const setType = (type) => (dispatch) => {
   dispatch({ type: SET_DATA, payload: { type } });
 };
 
-export const signInWithEmail = (data) => {
+export const signInWithEmail = () => {
   return async (dispatch) => {
     try {
-      // await API.signInWithEmail(data);
-      dispatch({ type: SET_DATA, payload: { authenticated: true } });
+      await API.signInWithEmail(data);
+      dispatch({
+        type: SET_DATA,
+        payload: { authenticated: true, type: data.type },
+      });
     } catch (err) {
       console.error(err);
     }

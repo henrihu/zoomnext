@@ -9,7 +9,7 @@ import {
   CUSTOMER,
   DATE_FORMAT,
   TIME_FORMAT,
-  FEE,
+  FEE_RATE,
 } from 'src/utils/constants';
 import { formatNumber } from 'src/utils/common';
 
@@ -75,7 +75,7 @@ export default ({ data }) => {
       </Col>
       <Col span={24}>
         <DescItem label="Service Charge (5%)">
-          ${formatNumber((data.amount * FEE) / 100)}
+          ${formatNumber((data.amount * FEE_RATE) / 100)}
         </DescItem>
       </Col>
       <Col span={24}>

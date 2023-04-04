@@ -4,6 +4,7 @@ import { useRouter } from 'next/router';
 
 // Components
 import { CustomerLayout } from 'src/layouts';
+import Meta from '@/components/Meta/index';
 import { Divider, Row, Col, Spin, Button } from 'antd';
 import { ArrowLeftOutlined } from '@ant-design/icons';
 import DetailCard from './DetailCard';
@@ -28,7 +29,8 @@ export default () => {
   }, [jobSlug]);
 
   return (
-    <CustomerLayout title="Zoom Errands | My Task" description="Zoom Errands">
+    <CustomerLayout>
+      <Meta title="Job Detail | Zoom Errands" description="Zoom Errands" />
       <Row gutter={[16, 16]}>
         <Col span={24}>
           <Button
