@@ -1,7 +1,7 @@
 import { SET_DATA, SET_LOADING, SET_FILTER } from './actions';
 
 const initialState = {
-  job_list: { data: [], loading: false },
+  job_list: { data: { total: 0, data: [] }, loading: false },
   job_list_filter: {
     page: 1,
     orderKey: 'date',
@@ -21,20 +21,20 @@ export default (state = initialState, action) => {
           data: action.data,
         },
       };
-    case SET_FILTER:
-      return {
-        ...state,
-        [action.key]: {
-          ...state[action.key],
-          ...action.filter,
-        },
-      };
     case SET_LOADING:
       return {
         ...state,
         [action.key]: {
           ...state[action.key],
           loading: action.loading,
+        },
+      };
+    case SET_FILTER:
+      return {
+        ...state,
+        [action.key]: {
+          ...state[action.key],
+          ...action.filter,
         },
       };
     default:

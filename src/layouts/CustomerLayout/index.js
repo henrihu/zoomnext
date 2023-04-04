@@ -4,7 +4,7 @@ import { useTheme } from 'next-themes';
 import { Toaster } from 'react-hot-toast';
 import { useSelector } from 'react-redux';
 
-import { Breadcrumb, Layout } from 'antd';
+import { Layout } from 'antd';
 import CustomerHeader from './Header';
 const { Content, Footer } = Layout;
 
@@ -26,30 +26,12 @@ const CustomerLayout = ({ children }) => {
       <Content
         className="site-layout p-5"
         style={{
-          // padding: '0 50px',
-          minHeight: 'calc(100vh - 120px - 64px)',
+          minHeight: 'calc(100vh - 100px - 64px)',
         }}
       >
-        {/* <Breadcrumb
-          style={{
-            margin: '16px 0',
-          }}
-        >
-          <Breadcrumb.Item>Home</Breadcrumb.Item>
-          <Breadcrumb.Item>List</Breadcrumb.Item>
-          <Breadcrumb.Item>App</Breadcrumb.Item>
-        </Breadcrumb> */}
-        <div style={{ height: '100%' }} className="p-3">
-          {children}
-        </div>
+        <div lassName="p-3 h-full">{children}</div>
       </Content>
-      <Footer
-        style={{
-          textAlign: 'center',
-          minHeight: 64,
-          maxHeight: 64,
-        }}
-      >
+      <Footer className="bg-white text-center min-h-64 max-h-64">
         Zoom Errands ©2023 Created by Zoom Errands
       </Footer>
     </Layout>

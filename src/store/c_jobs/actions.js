@@ -13,7 +13,7 @@ export const getMyJobList = () => {
       const filter = getState().c_jobs.job_list_filter;
       console.log('Job Filter', filter);
       // await API.getMyJobList(filter);
-      const data = [
+      const total_data = [
         { title: 'Cleaning', status: 'assigned', date: moment(), price: 200 },
         { title: 'Plumber', status: 'assigned', date: moment(), price: 200 },
         { title: 'Mechanic', status: 'pending', date: moment(), price: 200 },
@@ -24,6 +24,10 @@ export const getMyJobList = () => {
         { title: 'Mechanic', status: 'assigned', date: moment(), price: 200 },
         { title: 'Plumber', status: 'pending', date: moment(), price: 200 },
       ];
+      const data = {
+        total: total_data.length,
+        data: total_data.slice((filter.page - 1) * 3, filter.page * 3),
+      };
       dispatch(setData(key, data));
     } catch (err) {
       console.error(err);

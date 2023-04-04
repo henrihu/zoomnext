@@ -1,8 +1,11 @@
-import { SET_DATA, SET_LOADING } from './actions';
+import { SET_DATA, SET_FILTER, SET_LOADING } from './actions';
 
 const initialState = {
   card_list: { data: [], loading: false },
-  payment_history: { data: [], loading: false },
+  payment_history: { data: { total: 0, data: [] }, loading: false },
+  payment_history_filter: {
+    page: 1,
+  },
 };
 
 export default (state = initialState, action) => {
@@ -21,6 +24,14 @@ export default (state = initialState, action) => {
         [action.key]: {
           ...state[action.key],
           loading: action.loading,
+        },
+      };
+    case SET_FILTER:
+      return {
+        ...state,
+        [action.key]: {
+          ...state[action.key],
+          ...action.filter,
         },
       };
     default:

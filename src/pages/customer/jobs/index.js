@@ -15,7 +15,10 @@ import { getMyJobList, setFilter } from 'src/store/c_jobs/actions';
 export default () => {
   const dispatch = useDispatch();
   const {
-    job_list: { data, loading },
+    job_list: {
+      data: { total, data },
+      loading,
+    },
     job_list_filter: filter,
   } = useSelector(({ c_jobs }) => c_jobs);
   const [modal, setModal] = useState({ open: false });
@@ -38,7 +41,12 @@ export default () => {
             sm={{ span: 24, order: 2 }}
             md={{ span: 18, order: 1 }}
           >
-            <List data={data} />
+            <List
+              total={total}
+              data={data}
+              page={filter.page}
+              onSetFilter={handleSetFilter}
+            />
           </Col>
           <Col
             xs={{ span: 24, order: 1 }}

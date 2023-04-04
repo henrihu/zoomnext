@@ -50,7 +50,7 @@ export default () => {
             },
             {
               color: 'gray',
-              children: <h3 style={{ color: 'gray' }}>Finish</h3>,
+              children: <h3 className="text-gray">Finish</h3>,
             },
           ]}
         />

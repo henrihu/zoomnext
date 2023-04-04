@@ -3,9 +3,8 @@ import { useSelector, useDispatch } from 'react-redux';
 import { useRouter } from 'next/router';
 
 // Components
-import { CustomerLayout } from 'src/layouts';
 import Meta from '@/components/Meta/index';
-import { Divider, Row, Col, Spin, Button } from 'antd';
+import { Row, Col, Button } from 'antd';
 import { ArrowLeftOutlined } from '@ant-design/icons';
 import DetailCard from './DetailCard';
 import BidList from './BidList';
@@ -29,7 +28,7 @@ export default () => {
   }, [jobSlug]);
 
   return (
-    <CustomerLayout>
+    <>
       <Meta title="Job Detail | Zoom Errands" description="Zoom Errands" />
       <Row gutter={[16, 16]}>
         <Col span={24}>
@@ -48,6 +47,6 @@ export default () => {
           {data.status == 'pending' ? <BidList /> : <StatusList />}
         </Col>
       </Row>
-    </CustomerLayout>
+    </>
   );
 };

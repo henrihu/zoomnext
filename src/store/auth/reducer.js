@@ -2,7 +2,7 @@ import { TYPE_CUSTOMER, TYPE_HELPER } from 'src/utils/constants';
 import { SET_DATA } from './actions';
 
 const initialState = {
-  authenticated: true,
+  authenticated: false,
   type: TYPE_CUSTOMER,
 };
 

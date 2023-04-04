@@ -10,7 +10,7 @@ import { DoubleRightOutlined } from '@ant-design/icons';
 // Constants
 import { JOB_STATUS } from 'src/utils/constants';
 
-export default ({ data }) => {
+export default ({ total, page, data, onSetFilter }) => {
   const router = useRouter();
   return (
     <List
@@ -20,7 +20,7 @@ export default ({ data }) => {
       renderItem={(item, index) => (
         <Card
           key={index}
-          className="mb-4"
+          className={index === data.length - 1 ? 'mb-0' : 'mb-4'}
           title={
             <div className="flex items-center justify-between">
               <div>{item.title}</div>
@@ -105,7 +105,15 @@ export default ({ data }) => {
           </Space>
         </Card>
       )}
-      pagination={{}}
+      pagination={{
+        pageSize: 3,
+        size: 'small',
+        total,
+        page,
+        onChange: (page) => {
+          onSetFilter({ page });
+        },
+      }}
     />
   );
 };

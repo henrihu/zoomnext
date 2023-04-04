@@ -12,6 +12,7 @@ import {
   UsergroupAddOutlined,
   HomeOutlined,
 } from '@ant-design/icons';
+import { CUSTOMER } from 'src/utils/constants';
 const { Header } = Layout;
 
 const ITEM_LIST = [
@@ -65,64 +66,53 @@ export default () => {
         top: 0,
         zIndex: 1,
         backgroundColor: 'white',
-        height: 120,
+        height: 100,
+        gap: 16,
+        boxShadow: '0 1px 5px black',
       }}
-      className="flex items-center justify-between"
+      className="flex justify-between items-center"
     >
       <Link
         href="/customer/services"
         className="text-4xl font-bold"
-        style={{
-          minWidth: 250,
-          background: 'white',
-          marginLeft: 24,
-        }}
+        style={{ width: 250 }}
       >
         Zoom Errands
       </Link>
 
-      <div className="flex items-center justify-end w-full">
-        <Menu
-          mode="horizontal"
-          defaultSelectedKeys={
-            ITEM_LIST.find(
-              ({ href }) => router.pathname.indexOf(href) !== -1
-            ) &&
-            ITEM_LIST.find(({ href }) => router.pathname.indexOf(href) !== -1)
-              .key
-          }
-          style={{ minWidth: 0, flex: 'auto' }}
-          className="flex justify-between"
-          items={ITEM_LIST}
-          onClick={({ item }) => {
-            item.props.href && router.push(item.props.href);
-          }}
-        />
-      </div>
-
-      <div
+      <Menu
+        mode="horizontal"
+        defaultSelectedKeys={
+          ITEM_LIST.find(({ href }) => router.pathname.indexOf(href) !== -1) &&
+          ITEM_LIST.find(({ href }) => router.pathname.indexOf(href) !== -1).key
+        }
         style={{
-          minWidth: 200,
-          background: 'white',
+          minWidth: 0,
+          flex: 'auto',
+          fontWeight: 900,
         }}
-        className="flex justify-center items-center"
+        className="flex justify-between"
+        items={ITEM_LIST}
+        onClick={({ item }) => {
+          item.props.href && router.push(item.props.href);
+        }}
+      />
+
+      <Dropdown
+        menu={{
+          items,
+          onClick: ({ item }) => {
+            item.props.href && router.push(item.props.href);
+          },
+        }}
       >
-        <Dropdown
-          menu={{
-            items,
-            onClick: ({ item }) => {
-              item.props.href && router.push(item.props.href);
-            },
-          }}
-        >
-          <div className="flex justify-center items-center cursor-pointer">
-            <Avatar className="mr-4" size={40} icon={<AntDesignOutlined />} />
-            <h2 className="font-bold" style={{ fontSize: 18 }}>
-              WYATT LITTLE
-            </h2>
-          </div>
-        </Dropdown>
-      </div>
+        <div className="flex justify-center items-center cursor-pointer">
+          <Avatar className="mr-4" size={40} icon={<AntDesignOutlined />} />
+          <h2 className="font-bold" style={{ fontSize: 18 }}>
+            WYATT LITTLE
+          </h2>
+        </div>
+      </Dropdown>
     </Header>
   );
 };

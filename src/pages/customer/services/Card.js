@@ -11,12 +11,7 @@ export default ({ data }) => {
         height: 150,
       }}
     >
-      <Image
-        src="/images/service.png"
-        fill
-        style={{ borderRadius: 8 }}
-        alt="job"
-      />
+      <Image src="/images/service.png" fill className="rounded-lg" alt="job" />
       <h3
         className="font-bold text-white text-center"
         style={{ position: 'absolute', bottom: 8, width: '100%' }}

@@ -114,8 +114,7 @@ export default () => {
             ITEM_LIST.find(({ href }) => router.pathname.indexOf(href) !== -1)
               .key
           }
-          style={{ minWidth: 0, flex: 'auto' }}
-          className="flex justify-between"
+          className="flex justify-between min-w-0 flex-auto"
           items={ITEM_LIST}
           onClick={({ item }) => {
             item.props.href && router.push(item.props.href);
@@ -140,9 +139,7 @@ export default () => {
         >
           <div className="flex justify-center items-center cursor-pointer">
             <Avatar className="mr-4" size={40} icon={<AntDesignOutlined />} />
-            <h2 className="font-bold" style={{ fontSize: 18 }}>
-              WYATT LITTLE
-            </h2>
+            <h2 className="font-bold text-2xl">WYATT LITTLE</h2>
           </div>
         </Dropdown>
       </div>

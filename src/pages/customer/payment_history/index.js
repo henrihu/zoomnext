@@ -1,60 +1,60 @@
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 
 // Components
 import Meta from '@/components/Meta/index';
-import { Space, Row, Col, Spin, Button } from 'antd';
-import PaymentCard from './Card';
-import NewCardModal from './NewCardModal';
+import { Card, Row, Col, Spin } from 'antd';
+import List from './List';
 
 // Actions
-import { getPaymentHistory } from 'src/store/payment/actions';
+import { getPaymentHistory, setFilter } from 'src/store/payment/actions';
 
 export default () => {
   const dispatch = useDispatch();
-  const { data, loading } = useSelector(
-    ({ payment }) => payment.payment_history
-  );
-  const [modal, setModal] = useState({ open: false });
+  const {
+    payment_history: {
+      data: { total, data },
+      loading,
+    },
+    payment_history_filter: filter,
+  } = useSelector(({ payment }) => payment);
+
+  const handleSetFilter = (d) => {
+    dispatch(setFilter('payment_history_filter', d));
+  };
 
   useEffect(() => {
     dispatch(getPaymentHistory());
-  }, []);
+  }, [filter]);
 
   return (
     <>
       <Meta title="Payment History | Zoom Errands" description="Zoom Errands" />
       <Spin spinning={loading}>
-        <Row justify="center" gutter={[16, 16]}>
-          <Col span={24}>
-            <Space
-              wrap
-              size="large"
-              align="center"
-              className="flex justify-center items-center"
+        <Row justify="center" gutter={[8, 8]}>
+          <Col xs={24} sm={24} md={6}>
+            <Card
+              title="Total Spent"
+              bodyStyle={{
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+              }}
+              size="small"
             >
-              {data &&
-                data.length > 0 &&
-                data.map((item, ind) => <PaymentCard data={item} key={ind} />)}
-            </Space>
+              <span class="text-3xl font-bold">$1065.50</span>
+            </Card>
           </Col>
-          <Col span={24} className="flex justify-center">
-            <Button
-              type="primary"
-              shape="round"
-              size="large"
-              onClick={() => setModal({ open: true })}
-            >
-              Add Your Payment Method
-            </Button>
+          <Col xs={24} sm={24} md={18}>
+            <List
+              total={total}
+              data={data}
+              page={filter.page}
+              onSetFilter={handleSetFilter}
+            />
           </Col>
         </Row>
       </Spin>
-      <NewCardModal
-        {...modal}
-        onOk={() => setModal({ open: false })}
-        onCancel={() => setModal({ open: false })}
-      />
     </>
   );
 };
