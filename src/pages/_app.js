@@ -18,8 +18,6 @@ const App = ({ Component, pageProps }) => {
   const { authenticated, type } = useSelector(({ auth }) => auth);
   const router = useRouter();
 
-  console.log('auth', authenticated, type);
-
   Router.events.on('routeChangeStart', () => setProgress(true));
   Router.events.on('routeChangeComplete', () => setProgress(false));
   TopBarProgress.config(progressBarConfig());

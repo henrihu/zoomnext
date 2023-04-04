@@ -25,8 +25,8 @@ export default () => {
     <>
       <Meta title="Help | Zoom Errands" description="Zoom Errands" />
       <Spin spinning={loading}>
-        <Row justify="center">
-          <Col sm={24} md={8} className="mb-4">
+        <Row justify="center" gutter={[8, 8]}>
+          <Col xs={24} sm={24} md={9}>
             <Input
               placeholder="Search Questions"
               prefix={<SearchOutlined />}
@@ -35,7 +35,7 @@ export default () => {
               onChange={(e) => setSearch(e.target.value)}
             />
           </Col>
-          <Col span={24}>
+          <Col xs={24} sm={24} md={16}>
             <Collapse
               defaultActiveKey={[
                 filtered_data &&
@@ -52,7 +52,7 @@ export default () => {
                 ))}
             </Collapse>
           </Col>
-          <Col sm={24} md={16}>
+          <Col xs={24} sm={24} md={16}>
             <Divider>
               <Space direction="vertical" size={4}>
                 <spin className="text-gray">Don't see your answer here?</spin>

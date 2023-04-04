@@ -85,6 +85,9 @@ export default () => {
         <Menu
           mode="horizontal"
           defaultSelectedKeys={
+            ITEM_LIST.find(
+              ({ href }) => router.pathname.indexOf(href) !== -1
+            ) &&
             ITEM_LIST.find(({ href }) => router.pathname.indexOf(href) !== -1)
               .key
           }

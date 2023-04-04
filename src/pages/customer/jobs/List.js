@@ -59,6 +59,7 @@ export default ({ data }) => {
             >
               <Image
                 src="/images/service.png"
+                alt="job"
                 fill
                 style={{ borderRadius: 8 }}
               />

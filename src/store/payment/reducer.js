@@ -2,6 +2,7 @@ import { SET_DATA, SET_LOADING } from './actions';
 
 const initialState = {
   card_list: { data: [], loading: false },
+  payment_history: { data: [], loading: false },
 };
 
 export default (state = initialState, action) => {

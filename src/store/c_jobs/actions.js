@@ -37,7 +37,6 @@ export const getJobDetail = (params) => {
     const key = 'job_detail';
     try {
       dispatch(setLoading(key, true));
-      console.log('Job Detail', params);
       // await API.getJobDetail(params);
       const data = {
         title: 'Cleaning',

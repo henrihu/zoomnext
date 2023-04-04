@@ -9,7 +9,7 @@ export const setType = (type) => (dispatch) => {
 export const signInWithEmail = () => {
   return async (dispatch) => {
     try {
-      await API.signInWithEmail(data);
+      // await API.signInWithEmail(data);
       dispatch({
         type: SET_DATA,
         payload: { authenticated: true, type: data.type },
@@ -24,6 +24,19 @@ export const signUp = (data) => {
   return async (dispatch) => {
     try {
       // await API.signUp(data);
+    } catch (err) {
+      console.error(err);
+    }
+  };
+};
+
+export const logOut = () => {
+  return async (dispatch) => {
+    try {
+      dispatch({
+        type: SET_DATA,
+        payload: { authenticated: false },
+      });
     } catch (err) {
       console.error(err);
     }

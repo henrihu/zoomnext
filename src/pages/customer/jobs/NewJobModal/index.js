@@ -69,7 +69,6 @@ export default ({ data, open, onOk, onCancel }) => {
     title: 'Job Details',
     open,
     maskClosable: false,
-    mask: false,
     onCancel,
   };
   return (

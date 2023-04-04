@@ -33,10 +33,18 @@ export default () => {
       <Meta title="My Jobs | Zoom Errands" description="Zoom Errands" />
       <Spin spinning={loading}>
         <Row justify="center" gutter={[8, 8]}>
-          <Col xs={24} sm={24} md={18}>
+          <Col
+            xs={{ span: 24, order: 2 }}
+            sm={{ span: 24, order: 2 }}
+            md={{ span: 18, order: 1 }}
+          >
             <List data={data} />
           </Col>
-          <Col xs={24} sm={24} md={6}>
+          <Col
+            xs={{ span: 24, order: 1 }}
+            sm={{ span: 24, order: 1 }}
+            md={{ span: 6, order: 2 }}
+          >
             <Row gutter={[8, 8]}>
               <Col span={24}>
                 <Filter filter={filter} onSetFilter={handleSetFilter} />
