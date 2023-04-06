@@ -10,8 +10,7 @@ const instance = axios.create({
 export const setHeader = (key, value) => {
   instance.set(key, value);
 };
-
-export const removeHeader = (key) => {
+export const deleteHeader = (key) => {
   instance.delete(key);
 };
 

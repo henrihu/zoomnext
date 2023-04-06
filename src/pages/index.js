@@ -1,6 +1,6 @@
 import { useSelector } from 'react-redux';
 import Meta from '@/components/Meta/index';
-import { LandingLayout } from '@/layouts/index';
+import { LandingLayout, GuestLayout } from '@/layouts/index';
 import {
   CallToAction,
   Features,
@@ -13,7 +13,7 @@ import {
 
 const Home = () => {
   return (
-    <LandingLayout>
+    <GuestLayout>
       <Meta title="Zoom Errands" description="Zoom Errands" />
       <Features />
       <Pricing />
@@ -21,7 +21,7 @@ const Home = () => {
       <Testimonial />
       <CallToAction />
       <Footer />
-    </LandingLayout>
+    </GuestLayout>
   );
 };
 

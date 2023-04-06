@@ -56,6 +56,11 @@ export default () => {
         />
       </Col>
       <Col span={24}>
+        <Button shape="round" size="small">
+          Added More Work
+        </Button>
+      </Col>
+      <Col span={24}>
         <Button
           type="primary"
           size="large"

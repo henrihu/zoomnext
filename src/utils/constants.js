@@ -43,6 +43,10 @@ export const POST_OPTION_LIST = {
   [POST_OPTION_BID]: { label: 'Send me bids to review' },
 };
 
+// Message Type
+export const MESSAGE_TYPE_MESSAGE = 'MESSAGE';
+export const MESSAGE_TYPE_IMAGE = 'IMAGE';
+
 // Date & Time Format
 export const DATE_FORMAT = 'YYYY-MM-DD';
 export const TIME_FORMAT = 'h:mm A';

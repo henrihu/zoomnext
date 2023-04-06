@@ -31,7 +31,7 @@ export default () => {
 
   return (
     <AuthLayout color={type === TYPE_CUSTOMER ? COLOR_CUSTOMER : COLOR_HELPER}>
-      <Meta title="Zoom Errands | Sign Up" description="Zoom Errands Sign Up" />
+      <Meta title="Sign Up | Zoom Errands" description="Zoom Errands Sign Up" />
       <Row
         align="center"
         justify="center"

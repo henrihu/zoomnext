@@ -67,7 +67,12 @@ export default ({ data, loading }) => {
         </Col>
         {data && data.status === JOB_STATUS_ASSIGNED && (
           <Col span={24}>
-            <Button icon={<PlusOutlined />} shape="round" size="small">
+            <Button
+              icon={<PlusOutlined />}
+              shape="round"
+              size="small"
+              type="primary"
+            >
               Add More Work
             </Button>
           </Col>

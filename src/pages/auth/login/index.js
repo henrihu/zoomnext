@@ -42,14 +42,13 @@ const Login = () => {
 
   const handleSignInWithEmail = async (values) => {
     setPending(true);
-    await dispatch(signInWithEmail({ ...values, type }));
-    router.push(`/${type}/services/`);
+    await dispatch(signInWithEmail({ ...values, type }, router));
     setPending(false);
   };
 
   return (
     <AuthLayout color={type === TYPE_CUSTOMER ? COLOR_CUSTOMER : COLOR_HELPER}>
-      <Meta title="Zoom Errands | Login" description="Zoom Errands Login" />
+      <Meta title="Login | Zoom Errands" description="Zoom Errands Login" />
       <Row
         align="center"
         justify="center"

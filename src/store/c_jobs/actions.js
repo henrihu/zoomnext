@@ -14,15 +14,69 @@ export const getMyJobList = () => {
       console.log('Job Filter', filter);
       // await API.getMyJobList(filter);
       const total_data = [
-        { title: 'Cleaning', status: 'assigned', date: moment(), price: 200 },
-        { title: 'Plumber', status: 'assigned', date: moment(), price: 200 },
-        { title: 'Mechanic', status: 'pending', date: moment(), price: 200 },
-        { title: 'Plumber', status: 'pending', date: moment(), price: 200 },
-        { title: 'Mechanic', status: 'pending', date: moment(), price: 200 },
-        { title: 'Cleaning', status: 'pending', date: moment(), price: 200 },
-        { title: 'Plumber', status: 'pending', date: moment(), price: 200 },
-        { title: 'Mechanic', status: 'assigned', date: moment(), price: 200 },
-        { title: 'Plumber', status: 'pending', date: moment(), price: 200 },
+        {
+          title: 'Cleaning',
+          status: 'assigned',
+          date: moment(),
+          price: 5000.232,
+          description: 'Job Details',
+        },
+        {
+          title: 'Plumber',
+          status: 'assigned',
+          date: moment(),
+          price: 500,
+          description: 'Job Details',
+        },
+        {
+          title: 'Mechanic',
+          status: 'pending',
+          date: moment(),
+          price: 100,
+          description: 'Job Details',
+        },
+        {
+          title: 'Plumber',
+          status: 'pending',
+          date: moment(),
+          price: 200,
+          description: 'Job Details',
+        },
+        {
+          title: 'Mechanic',
+          status: 'pending',
+          date: moment(),
+          price: 200,
+          description: 'Job Details',
+        },
+        {
+          title: 'Cleaning',
+          status: 'pending',
+          date: moment(),
+          price: 200,
+          description: 'Job Details',
+        },
+        {
+          title: 'Plumber',
+          status: 'pending',
+          date: moment(),
+          price: 200,
+          description: 'Job Details',
+        },
+        {
+          title: 'Mechanic',
+          status: 'assigned',
+          date: moment(),
+          price: 200,
+          description: 'Job Details',
+        },
+        {
+          title: 'Plumber',
+          status: 'pending',
+          date: moment(),
+          price: 200,
+          description: 'Job Details',
+        },
       ];
       const data = {
         total: total_data.length,
@@ -44,7 +98,7 @@ export const getJobDetail = (params) => {
       // await API.getJobDetail(params);
       const data = {
         title: 'Cleaning',
-        status: 'assigned',
+        status: 'pending',
         date: moment(),
         location: '#12, Ahmedabad, GJ, Ahmedabad, India, 380006',
         price: 200,

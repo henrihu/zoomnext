@@ -1,7 +1,10 @@
 import API from 'src/api/common';
+import moment from 'moment';
+import { setNotificationDrawer } from 'src/store/auth/actions';
 
 export const SET_DATA = '[COMMON] SET DATA]';
 export const SET_LOADING = '[COMMON] SET LOADING';
+export const SET_PENDING = '[COMMON] SET PENDING';
 
 export const getServiceList = (data) => {
   return async (dispatch) => {
@@ -74,10 +77,149 @@ export const getHelpList = (data) => {
   };
 };
 
-export const setData = (key, data) => {
-  return { type: SET_DATA, key, data };
+export const getNotificationList = (data) => {
+  return async (dispatch) => {
+    const key = 'notification_list';
+    try {
+      dispatch(setLoading(key, true));
+      // await API.getNotificationList(data);
+      const data = [
+        { id: '1', title: 'Post Updated', date: moment(), status: 1 },
+        { id: '2', title: 'Post Updated', date: moment(), status: 1 },
+        { id: '3', title: 'Post Updated', date: moment(), status: 0 },
+        { id: '4', title: 'Post Updated', date: moment(), status: 0 },
+      ];
+      dispatch(setData(key, data));
+      dispatch(setNotificationDrawer(true));
+    } catch (err) {
+      console.error(err);
+    }
+    dispatch(setLoading(key, false));
+  };
 };
 
-export const setLoading = (key, loading) => {
-  return { type: SET_LOADING, key, loading };
+export const getMessageList = (data) => {
+  return async (dispatch) => {
+    const key = 'message_list';
+    try {
+      dispatch(setLoading(key, true));
+      // await API.getNotificationList(data);
+      const data = [
+        {
+          id: 1,
+          message:
+            'Hello! I have one question Hello! I have one questionHello! I have one questionHello! I have one questionHello! I have one questionHello! I have one question',
+          isRead: 1,
+          messageType: 'MESSAGE',
+          state: 1,
+        },
+        {
+          id: 2,
+          message: "I'm on the job",
+          isRead: 1,
+          messageType: 'MESSAGE',
+          state: 1,
+        },
+        {
+          id: 3,
+          message: "I'm on the job",
+          isRead: 1,
+          messageType: 'MESSAGE',
+          state: 0,
+        },
+        {
+          id: 4,
+          message: '/images/service.png',
+          isRead: 1,
+          messageType: 'IMAGE',
+          state: 0,
+        },
+        {
+          id: 5,
+          message: "I'm on the job",
+          isRead: 1,
+          messageType: 'MESSAGE',
+          state: 1,
+        },
+        {
+          id: 1,
+          message:
+            'Hello! I have one question Hello! I have one questionHello! I have one questionHello! I have one questionHello! I have one questionHello! I have one question',
+          isRead: 1,
+          messageType: 'MESSAGE',
+          state: 1,
+        },
+        {
+          id: 2,
+          message: "I'm on the job",
+          isRead: 1,
+          messageType: 'MESSAGE',
+          state: 1,
+        },
+        {
+          id: 3,
+          message: "I'm on the job",
+          isRead: 1,
+          messageType: 'MESSAGE',
+          state: 0,
+        },
+        {
+          id: 4,
+          message: '/images/service.png',
+          isRead: 1,
+          messageType: 'IMAGE',
+          state: 0,
+        },
+        {
+          id: 5,
+          message: "I'm on the job",
+          isRead: 1,
+          messageType: 'MESSAGE',
+          state: 1,
+        },
+      ];
+      dispatch(setData(key, data));
+    } catch (err) {
+      console.error(err);
+    }
+    dispatch(setLoading(key, false));
+  };
 };
+
+export const updateProfile = (data) => {
+  return async (dispatch) => {
+    const key = 'update_profile';
+    try {
+      dispatch(setPending(key, true));
+      // await API.updateProfile(data);
+    } catch (err) {
+      console.error(err);
+    }
+    dispatch(setPending(key, false));
+  };
+};
+
+export const uploadProfileImage = (data) => {
+  return async (dispatch) => {
+    const key = 'upload_profile';
+    try {
+      dispatch(setPending(key, true));
+      // await API.uploadProfileImage(data);
+    } catch (err) {
+      console.error(err);
+    }
+    dispatch(setPending(key, false));
+  };
+};
+
+export const setData = (key, data) => ({ type: SET_DATA, key, data });
+export const setLoading = (key, loading) => ({
+  type: SET_LOADING,
+  key,
+  loading,
+});
+export const setPending = (key, pending) => ({
+  type: SET_PENDING,
+  key,
+  pending,
+});

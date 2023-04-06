@@ -4,6 +4,8 @@ import { SET_DATA } from './actions';
 const initialState = {
   authenticated: false,
   type: TYPE_CUSTOMER,
+  progress: false,
+  notification_drawer: false,
 };
 
 export default (state = initialState, action) => {

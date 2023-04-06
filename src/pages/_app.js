@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import Router, { useRouter } from 'next/router';
 import { ThemeProvider } from 'next-themes';
 import ReactGA from 'react-ga';
@@ -13,19 +13,24 @@ import { TYPE_CUSTOMER, TYPE_HELPER } from 'src/utils/constants';
 
 import { CustomerLayout, HelperLayout } from '../layouts';
 
-const App = ({ Component, pageProps }) => {
-  const [progress, setProgress] = useState(false);
-  const { authenticated, type } = useSelector(({ auth }) => auth);
-  const router = useRouter();
+import { setProgress, setType, setData } from 'src/store/auth/actions';
+import { getStorageItem } from 'src/utils/common';
 
-  Router.events.on('routeChangeStart', () => setProgress(true));
-  Router.events.on('routeChangeComplete', () => setProgress(false));
+const App = ({ Component, pageProps }) => {
+  const router = useRouter();
+  const dispatch = useDispatch();
+  const { authenticated, type, progress } = useSelector(({ auth }) => auth);
+
+  Router.events.on('routeChangeStart', () => dispatch(setProgress(true)));
+  Router.events.on('routeChangeComplete', () => dispatch(setProgress(false)));
   TopBarProgress.config(progressBarConfig());
 
   useEffect(() => {
     if (process.env.NODE_ENV === 'production') {
       ReactGA.initialize(process.env.NEXT_PUBLIC_GOOGLE_ANALYTICS_ID);
     }
+    dispatch(setType(getStorageItem('user_type')));
+    dispatch(setData({ authenticated: getStorageItem('authenticated') }));
   }, []);
 
   useEffect(() => {

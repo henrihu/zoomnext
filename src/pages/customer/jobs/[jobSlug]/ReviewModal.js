@@ -13,6 +13,7 @@ import {
   Space,
 } from 'antd';
 import { StarFilled } from '@ant-design/icons';
+import { FEE_RATE } from 'src/utils/constants';
 
 const helper = {
   avatar: '/images/service.png',
@@ -28,9 +29,7 @@ export default ({ open, onOk, onCancel }) => {
     title: 'Rate & Review',
     open,
     okText: 'Submit',
-    cancelButtonProps: {
-      style: { display: 'none' },
-    },
+    cancelButtonProps: { style: { display: 'none' } },
     onOk: () => {
       onCancel();
     },
@@ -95,6 +94,11 @@ export default ({ open, onOk, onCancel }) => {
               />
             </Col>
           </Row>
+        </Col>
+        <Col span={24} className="flex justify-center">
+          <span className="text-gray">
+            {FEE_RATE}% processing fee will be applied
+          </span>
         </Col>
       </Row>
 
