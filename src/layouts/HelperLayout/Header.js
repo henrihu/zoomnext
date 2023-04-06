@@ -30,7 +30,7 @@ const ITEM_LIST = [
     key: '3',
     label: 'Browse Jobs',
     icon: <ShopOutlined />,
-    href: '/helper/',
+    href: '/helper/browse_jobs',
   },
   {
     key: '4',

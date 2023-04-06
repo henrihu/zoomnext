@@ -10,6 +10,7 @@ import { DoubleRightOutlined, CloseOutlined } from '@ant-design/icons';
 // Constants
 import {
   JOB_STATUS,
+  JOB_STATUS_ASSIGNED,
   JOB_STATUS_PENDING,
   TYPE_CUSTOMER,
 } from 'src/utils/constants';

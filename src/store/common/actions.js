@@ -13,15 +13,15 @@ export const getServiceList = (data) => {
       dispatch(setLoading(key, true));
       // await API.getServiceList(data);
       const data = [
-        { label: 'Cleaning' },
-        { label: 'Plumber' },
-        { label: 'Mechanic' },
-        { label: 'Plumber' },
-        { label: 'Mechanic' },
-        { label: 'Cleaning' },
-        { label: 'Plumber' },
-        { label: 'Mechanic' },
-        { label: 'Plumber' },
+        { id: 1, label: 'Cleaning' },
+        { id: 2, label: 'Plumber' },
+        { id: 3, label: 'Mechanic' },
+        { id: 4, label: 'Plumber' },
+        { id: 5, label: 'Mechanic' },
+        { id: 6, label: 'Cleaning' },
+        { id: 7, label: 'Plumber' },
+        { id: 8, label: 'Mechanic' },
+        { id: 9, label: 'Plumber' },
       ];
       dispatch(setData(key, data));
     } catch (err) {
