@@ -13,7 +13,7 @@ const AuthLayout = ({ children, color }) => {
     setTheme('light');
 
     if (authenticated) {
-      router.push(`/${type}/services`);
+      router.push('/services');
     }
   }, [setTheme, router]);
 

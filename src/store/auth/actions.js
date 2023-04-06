@@ -24,7 +24,7 @@ export const signInWithEmail = (data, router) => {
   return async (dispatch) => {
     try {
       // await API.signInWithEmail(data);
-      await router.push(`/${data.type}/services/`);
+      await router.push('/services');
       dispatch({
         type: SET_DATA,
         payload: { authenticated: true, type: data.type },

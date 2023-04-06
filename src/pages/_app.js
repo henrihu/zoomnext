@@ -9,12 +9,18 @@ import progressBarConfig from '@/config/progress-bar/index';
 import wrapper from 'src/store';
 
 import '@/styles/globals.css';
-import { TYPE_CUSTOMER, TYPE_HELPER } from 'src/utils/constants';
+import {
+  CUSTOMER,
+  HELPER,
+  TYPE_CUSTOMER,
+  TYPE_HELPER,
+} from 'src/utils/constants';
 
 import { CustomerLayout, HelperLayout } from '../layouts';
 
 import { setProgress, setType, setData } from 'src/store/auth/actions';
 import { getStorageItem } from 'src/utils/common';
+import { ConfigProvider } from 'antd';
 
 const App = ({ Component, pageProps }) => {
   const router = useRouter();
@@ -47,18 +53,27 @@ const App = ({ Component, pageProps }) => {
 
   return (
     <ThemeProvider attribute="class">
-      {progress && <TopBarProgress />}
-      {authenticated && type === TYPE_CUSTOMER && (
-        <CustomerLayout>
-          <Component {...pageProps} />
-        </CustomerLayout>
-      )}
-      {authenticated && type === TYPE_HELPER && (
-        <HelperLayout>
-          <Component {...pageProps} />
-        </HelperLayout>
-      )}
-      {!authenticated && <Component {...pageProps} />}
+      <ConfigProvider
+        theme={{
+          token: {
+            colorPrimary:
+              type === TYPE_CUSTOMER ? CUSTOMER.color : HELPER.color,
+          },
+        }}
+      >
+        {progress && <TopBarProgress />}
+        {authenticated && type === TYPE_CUSTOMER && (
+          <CustomerLayout>
+            <Component {...pageProps} />
+          </CustomerLayout>
+        )}
+        {authenticated && type === TYPE_HELPER && (
+          <HelperLayout>
+            <Component {...pageProps} />
+          </HelperLayout>
+        )}
+        {!authenticated && <Component {...pageProps} />}
+      </ConfigProvider>
     </ThemeProvider>
   );
 };

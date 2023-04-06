@@ -43,6 +43,16 @@ export const POST_OPTION_LIST = {
   [POST_OPTION_BID]: { label: 'Send me bids to review' },
 };
 
+// Clean Supplies Option List
+export const CLEANING_OPTION_HAVE = 'have';
+export const CLEANING_OPTION_BRING = 'bring';
+export const CLEANING_OPTION_LIST = {
+  [CLEANING_OPTION_HAVE]: {
+    label: 'I have cleaning supplies',
+  },
+  [CLEANING_OPTION_BRING]: { label: 'Bring cleaning supplies' },
+};
+
 // Message Type
 export const MESSAGE_TYPE_MESSAGE = 'MESSAGE';
 export const MESSAGE_TYPE_IMAGE = 'IMAGE';

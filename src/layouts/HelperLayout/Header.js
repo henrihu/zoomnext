@@ -1,6 +1,7 @@
-import Link from 'next/link';
+import { useDispatch, useSelector } from 'react-redux';
 import { useRouter } from 'next/router';
-import { Layout, Menu, Dropdown, Avatar } from 'antd';
+import { Layout, Menu, Dropdown, Avatar, Button, Badge } from 'antd';
+import Link from 'next/link';
 import {
   ShopOutlined,
   MessageOutlined,
@@ -8,25 +9,23 @@ import {
   AntDesignOutlined,
   LoginOutlined,
   ProfileOutlined,
-  SettingOutlined,
+  StarOutlined,
   UsergroupAddOutlined,
   HomeOutlined,
 } from '@ant-design/icons';
-const { Header } = Layout;
+
+// Actions
+import { logOut } from 'src/store/auth/actions';
+import { getNotificationList } from 'src/store/common/actions';
 
 const ITEM_LIST = [
   {
     key: '1',
     label: 'Home',
     icon: <HomeOutlined />,
-    href: '/helper/services',
+    href: '/services',
   },
-  {
-    key: '2',
-    label: 'My Jobs',
-    icon: <ShopOutlined />,
-    href: '/helper/jobs',
-  },
+  { key: '2', label: 'My Jobs', icon: <ShopOutlined />, href: '/helper/jobs' },
   {
     key: '3',
     label: 'Browse Jobs',
@@ -36,8 +35,8 @@ const ITEM_LIST = [
   {
     key: '4',
     label: 'Jobs Reviews',
-    icon: <ShopOutlined />,
-    href: '/helper/jobs_reviews',
+    icon: <StarOutlined />,
+    href: '/helper/reviews',
   },
   {
     key: '5',
@@ -49,7 +48,7 @@ const ITEM_LIST = [
     key: '6',
     label: 'Payment Method',
     icon: <ShopOutlined />,
-    href: '/helper/payment_method',
+    href: '/payment_method',
   },
   {
     key: '7',
@@ -67,68 +66,81 @@ const ITEM_LIST = [
     key: '9',
     label: 'Help',
     icon: <ProfileOutlined />,
-    href: '/helper/help',
+    href: '/help',
   },
   { key: '10', label: 'Refer Friends', icon: <UsergroupAddOutlined /> },
 ];
 
-const items = [
-  { key: '1', label: 'Notifications', icon: <BellOutlined /> },
-  { key: '2', label: 'Messages', icon: <MessageOutlined /> },
-  { type: 'divider' },
-  { key: '3', label: 'LOGOUT', icon: <LoginOutlined /> },
-];
-
 export default () => {
   const router = useRouter();
+  const dispatch = useDispatch();
+  const { notification_list } = useSelector(({ common }) => common);
+  const items = [
+    {
+      key: 'profile',
+      label: 'Profile',
+      icon: <ProfileOutlined />,
+      type: 'link',
+      href: '/helper/profile',
+    },
+    {
+      key: '1',
+      label: 'Notifications',
+      icon: <BellOutlined />,
+      href: '/notification',
+    },
+    {
+      key: '2',
+      label: 'Messages',
+      icon: <MessageOutlined />,
+      href: '/message',
+    },
+    { type: 'divider' },
+    {
+      key: '3',
+      label: 'LOGOUT',
+      icon: <LoginOutlined />,
+      onClick: () => {
+        dispatch(logOut(router));
+      },
+    },
+  ];
   return (
-    <Header
+    <Layout.Header
       style={{
         position: 'sticky',
         top: 0,
         zIndex: 1,
         backgroundColor: 'white',
-        height: 120,
+        height: 100,
+        gap: 16,
+        boxShadow: '0 1px 5px black',
+        paddingLeft: 32,
+        paddingRight: 16,
       }}
-      className="flex items-center justify-between"
+      className="flex justify-between items-center"
     >
       <Link
-        href="/helper/services"
+        href="/services"
         className="text-4xl font-bold"
-        style={{
-          minWidth: 250,
-          background: 'white',
-          marginLeft: 24,
-        }}
+        style={{ width: 250 }}
       >
         Zoom Errands
       </Link>
 
-      <div className="flex items-center justify-end w-full">
-        <Menu
-          mode="horizontal"
-          defaultSelectedKeys={
-            ITEM_LIST.find(
-              ({ href }) => router.pathname.indexOf(href) !== -1
-            ) &&
-            ITEM_LIST.find(({ href }) => router.pathname.indexOf(href) !== -1)
-              .key
-          }
-          className="flex justify-between min-w-0 flex-auto"
-          items={ITEM_LIST}
-          onClick={({ item }) => {
-            item.props.href && router.push(item.props.href);
-          }}
-        />
-      </div>
-
-      <div
-        style={{
-          minWidth: 200,
-          background: 'white',
+      <Menu
+        mode="horizontal"
+        defaultSelectedKeys={
+          ITEM_LIST.find(({ href }) => router.pathname.indexOf(href) !== -1) &&
+          ITEM_LIST.find(({ href }) => router.pathname.indexOf(href) !== -1).key
+        }
+        className="flex justify-between flex-auto font-bold min-w-0"
+        items={ITEM_LIST}
+        onClick={({ item }) => {
+          item.props.href && router.push(item.props.href);
         }}
-        className="flex justify-center items-center"
-      >
+      />
+      <div className="flex items-center gap-2">
         <Dropdown
           menu={{
             items,
@@ -139,10 +151,27 @@ export default () => {
         >
           <div className="flex justify-center items-center cursor-pointer">
             <Avatar className="mr-4" size={40} icon={<AntDesignOutlined />} />
-            <h2 className="font-bold text-2xl">WYATT LITTLE</h2>
+            <h2 className="font-bold" style={{ fontSize: 18 }}>
+              WYATT LITTLE
+            </h2>
           </div>
         </Dropdown>
+        <Badge count={1} overflowCount={100}>
+          <Button
+            shape="circle"
+            loading={notification_list.loading}
+            icon={<BellOutlined />}
+            onClick={() => dispatch(getNotificationList())}
+          />
+        </Badge>
+        <Button
+          shape="circle"
+          icon={<MessageOutlined />}
+          onClick={() => {
+            router.push('/message');
+          }}
+        />
       </div>
-    </Header>
+    </Layout.Header>
   );
 };

@@ -1,22 +1,16 @@
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { useRouter } from 'next/router';
 import { useTheme } from 'next-themes';
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 
 import { Layout } from 'antd';
-import CustomerHeader from './Header';
-import Notification from './Notification';
-const { Content, Footer, Drawer } = Layout;
+import Header from './Header';
+import Notification from '../Notification';
 
-import { setNotificationDrawer } from 'src/store/auth/actions';
-
-const CustomerLayout = ({ children }) => {
+export default ({ children }) => {
   const router = useRouter();
-  const dispatch = useDispatch();
   const { setTheme } = useTheme();
-  const { authenticated, notification_drawer } = useSelector(
-    ({ auth }) => auth
-  );
+  const { authenticated } = useSelector(({ auth }) => auth);
 
   useEffect(() => {
     setTheme('light');
@@ -27,24 +21,19 @@ const CustomerLayout = ({ children }) => {
 
   return (
     <Layout>
-      <CustomerHeader />
-      <Content
-        className="site-layout p-5"
+      <Header />
+      <Layout.Content
         style={{
-          minHeight: 'calc(100vh - 100px - 64px)',
+          padding: 32,
+          minHeight: 'calc(100vh - 105px - 64px)',
         }}
       >
-        <div className="p-3 h-full">{children}</div>
-      </Content>
-      <Footer className="bg-white text-center min-h-64 max-h-64">
+        {children}
+      </Layout.Content>
+      <Layout.Footer className="bg-white text-center min-h-64 max-h-64">
         Zoom Errands ©2023 Created by Zoom Errands
-      </Footer>
-      <Notification
-        open={notification_drawer}
-        onClose={() => dispatch(setNotificationDrawer(false))}
-      />
+      </Layout.Footer>
+      <Notification />
     </Layout>
   );
 };
-
-export default CustomerLayout;

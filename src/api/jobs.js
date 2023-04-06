@@ -17,6 +17,14 @@ export const uploadImage = (data) =>
 export const customerCompleteJob = (data) =>
   base({ url: '/customerCompleteJob/', data, method: 'POST' });
 
+export const jobBid = (data) => base({ url: '/jobBid/', data, method: 'POST' });
+export const startJobPickUp = (data) =>
+  base({ url: '/startJobPickUp/', data, method: 'POST' });
+export const getHelperJoblist = (data) =>
+  base({ url: '/getProviderJoblist/', data, method: 'POST' });
+export const getHelperBrowseJoblist = (data) =>
+  base({ url: '/getProviderBrowseJoblist/', data, method: 'POST' });
+
 export default {
   getMyJobList,
   getJobDetail,
@@ -26,4 +34,8 @@ export default {
   createJobMilestones,
   uploadImage,
   customerCompleteJob,
+  jobBid,
+  startJobPickUp,
+  getHelperJoblist,
+  getHelperBrowseJoblist,
 };

@@ -6,7 +6,7 @@ const renderMessageBox = (message, messageType) => {
   return (
     <Card
       bodyStyle={{
-        padding: 4,
+        padding: messageType === MESSAGE_TYPE_MESSAGE ? 4 : 0,
         boxShadow: '2px 2px 3px grey',
         borderRadius: 4,
         cursor: 'default',
@@ -16,7 +16,7 @@ const renderMessageBox = (message, messageType) => {
       {messageType === MESSAGE_TYPE_MESSAGE ? (
         message
       ) : (
-        <img src={message} width={100} height={100} />
+        <img src={message} width={100} height={100} className="rounded" />
       )}
     </Card>
   );

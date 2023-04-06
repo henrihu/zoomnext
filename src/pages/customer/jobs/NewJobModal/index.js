@@ -90,12 +90,12 @@ export default ({ data, open, onOk, onCancel }) => {
         </Col>
         <Col span={24}>
           <div className="flex justify-between items-end">
-            <Space direction="vertical" size={4}>
+            <div className="flex flex-col">
               <div style={{ fontSize: 20, fontWeight: 900 }}>
                 Estimate Budget
               </div>
               <span className="text-gray">(Includes 5% processing fee)</span>
-            </Space>
+            </div>
             <h1 className="font-bold">${estimatedBudget}</h1>
           </div>
         </Col>

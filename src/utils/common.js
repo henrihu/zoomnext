@@ -13,3 +13,10 @@ export const removeStorageItem = (key) => {
 export const formatNumber = (num, decimalScale = 2) => {
   return Number(num).toFixed(decimalScale);
 };
+
+export const formatDate = (
+  date,
+  option = { day: 'numeric', month: 'short', year: 'numeric' }
+) => {
+  return new Intl.DateTimeFormat('en', option).format(date);
+};

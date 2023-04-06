@@ -10,6 +10,7 @@ import {
   DATE_FORMAT,
   TIME_FORMAT,
   FEE_RATE,
+  CLEANING_OPTION_LIST,
 } from 'src/utils/constants';
 import { formatNumber } from 'src/utils/common';
 
@@ -76,6 +77,17 @@ export default ({ data }) => {
       <Col span={24}>
         <DescItem label="Service Charge (5%)">
           ${formatNumber((data.amount * FEE_RATE) / 100)}
+        </DescItem>
+      </Col>
+      <Col span={24}>
+        <DescItem label="Cleaning Details">
+          {data.beds.checked && `${data.beds.count} Bedroom `}
+          {data.baths.checked && `${data.baths.count} Bathroom`}
+        </DescItem>
+      </Col>
+      <Col span={24}>
+        <DescItem label="Supply Details">
+          {CLEANING_OPTION_LIST[data.supply].label}
         </DescItem>
       </Col>
       <Col span={24}>

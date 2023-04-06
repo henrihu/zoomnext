@@ -3,12 +3,15 @@ import { SendOutlined, PlusOutlined } from '@ant-design/icons';
 import Message from './Message';
 
 export default ({ data, loading }) => (
-  <Card size="small" loading={loading}>
+  <Card size="small" loading={loading} bodyStyle={{ padding: 0 }}>
     <Row>
-      <Col span={24} style={{ maxHeight: '50vh', overflow: 'auto' }}>
+      <Col
+        span={24}
+        style={{ maxHeight: '50vh', overflow: 'auto', padding: 16 }}
+      >
         <Space direction="vertical" className="w-full">
           {data.map((item, index) => (
-            <Message data={item} />
+            <Message data={item} key={index} />
           ))}
         </Space>
       </Col>

@@ -104,7 +104,7 @@ export default () => {
                       },
                     ]}
                   >
-                    <Input placeholder="Location" size="large" />
+                    <Input size="large" />
                   </Form.Item>
                   <Form.Item className="flex justify-center">
                     <Button

@@ -1,22 +1,21 @@
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import Image from 'next/image';
 import { Drawer, Space, Badge, Divider, Empty } from 'antd';
-import { CUSTOMER, DATE_FORMAT } from 'src/utils/constants';
+import { DATE_FORMAT } from 'src/utils/constants';
 import moment from 'moment';
+import { setNotificationDrawer } from 'src/store/auth/actions';
 
-export default ({ open, onClose }) => {
+export default () => {
+  const dispatch = useDispatch();
   const {
     notification_list: { data, loading },
   } = useSelector(({ common }) => common);
+  const { notification_drawer } = useSelector(({ auth }) => auth);
   return (
     <Drawer
       title="Notifications"
-      headerStyle={{
-        backgroundColor: CUSTOMER.backgroundColor,
-        color: 'white',
-      }}
-      open={open}
-      onClose={onClose}
+      open={notification_drawer}
+      onClose={() => dispatch(setNotificationDrawer(false))}
     >
       <Space direction="vertical" className="w-full">
         {data && data.length ? (

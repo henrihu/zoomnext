@@ -62,6 +62,7 @@ export default () => {
             <List
               total={total}
               data={data}
+              loading={loading}
               page={filter.page}
               onSetFilter={handleSetFilter}
             />

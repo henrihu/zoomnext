@@ -1,7 +1,6 @@
 import {
   Form,
   Input,
-  Divider,
   Radio,
   Space,
   InputNumber,
@@ -9,16 +8,18 @@ import {
   Col,
   DatePicker,
   TimePicker,
-  Steps,
 } from 'antd';
-import { useState, useMemo } from 'react';
+import CleaningItem from './CleaningItem';
+import SelectLocation from './SelectLocation';
 import {
   BUDGET_OPTION_HOURLY,
   BUDGET_OPTION_LIST,
   BUDGET_OPTION_TOTAL_JOB,
   POST_OPTION_FIRST_HELPER,
   POST_OPTION_LIST,
+  CLEANING_OPTION_LIST,
   TIME_FORMAT,
+  CLEANING_OPTION_HAVE,
 } from 'src/utils/constants';
 
 export default ({ form, budget, estimateBudget }) => {
@@ -31,6 +32,9 @@ export default ({ form, budget, estimateBudget }) => {
           initialValues={{
             post: POST_OPTION_FIRST_HELPER,
             budget: BUDGET_OPTION_TOTAL_JOB,
+            supply: CLEANING_OPTION_HAVE,
+            beds: { checked: true, count: 1 },
+            baths: { checked: true, count: 1 },
           }}
           requiredMark={false}
           form={form}
@@ -75,6 +79,31 @@ export default ({ form, budget, estimateBudget }) => {
             />
           </Form.Item>
 
+          <Form.Item label="Cleaning Detail">
+            <Form.Item name="beds">
+              <CleaningItem name="Beds" />
+            </Form.Item>
+            <Form.Item name="baths">
+              <CleaningItem name="Baths" />
+            </Form.Item>
+            <Form.Item
+              name="supply"
+              rules={[
+                { required: true, message: 'Please input your username!' },
+              ]}
+            >
+              <Radio.Group>
+                <Space>
+                  {Object.keys(CLEANING_OPTION_LIST).map((key) => (
+                    <Radio value={key} key={key}>
+                      {CLEANING_OPTION_LIST[key].label}
+                    </Radio>
+                  ))}
+                </Space>
+              </Radio.Group>
+            </Form.Item>
+          </Form.Item>
+
           <Form.Item
             label="Select Location"
             name="location"
@@ -85,10 +114,7 @@ export default ({ form, budget, estimateBudget }) => {
               },
             ]}
           >
-            <Input.TextArea
-              placeholder="Details"
-              autoSize={{ minRows: 3, maxRows: 5 }}
-            />
+            <SelectLocation name="Location" />
           </Form.Item>
 
           <Space.Compact block>

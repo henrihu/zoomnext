@@ -17,7 +17,7 @@ export default () => {
       className="flex items-center justify-between"
     >
       <Link
-        href="/helper/services"
+        href="/services"
         className="text-4xl font-bold"
         style={{
           minWidth: 250,

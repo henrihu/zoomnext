@@ -1,65 +1,39 @@
 import { useEffect } from 'react';
 import { useRouter } from 'next/router';
 import { useTheme } from 'next-themes';
-import { Toaster } from 'react-hot-toast';
 import { useSelector } from 'react-redux';
 
-import Meta from '@/components/Meta/index';
-import { Breadcrumb, Layout } from 'antd';
-import CustomerHeader from './Header';
-const { Content, Footer } = Layout;
+import { Layout } from 'antd';
+import Header from './Header';
+import Notification from '../Notification';
 
-const CustomerLayout = ({
-  children,
-  title = 'Zoom Errands',
-  description = 'Zoom Errands',
-}) => {
+export default ({ children }) => {
   const router = useRouter();
   const { setTheme } = useTheme();
   const { authenticated } = useSelector(({ auth }) => auth);
 
   useEffect(() => {
     setTheme('light');
-    // if (!authenticated) {
-    //   router.push('/auth/login/');
-    // }
+    if (!authenticated) {
+      router.push('/auth/login/');
+    }
   }, [setTheme, router]);
 
   return (
     <Layout>
-      <Meta title={title} description={description} />
-      <CustomerHeader />
-      <Content
-        className="site-layout p-5"
+      <Header />
+      <Layout.Content
         style={{
-          // padding: '0 50px',
-          minHeight: 'calc(100vh - 120px - 64px)',
+          padding: 32,
+          minHeight: 'calc(100vh - 105px - 64px)',
         }}
       >
-        {/* <Breadcrumb
-          style={{
-            margin: '16px 0',
-          }}
-        >
-          <Breadcrumb.Item>Home</Breadcrumb.Item>
-          <Breadcrumb.Item>List</Breadcrumb.Item>
-          <Breadcrumb.Item>App</Breadcrumb.Item>
-        </Breadcrumb> */}
-        <div style={{ height: '100%' }} className="p-3">
-          {children}
-        </div>
-      </Content>
-      <Footer
-        style={{
-          textAlign: 'center',
-          minHeight: 64,
-          maxHeight: 64,
-        }}
-      >
+        {children}
+      </Layout.Content>
+      <Layout.Footer className="bg-white text-center min-h-64 max-h-64">
         Zoom Errands ©2023 Created by Zoom Errands
-      </Footer>
+      </Layout.Footer>
+      <Notification />
     </Layout>
   );
 };
-
-export default CustomerLayout;

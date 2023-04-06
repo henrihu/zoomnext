@@ -23,7 +23,7 @@ const ITEM_LIST = [
     key: '1',
     label: 'Home',
     icon: <HomeOutlined />,
-    href: '/customer/services',
+    href: '/services',
   },
   {
     key: '2',
@@ -35,7 +35,7 @@ const ITEM_LIST = [
     key: '4',
     label: 'Payment Method',
     icon: <ShopOutlined />,
-    href: '/customer/payment_method',
+    href: '/payment_method',
   },
   {
     key: '5',
@@ -47,13 +47,13 @@ const ITEM_LIST = [
     key: '6',
     label: 'Help',
     icon: <ProfileOutlined />,
-    href: '/customer/help',
+    href: '/help',
   },
   { key: '7', label: "FAQ's", icon: <SettingOutlined /> },
   { key: '8', label: 'Refer Friends', icon: <UsergroupAddOutlined /> },
 ];
 
-export default ({ onNotificationOpen }) => {
+export default () => {
   const router = useRouter();
   const dispatch = useDispatch();
   const { notification_list } = useSelector(({ common }) => common);
@@ -69,13 +69,13 @@ export default ({ onNotificationOpen }) => {
       key: '1',
       label: 'Notifications',
       icon: <BellOutlined />,
-      href: '/customer/notification',
+      href: '/notification',
     },
     {
       key: '2',
       label: 'Messages',
       icon: <MessageOutlined />,
-      href: '/customer/message',
+      href: '/message',
     },
     { type: 'divider' },
     {
@@ -103,7 +103,7 @@ export default ({ onNotificationOpen }) => {
       className="flex justify-between items-center"
     >
       <Link
-        href="/customer/services"
+        href="/services"
         className="text-4xl font-bold"
         style={{ width: 250 }}
       >

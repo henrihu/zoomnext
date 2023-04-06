@@ -1,5 +1,5 @@
 import { List } from 'antd';
-import PaymentHistoryCard from './Card';
+import Card from './Card';
 
 export default ({ total, page, data, onSetFilter, loading }) => {
   return (
@@ -10,7 +10,7 @@ export default ({ total, page, data, onSetFilter, loading }) => {
       loading={loading}
       renderItem={(item, index) => (
         <div className="mb-2">
-          <PaymentHistoryCard data={item} key={index} />
+          <Card data={item} key={index} />
         </div>
       )}
       pagination={{
