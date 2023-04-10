@@ -1,9 +1,9 @@
 import API from 'src/api/jobs';
 import moment from 'moment';
 
-export const SET_DATA = '[CUSTOMER JOBS] SET DATA]';
-export const SET_LOADING = '[CUSTOMER JOBS] SET LOADING';
-export const SET_FILTER = '[CUSTOMER JOBS] SET FILTER]';
+export const SET_DATA = '[HELPER JOBS] SET DATA]';
+export const SET_LOADING = '[HELPER JOBS] SET LOADING';
+export const SET_FILTER = '[HELPER JOBS] SET FILTER';
 
 export const getJobList = () => {
   return async (dispatch, getState) => {
@@ -97,12 +97,22 @@ export const getJobDetail = (params) => {
       dispatch(setLoading(key, true));
       // await API.getJobDetail(params);
       const data = {
-        title: 'Cleaning',
         status: 'pending',
-        date: moment(),
         location: '#12, Ahmedabad, GJ, Ahmedabad, India, 380006',
-        price: 200,
+        baths: { checked: true, count: 3 },
+        beds: { checked: true, count: 3 },
+        budget: 'hourly',
+        date: moment(),
+        description: 'Job Details',
+        hour: 21,
+        post: 'first',
+        supply: 'have',
+        time: moment(),
+        title: 'Cleaning',
+        amount: 500,
+        hour: 2,
       };
+      console.log('action', data);
       dispatch(setData(key, data));
     } catch (err) {
       console.error(err);

@@ -20,7 +20,7 @@ export default ({ total, page, data, onSetFilter }) => {
             data={item}
             key={index}
             type={TYPE_HELPER}
-            onDetail={() => router.push(`/helper/jobs/${data.title}/`)}
+            onDetail={() => router.push(`/helper/browse_jobs/${item.title}/`)}
             onCancel={null}
           />
         </div>

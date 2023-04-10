@@ -141,6 +141,7 @@ export default ({ filter, onSetFilter, onFilter, loading, service_list }) => {
               onChange={([latitude, longitude]) =>
                 onSetFilter({ latitude, longitude })
               }
+              tooltip={{ formatter: (value) => `${value}Miles` }}
             />
           </div>
         </Wrapper>
