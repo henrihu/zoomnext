@@ -77,3 +77,43 @@ video {
   border-radius: 8px;
   background-color: #535252;
 }
+
+.avatar-container {
+  border: 2px solid black;
+  border-radius: 50%;
+  transition: box-shadow 0.3s;
+  position: relative;
+}
+.avatar-img {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+}
+
+.avatar-container:hover {
+  box-shadow: 0px 0px 9px 0px gray;
+}
+
+.identification-container {
+  border: 2px solid black;
+  border-radius: 16px;
+  transition: box-shadow 0.3s;
+  position: relative;
+}
+.identification-img {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+}
+
+.identification-container:hover {
+  box-shadow: 0px 0px 9px 0px gray;
+}

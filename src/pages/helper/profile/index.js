@@ -12,6 +12,7 @@ import {
   LoadingOutlined,
 } from '@ant-design/icons';
 import AvatarUpload from 'src/components/AvatarUpload/index';
+import StartJob from './StartJob';
 // Actions
 import { updateProfile, uploadProfileImage } from 'src/store/common/actions';
 
@@ -39,7 +40,7 @@ export default () => {
     <>
       <Meta title="Profile | Zoom Errands" description="Zoom Errands" />
       <Row align="center" justify="center" gutter={[16, 16]}>
-        <Col xs={24} sm={24} md={16}>
+        <Col xs={24} sm={24} md={8}>
           <Card
             title={
               <h3>
@@ -184,6 +185,11 @@ export default () => {
                 </Button>
               </Form.Item>
             </Form>
+          </Card>
+        </Col>
+        <Col xs={24} sm={24} md={8}>
+          <Card title={<h3>Start Job</h3>}>
+            <StartJob />
           </Card>
         </Col>
       </Row>

@@ -1,6 +1,6 @@
 import { useState } from 'react';
-import { Upload, message } from 'antd';
-import { PlusOutlined, LoadingOutlined } from '@ant-design/icons';
+import { Upload, message, theme, Button } from 'antd';
+import { EditOutlined, IdcardOutlined } from '@ant-design/icons';
 
 const getBase64 = (img, callback) => {
   const reader = new FileReader();
@@ -8,9 +8,10 @@ const getBase64 = (img, callback) => {
   reader.readAsDataURL(img);
 };
 
-export default ({ size = 100, ...props }) => {
+export default ({ width = 240, height = 120, ...props }) => {
   const [loading, setLoading] = useState(false);
   const [imageUrl, setImageUrl] = useState();
+  const { token } = theme.useToken();
 
   const handleChange = (info) => {
     if (info.file.status === 'uploading') {
@@ -25,12 +26,6 @@ export default ({ size = 100, ...props }) => {
       });
     }
   };
-  const uploadButton = (
-    <div>
-      {loading ? <LoadingOutlined /> : <PlusOutlined />}
-      <div style={{ marginTop: 8 }}>Upload</div>
-    </div>
-  );
   const beforeUpload = (file) => {
     const isJpgOrPng = file.type === 'image/jpeg' || file.type === 'image/png';
     if (!isJpgOrPng) {
@@ -43,27 +38,40 @@ export default ({ size = 100, ...props }) => {
     return isJpgOrPng && isLt2M;
   };
   return (
-    <div style={{ width: size, height: size }}>
+    <div
+      style={{
+        width,
+        height,
+        borderColor: token.colorPrimary,
+      }}
+      className="identification-container"
+    >
+      <div className="identification-img">
+        {imageUrl ? (
+          <img
+            src={imageUrl}
+            alt="identification"
+            style={{ width: '100%', height: '100%' }}
+          />
+        ) : (
+          <IdcardOutlined style={{ fontSize: 90 }} />
+        )}
+      </div>
+
       <Upload
         {...props}
-        listType="picture-circle"
         accept="image/jpeg"
         showUploadList={false}
         beforeUpload={beforeUpload}
         onChange={handleChange}
-        style={{ width: 'fit-content' }}
       >
-        {imageUrl ? (
-          <img
-            src={imageUrl}
-            alt="avatar"
-            style={{
-              width: '100%',
-            }}
-          />
-        ) : (
-          uploadButton
-        )}
+        <Button
+          type="primary"
+          shape="circle"
+          size="small"
+          icon={<EditOutlined />}
+          style={{ position: 'absolute', bottom: -12, left: 107 }}
+        />
       </Upload>
     </div>
   );
