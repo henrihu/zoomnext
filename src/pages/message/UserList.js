@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Avatar, List, Input, Card, Badge, Divider } from 'antd';
+import { Avatar, List, Input, Card, Badge, Divider, theme } from 'antd';
 
 const data = [
   {
@@ -54,6 +54,7 @@ const data = [
 
 export default () => {
   const [selected, setSelected] = useState(0);
+  const { token } = theme.useToken();
   return (
     <Card size="small">
       <Input placeholder="Search" className="w-full" size="large" />
@@ -71,7 +72,11 @@ export default () => {
             extra={
               <div className="flex flex-col items-end gap-1">
                 <span className="text-gray">{item.date}</span>
-                <Badge count={item.unreadCount} color="blue" />
+                {item.unreadCount ? (
+                  <Badge count={item.unreadCount} color={token.colorPrimary} />
+                ) : (
+                  <></>
+                )}
               </div>
             }
             key={index}

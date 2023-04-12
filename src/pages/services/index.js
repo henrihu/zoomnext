@@ -30,7 +30,7 @@ export default () => {
       />
       <Spin spinning={loading}>
         <Row justify="center">
-          <Col sm={24} md={8} className="mb-4">
+          <Col xs={16} sm={16} md={8} className="mb-4">
             <Input
               placeholder="Search Services"
               prefix={<SearchOutlined />}

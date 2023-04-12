@@ -14,10 +14,12 @@ export default ({ open, onOk, onCancel }) => {
     },
     onCancel,
     centered: true,
+    width: 300,
+    cancelButtonProps: { type: 'text', danger: true },
   };
   return (
     <>
-      <Modal {...modal_props} width={300}>
+      <Modal {...modal_props}>
         <Divider />
         <Row gutter={[16, 16]}>
           <Col span={24}>
@@ -35,6 +37,7 @@ export default ({ open, onOk, onCancel }) => {
             <Input.TextArea
               autoSize={{ minRows: 3, maxRows: 5 }}
               placeholder="Comment"
+              size="large"
             />
           </Col>
         </Row>
@@ -49,7 +52,7 @@ export default ({ open, onOk, onCancel }) => {
       >
         <div className="flex flex-col items-center gap-2">
           <h2>${amount}</h2>
-          <span>Your bit has been sent</span>
+          <span>Your bid has been sent</span>
           <Button
             type="primary"
             shape="round"

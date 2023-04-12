@@ -10,7 +10,7 @@ export default ({ filter, onSetFilter }) => {
   const [totalPrice, setTotalPrice] = useState('asc');
   return (
     <Row gutter={[8, 8]}>
-      <Col span={24}>
+      <Col xs={8} sm={8} md={24}>
         <Button
           icon={
             date === 'asc' ? (
@@ -30,7 +30,7 @@ export default ({ filter, onSetFilter }) => {
           Date
         </Button>
       </Col>
-      <Col span={24}>
+      <Col xs={8} sm={8} md={24}>
         <Button
           icon={
             totalPrice === 'asc' ? (
@@ -50,7 +50,7 @@ export default ({ filter, onSetFilter }) => {
           Price
         </Button>
       </Col>
-      <Col span={24}>
+      <Col xs={8} sm={8} md={24}>
         <Button icon={<SortAscendingOutlined />} className="w-full">
           Location
         </Button>

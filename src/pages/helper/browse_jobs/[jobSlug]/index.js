@@ -35,7 +35,7 @@ export default () => {
         <Col span={24}>
           <Button
             type="link"
-            onClick={() => router.push('/helper/jobs')}
+            onClick={() => router.push('/helper/browse_jobs')}
             icon={<ArrowLeftOutlined />}
           >
             Back to List
