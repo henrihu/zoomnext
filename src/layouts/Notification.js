@@ -16,6 +16,7 @@ export default () => {
       title="Notifications"
       open={notification_drawer}
       onClose={() => dispatch(setNotificationDrawer(false))}
+      width={300}
     >
       <Space direction="vertical" className="w-full">
         {data && data.length ? (

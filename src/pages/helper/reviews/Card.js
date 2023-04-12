@@ -15,7 +15,7 @@ export default ({ data }) => {
           </div>
           <div className="text-2xl font-bold">{data.rating}</div>
         </Col>
-        <Col span={21} className="flex items-center px-8">
+        <Col span={21} className="flex items-center px-4 md:px-8">
           <Space direction="vertical">
             <Space className="flex items-end">
               <h3>{data.title}</h3>

@@ -20,7 +20,7 @@ export default ({ data }) => {
           </span>
           <span className="text-gray">{moment(data.date).year()}</span>
         </Col>
-        <Col span={15} className="flex items-center px-8">
+        <Col span={15} className="flex items-center px-4 md:px-8">
           <Space direction="vertical">
             <h3>{data.title}</h3>
             <span>{data.description}</span>

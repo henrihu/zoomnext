@@ -10,6 +10,7 @@ import { Button, Radio, Input, Form, Row, Col } from 'antd';
 import { GoogleOutlined, FacebookOutlined } from '@ant-design/icons';
 import ForgotPassword from './ForgotPassword';
 import Verification from './Verification';
+import Terms from './Terms';
 // Constants
 import { TYPE_CUSTOMER, TYPE_HELPER } from 'src/utils/constants';
 // Actions
@@ -38,6 +39,7 @@ const Login = () => {
   const [pending, setPending] = useState(false);
   const [forgotModal, setForgotModal] = useState({ open: false });
   const [vertificationModal, setVerificationModal] = useState({ open: false });
+  const [termModal, setTermModal] = useState({ open: false });
 
   const handleSignInWithEmail = async (values) => {
     setPending(true);
@@ -138,7 +140,11 @@ const Login = () => {
             By using this app you agree to our
           </span>
           <div>
-            <Button type="link" size="small">
+            <Button
+              type="link"
+              size="small"
+              onClick={() => setTermModal({ open: true })}
+            >
               terms
             </Button>
             and
@@ -158,7 +164,11 @@ const Login = () => {
         onOk={() => setVerificationModal({ open: false })}
         onCancel={() => setVerificationModal({ open: false })}
       />
-
+      <Terms
+        {...termModal}
+        onOk={() => setTermModal({ open: false })}
+        onCancel={() => setTermModal({ open: false })}
+      />
       {/* {socialProviders.length > 0 && (
           <div className="flex flex-col justify-center">
             <div className="text-sm text-gray-400 mb-2 text-center">

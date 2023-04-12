@@ -8,7 +8,7 @@ const getBase64 = (img, callback) => {
   reader.readAsDataURL(img);
 };
 
-export default ({ width = 240, height = 120, ...props }) => {
+export default ({ width = 200, height = 120, ...props }) => {
   const [loading, setLoading] = useState(false);
   const [imageUrl, setImageUrl] = useState();
   const { token } = theme.useToken();
@@ -58,21 +58,25 @@ export default ({ width = 240, height = 120, ...props }) => {
         )}
       </div>
 
-      <Upload
-        {...props}
-        accept="image/jpeg"
-        showUploadList={false}
-        beforeUpload={beforeUpload}
-        onChange={handleChange}
+      <div
+        style={{ position: 'absolute', bottom: -12 }}
+        className="flex justify-center w-full"
       >
-        <Button
-          type="primary"
-          shape="circle"
-          size="small"
-          icon={<EditOutlined />}
-          style={{ position: 'absolute', bottom: -12, left: 107 }}
-        />
-      </Upload>
+        <Upload
+          {...props}
+          accept="image/jpeg"
+          showUploadList={false}
+          beforeUpload={beforeUpload}
+          onChange={handleChange}
+        >
+          <Button
+            type="primary"
+            shape="circle"
+            size="small"
+            icon={<EditOutlined />}
+          />
+        </Upload>
+      </div>
     </div>
   );
 };
