@@ -1,6 +1,6 @@
 import API from 'src/api/common';
 import moment from 'moment';
-import { setNotificationDrawer } from 'src/store/auth/actions';
+import { setNotificationDrawer } from 'src/store/setting/actions';
 
 export const SET_DATA = '[COMMON] SET DATA]';
 export const SET_LOADING = '[COMMON] SET LOADING';

@@ -1,6 +1,16 @@
+import { useMemo, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useRouter } from 'next/router';
-import { Layout, Menu, Dropdown, Avatar, Button, Badge } from 'antd';
+import {
+  Layout,
+  Menu,
+  Dropdown,
+  Avatar,
+  Button,
+  Badge,
+  Grid,
+  theme,
+} from 'antd';
 import Link from 'next/link';
 import {
   ShopOutlined,
@@ -12,69 +22,101 @@ import {
   StarOutlined,
   UsergroupAddOutlined,
   HomeOutlined,
+  MenuOutlined,
 } from '@ant-design/icons';
+import MenuDrawer from './MenuDrawer';
 
 // Actions
 import { logOut } from 'src/store/auth/actions';
+import { setMenuDrawer, setTitle } from 'src/store/setting/actions';
 import { getNotificationList } from 'src/store/common/actions';
 
 const ITEM_LIST = [
   {
-    key: '1',
+    key: 'home',
     label: 'Home',
     icon: <HomeOutlined />,
     href: '/services',
   },
-  { key: '2', label: 'My Jobs', icon: <ShopOutlined />, href: '/helper/jobs' },
   {
-    key: '3',
+    key: 'myjobs',
+    label: 'My Jobs',
+    icon: <ShopOutlined />,
+    href: '/helper/jobs',
+  },
+  {
+    key: 'browsejobs',
     label: 'Browse Jobs',
     icon: <ShopOutlined />,
     href: '/helper/browse_jobs',
   },
   {
-    key: '4',
+    key: 'messages',
+    label: 'Messages',
+    icon: <MessageOutlined />,
+    href: '/message',
+  },
+  {
+    key: 'reviews',
     label: 'Jobs Reviews',
     icon: <StarOutlined />,
     href: '/helper/reviews',
   },
   {
-    key: '5',
+    key: 'categories',
     label: 'Job Categories',
     icon: <ShopOutlined />,
     href: '/helper/job_categories',
   },
   {
-    key: '6',
+    key: 'paymentmethod',
     label: 'Payment Method',
     icon: <ShopOutlined />,
     href: '/payment_method',
   },
   {
-    key: '7',
+    key: 'paymenthistory',
     label: 'Payment History',
     icon: <ShopOutlined />,
     href: '/helper/payment_history',
   },
   {
-    key: '8',
+    key: 'paymentsettings',
     label: 'Payment Settings',
     icon: <ShopOutlined />,
     href: '/helper/payment_settings',
   },
   {
-    key: '9',
+    key: 'notifications',
+    label: 'Notifications',
+    icon: <BellOutlined />,
+    href: '/notification',
+  },
+  {
+    key: 'help',
     label: 'Help',
     icon: <ProfileOutlined />,
     href: '/help',
   },
-  { key: '10', label: 'Refer Friends', icon: <UsergroupAddOutlined /> },
+  {
+    key: 'referfriends',
+    label: 'Refer Friends',
+    icon: <UsergroupAddOutlined />,
+  },
 ];
+
+const { useBreakpoint } = Grid;
 
 export default () => {
   const router = useRouter();
   const dispatch = useDispatch();
+  const screens = useBreakpoint();
+  const { token } = theme.useToken();
+  const isXsSm = useMemo(() => screens.xs || (screens.sm && !screens.md), [
+    screens,
+  ]);
   const { notification_list } = useSelector(({ common }) => common);
+  const { title } = useSelector(({ setting }) => setting);
   const items = [
     {
       key: 'profile',
@@ -82,18 +124,6 @@ export default () => {
       icon: <ProfileOutlined />,
       type: 'link',
       href: '/helper/profile',
-    },
-    {
-      key: '1',
-      label: 'Notifications',
-      icon: <BellOutlined />,
-      href: '/notification',
-    },
-    {
-      key: '2',
-      label: 'Messages',
-      icon: <MessageOutlined />,
-      href: '/message',
     },
     { type: 'divider' },
     {
@@ -107,55 +137,66 @@ export default () => {
   ];
   return (
     <Layout.Header
+      className="header"
       style={{
-        position: 'sticky',
-        top: 0,
-        zIndex: 1,
-        backgroundColor: 'white',
-        height: 100,
-        gap: 16,
-        boxShadow: '0 1px 5px black',
-        paddingLeft: 32,
-        paddingRight: 16,
+        boxShadow: `0 1px 5px ${token.colorPrimary}`,
+        backgroundColor: isXsSm ? token.colorPrimary : 'white',
       }}
-      className="flex justify-between items-center"
     >
-      <Link
-        href="/services"
-        className="text-4xl font-bold"
-        style={{ width: 250 }}
-      >
-        Zoom Errands
-      </Link>
-
-      <Menu
-        mode="horizontal"
-        defaultSelectedKeys={
-          ITEM_LIST.find(({ href }) => router.pathname.indexOf(href) !== -1) &&
-          ITEM_LIST.find(({ href }) => router.pathname.indexOf(href) !== -1).key
-        }
-        className="flex justify-between flex-auto font-bold min-w-0"
-        items={ITEM_LIST}
-        onClick={({ item }) => {
-          item.props.href && router.push(item.props.href);
-        }}
-      />
-      <div className="flex items-center gap-2">
-        <Dropdown
-          menu={{
-            items,
-            onClick: ({ item }) => {
+      {!isXsSm && (
+        <>
+          <Link
+            href="/services"
+            className="text-4xl font-bold"
+            style={{ width: 250 }}
+          >
+            Zoom Errands
+          </Link>
+          <Menu
+            mode="horizontal"
+            defaultSelectedKeys={
+              ITEM_LIST.find(
+                ({ href }) => router.pathname.indexOf(href) !== -1
+              ) &&
+              ITEM_LIST.find(({ href }) => router.pathname.indexOf(href) !== -1)
+                .key
+            }
+            className="flex justify-between flex-auto font-bold min-w-0"
+            items={ITEM_LIST}
+            onClick={({ item }) => {
               item.props.href && router.push(item.props.href);
-            },
-          }}
-        >
-          <div className="flex justify-center items-center cursor-pointer">
-            <Avatar className="mr-4" size={40} icon={<AntDesignOutlined />} />
-            <h2 className="font-bold" style={{ fontSize: 18 }}>
-              WYATT LITTLE
-            </h2>
-          </div>
-        </Dropdown>
+            }}
+          />
+        </>
+      )}
+      {isXsSm && (
+        <>
+          <Button
+            shape="circle"
+            icon={<MenuOutlined />}
+            onClick={() => dispatch(setMenuDrawer(true))}
+          />
+          <h2 className="text-white text-2xl cursor-default">{title}</h2>
+        </>
+      )}
+      <div className="flex items-center gap-2">
+        {!isXsSm && (
+          <Dropdown
+            menu={{
+              items,
+              onClick: ({ item }) => {
+                item.props.href && router.push(item.props.href);
+              },
+            }}
+          >
+            <div className="flex justify-center items-center cursor-pointer">
+              <Avatar className="mr-4" size={40} icon={<AntDesignOutlined />} />
+              <h2 className="font-bold" style={{ fontSize: 18 }}>
+                WYATT LITTLE
+              </h2>
+            </div>
+          </Dropdown>
+        )}
         <Badge count={1} overflowCount={100}>
           <Button
             shape="circle"
@@ -172,6 +213,10 @@ export default () => {
           }}
         />
       </div>
+      <MenuDrawer
+        items={ITEM_LIST}
+        setTitle={(value) => dispatch(setTitle(value))}
+      />
     </Layout.Header>
   );
 };

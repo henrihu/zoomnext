@@ -5,6 +5,7 @@ import { useSelector } from 'react-redux';
 
 import { Layout } from 'antd';
 import Header from './Header';
+import Footer from '../Footer';
 import Notification from '../Notification';
 
 export default ({ children }) => {
@@ -30,9 +31,7 @@ export default ({ children }) => {
       >
         {children}
       </Layout.Content>
-      <Layout.Footer className="bg-white text-center min-h-64 max-h-64">
-        Zoom Errands ©2023 Created by Zoom Errands
-      </Layout.Footer>
+      <Footer />
       <Notification />
     </Layout>
   );

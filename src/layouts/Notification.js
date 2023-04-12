@@ -3,14 +3,14 @@ import Image from 'next/image';
 import { Drawer, Space, Badge, Divider, Empty } from 'antd';
 import { DATE_FORMAT } from 'src/utils/constants';
 import moment from 'moment';
-import { setNotificationDrawer } from 'src/store/auth/actions';
+import { setNotificationDrawer } from 'src/store/setting/actions';
 
 export default () => {
   const dispatch = useDispatch();
   const {
     notification_list: { data, loading },
   } = useSelector(({ common }) => common);
-  const { notification_drawer } = useSelector(({ auth }) => auth);
+  const { notification_drawer } = useSelector(({ setting }) => setting);
   return (
     <Drawer
       title="Notifications"

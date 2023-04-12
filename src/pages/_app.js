@@ -5,6 +5,7 @@ import { ThemeProvider } from 'next-themes';
 import ReactGA from 'react-ga';
 import TopBarProgress from 'react-topbar-progress-indicator';
 import progressBarConfig from '@/config/progress-bar/index';
+import { ConfigProvider } from 'antd';
 
 import wrapper from 'src/store';
 
@@ -15,17 +16,18 @@ import {
   TYPE_CUSTOMER,
   TYPE_HELPER,
 } from 'src/utils/constants';
+import { getStorageItem } from 'src/utils/common';
 
 import { CustomerLayout, HelperLayout } from '../layouts';
 
-import { setProgress, setType, setData } from 'src/store/auth/actions';
-import { getStorageItem } from 'src/utils/common';
-import { ConfigProvider } from 'antd';
+import { setType, setData } from 'src/store/auth/actions';
+import { setProgress } from 'src/store/setting/actions';
 
 const App = ({ Component, pageProps }) => {
   const router = useRouter();
   const dispatch = useDispatch();
-  const { authenticated, type, progress } = useSelector(({ auth }) => auth);
+  const { authenticated, type } = useSelector(({ auth }) => auth);
+  const { progress } = useSelector(({ setting }) => setting);
 
   Router.events.on('routeChangeStart', () => dispatch(setProgress(true)));
   Router.events.on('routeChangeComplete', () => dispatch(setProgress(false)));

@@ -30,7 +30,11 @@ export default () => {
 
   return (
     <>
-      <Meta title="My Jobs | Zoom Errands" description="Zoom Errands" />
+      <Meta
+        title="My Jobs | Zoom Errands"
+        description="Zoom Errands"
+        label="My Jobs"
+      />
       <Spin spinning={loading}>
         <Row justify="center" gutter={[8, 8]}>
           <Col

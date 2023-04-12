@@ -117,3 +117,16 @@ video {
 .identification-container:hover {
   box-shadow: 0px 0px 9px 0px gray;
 }
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: sticky;
+  top: 0px;
+  z-index: 1;
+  height: 100px;
+  gap: 16px;
+  padding-left: 32px;
+  padding-right: 16px;
+}

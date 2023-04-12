@@ -2,8 +2,10 @@ import { TYPE_CUSTOMER, TYPE_HELPER } from 'src/utils/constants';
 import { SET_DATA } from './actions';
 
 const initialState = {
-  authenticated: false,
-  type: TYPE_CUSTOMER,
+  progress: false,
+  notification_drawer: false,
+  menu_drawer: false,
+  title: '',
 };
 
 export default (state = initialState, action) => {

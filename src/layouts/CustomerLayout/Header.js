@@ -1,6 +1,16 @@
+import { useMemo, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useRouter } from 'next/router';
-import { Layout, Menu, Dropdown, Avatar, Button, Badge } from 'antd';
+import {
+  Layout,
+  Menu,
+  Dropdown,
+  Avatar,
+  Button,
+  Badge,
+  Grid,
+  theme,
+} from 'antd';
 import Link from 'next/link';
 import {
   ShopOutlined,
@@ -9,15 +19,17 @@ import {
   AntDesignOutlined,
   LoginOutlined,
   ProfileOutlined,
-  SettingOutlined,
   UsergroupAddOutlined,
   HomeOutlined,
+  MenuOutlined,
+  SettingOutlined,
 } from '@ant-design/icons';
+import MenuDrawer from './MenuDrawer';
 
 // Actions
 import { logOut } from 'src/store/auth/actions';
+import { setMenuDrawer } from 'src/store/setting/actions';
 import { getNotificationList } from 'src/store/common/actions';
-
 const ITEM_LIST = [
   {
     key: '1',
@@ -32,6 +44,13 @@ const ITEM_LIST = [
     href: '/customer/jobs',
   },
   {
+    key: 'messages',
+    label: 'Messages',
+    icon: <MessageOutlined />,
+    href: '/message',
+    count: 10,
+  },
+  {
     key: '4',
     label: 'Payment Method',
     icon: <ShopOutlined />,
@@ -44,6 +63,12 @@ const ITEM_LIST = [
     href: '/customer/payment_history',
   },
   {
+    key: 'notifications',
+    label: 'Notifications',
+    icon: <BellOutlined />,
+    href: '/notification',
+  },
+  {
     key: '6',
     label: 'Help',
     icon: <ProfileOutlined />,
@@ -53,10 +78,18 @@ const ITEM_LIST = [
   { key: '8', label: 'Refer Friends', icon: <UsergroupAddOutlined /> },
 ];
 
+const { useBreakpoint } = Grid;
+
 export default () => {
   const router = useRouter();
   const dispatch = useDispatch();
+  const screens = useBreakpoint();
+  const { token } = theme.useToken();
+  const isXsSm = useMemo(() => screens.xs || (screens.sm && !screens.md), [
+    screens,
+  ]);
   const { notification_list } = useSelector(({ common }) => common);
+  const { title } = useSelector(({ setting }) => setting);
   const items = [
     {
       key: 'profile',
@@ -64,18 +97,6 @@ export default () => {
       icon: <ProfileOutlined />,
       type: 'link',
       href: '/customer/profile',
-    },
-    {
-      key: '1',
-      label: 'Notifications',
-      icon: <BellOutlined />,
-      href: '/notification',
-    },
-    {
-      key: '2',
-      label: 'Messages',
-      icon: <MessageOutlined />,
-      href: '/message',
     },
     { type: 'divider' },
     {
@@ -89,55 +110,66 @@ export default () => {
   ];
   return (
     <Layout.Header
+      className="header"
       style={{
-        position: 'sticky',
-        top: 0,
-        zIndex: 1,
-        backgroundColor: 'white',
-        height: 100,
-        gap: 16,
-        boxShadow: '0 1px 5px black',
-        paddingLeft: 32,
-        paddingRight: 16,
+        boxShadow: `0 1px 5px ${token.colorPrimary}`,
+        backgroundColor: isXsSm ? token.colorPrimary : 'white',
       }}
-      className="flex justify-between items-center"
     >
-      <Link
-        href="/services"
-        className="text-4xl font-bold"
-        style={{ width: 250 }}
-      >
-        Zoom Errands
-      </Link>
-
-      <Menu
-        mode="horizontal"
-        defaultSelectedKeys={
-          ITEM_LIST.find(({ href }) => router.pathname.indexOf(href) !== -1) &&
-          ITEM_LIST.find(({ href }) => router.pathname.indexOf(href) !== -1).key
-        }
-        className="flex justify-between flex-auto font-bold min-w-0"
-        items={ITEM_LIST}
-        onClick={({ item }) => {
-          item.props.href && router.push(item.props.href);
-        }}
-      />
-      <div className="flex items-center gap-2">
-        <Dropdown
-          menu={{
-            items,
-            onClick: ({ item }) => {
+      {!isXsSm && (
+        <>
+          <Link
+            href="/services"
+            className="text-4xl font-bold"
+            style={{ width: 250 }}
+          >
+            Zoom Errands
+          </Link>
+          <Menu
+            mode="horizontal"
+            defaultSelectedKeys={
+              ITEM_LIST.find(
+                ({ href }) => router.pathname.indexOf(href) !== -1
+              ) &&
+              ITEM_LIST.find(({ href }) => router.pathname.indexOf(href) !== -1)
+                .key
+            }
+            className="flex justify-between flex-auto font-bold min-w-0"
+            items={ITEM_LIST}
+            onClick={({ item }) => {
               item.props.href && router.push(item.props.href);
-            },
-          }}
-        >
-          <div className="flex justify-center items-center cursor-pointer">
-            <Avatar className="mr-4" size={40} icon={<AntDesignOutlined />} />
-            <h2 className="font-bold" style={{ fontSize: 18 }}>
-              WYATT LITTLE
-            </h2>
-          </div>
-        </Dropdown>
+            }}
+          />
+        </>
+      )}
+      {isXsSm && (
+        <>
+          <Button
+            shape="circle"
+            icon={<MenuOutlined />}
+            onClick={() => dispatch(setMenuDrawer(true))}
+          />
+          <h2 className="text-white text-2xl cursor-default">{title}</h2>
+        </>
+      )}
+      <div className="flex items-center gap-2">
+        {!isXsSm && (
+          <Dropdown
+            menu={{
+              items,
+              onClick: ({ item }) => {
+                item.props.href && router.push(item.props.href);
+              },
+            }}
+          >
+            <div className="flex justify-center items-center cursor-pointer">
+              <Avatar className="mr-4" size={40} icon={<AntDesignOutlined />} />
+              <h2 className="font-bold" style={{ fontSize: 18 }}>
+                WYATT LITTLE
+              </h2>
+            </div>
+          </Dropdown>
+        )}
         <Badge count={1} overflowCount={100}>
           <Button
             shape="circle"
@@ -150,10 +182,11 @@ export default () => {
           shape="circle"
           icon={<MessageOutlined />}
           onClick={() => {
-            router.push('/customer/message');
+            router.push('/message');
           }}
         />
       </div>
+      <MenuDrawer items={ITEM_LIST} />
     </Layout.Header>
   );
 };

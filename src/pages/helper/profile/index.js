@@ -38,7 +38,11 @@ export default () => {
 
   return (
     <>
-      <Meta title="Profile | Zoom Errands" description="Zoom Errands" />
+      <Meta
+        title="Profile | Zoom Errands"
+        description="Zoom Errands"
+        label="Profile"
+      />
       <Row align="center" justify="center" gutter={[16, 16]}>
         <Col xs={24} sm={24} md={8}>
           <Card

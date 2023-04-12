@@ -31,8 +31,12 @@ export default () => {
 
   return (
     <>
-      <Meta title="Notification | Zoom Errands" description="Zoom Errands" />
-      <Space wrap>
+      <Meta
+        title="Notification | Zoom Errands"
+        description="Zoom Errands"
+        label="Notifications"
+      />
+      <Space wrap className="w-full flex justify-center">
         {data.map(({ title, status }) => (
           <Card hoverable bodyStyle={{ width: 250 }}>
             <div className="flex justify-between items-center">

@@ -1,11 +1,15 @@
 import { useEffect, useState } from 'react';
+import { useDispatch } from 'react-redux';
 import Head from 'next/head';
+import { setTitle } from 'src/store/setting/actions';
 
-const Meta = ({ author, description, keywords, noIndex, title }) => {
+const Meta = ({ author, description, keywords, noIndex, title, label }) => {
+  const dispatch = useDispatch();
   const [url, setUrl] = useState('');
 
   useEffect(() => {
     setUrl(window.location.origin);
+    dispatch(setTitle(label));
   }, []);
 
   return (

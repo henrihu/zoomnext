@@ -6,7 +6,8 @@ export const COLOR_HELPER = '#F77B25';
 export const CUSTOMER = {
   label: 'Customer',
   value: 'customer',
-  color: '#4591A9',
+  // color: '#4591A9',
+  color: '#4ABDDA',
   backgroundColor: '#C9F2FF',
 };
 

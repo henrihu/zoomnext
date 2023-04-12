@@ -1,23 +1,21 @@
 import { useEffect } from 'react';
-import { useRouter } from 'next/router';
-import { useTheme } from 'next-themes';
 import { useSelector } from 'react-redux';
+import { useRouter } from 'next/router';
 
 import { Layout } from 'antd';
 import Header from './Header';
+import Footer from '../Footer';
 import Notification from '../Notification';
 
 export default ({ children }) => {
   const router = useRouter();
-  const { setTheme } = useTheme();
   const { authenticated } = useSelector(({ auth }) => auth);
 
   useEffect(() => {
-    setTheme('light');
     if (!authenticated) {
       router.push('/auth/login/');
     }
-  }, [setTheme, router]);
+  }, [router]);
 
   return (
     <Layout>
@@ -30,9 +28,7 @@ export default ({ children }) => {
       >
         {children}
       </Layout.Content>
-      <Layout.Footer className="bg-white text-center min-h-64 max-h-64">
-        Zoom Errands ©2023 Created by Zoom Errands
-      </Layout.Footer>
+      <Footer />
       <Notification />
     </Layout>
   );

@@ -8,16 +8,8 @@ export const setData = (data) => (dispatch) => {
   dispatch({ type: SET_DATA, payload: data });
 };
 
-export const setNotificationDrawer = (notification_drawer) => (dispatch) => {
-  dispatch({ type: SET_DATA, payload: { notification_drawer } });
-};
-
 export const setType = (type) => (dispatch) => {
   dispatch({ type: SET_DATA, payload: { type: type ? type : TYPE_CUSTOMER } });
-};
-
-export const setProgress = (progress) => (dispatch) => {
-  dispatch({ type: SET_DATA, payload: { progress } });
 };
 
 export const signInWithEmail = (data, router) => {
