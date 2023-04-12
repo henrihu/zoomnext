@@ -14,6 +14,7 @@ export default ({}) => {
         <Steps
           current={step}
           size="small"
+          responsive={false}
           labelPlacement="vertical"
           onChange={(value) => setStep(value)}
           items={[

@@ -60,6 +60,7 @@ const App = ({ Component, pageProps }) => {
           token: {
             colorPrimary:
               type === TYPE_CUSTOMER ? CUSTOMER.color : HELPER.color,
+            colorLink: type === TYPE_CUSTOMER ? CUSTOMER.color : HELPER.color,
           },
         }}
       >

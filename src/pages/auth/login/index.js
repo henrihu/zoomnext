@@ -8,13 +8,10 @@ import Meta from '@/components/Meta/index';
 import { AuthLayout } from '@/layouts/index';
 import { Button, Radio, Input, Form, Row, Col } from 'antd';
 import { GoogleOutlined, FacebookOutlined } from '@ant-design/icons';
+import ForgotPassword from './ForgotPassword';
+import Verification from './Verification';
 // Constants
-import {
-  COLOR_CUSTOMER,
-  COLOR_HELPER,
-  TYPE_CUSTOMER,
-  TYPE_HELPER,
-} from 'src/utils/constants';
+import { TYPE_CUSTOMER, TYPE_HELPER } from 'src/utils/constants';
 // Actions
 import { setType, signInWithEmail } from 'src/store/auth/actions';
 
@@ -39,6 +36,8 @@ const Login = () => {
   const router = useRouter();
   const { type } = useSelector(({ auth }) => auth);
   const [pending, setPending] = useState(false);
+  const [forgotModal, setForgotModal] = useState({ open: false });
+  const [vertificationModal, setVerificationModal] = useState({ open: false });
 
   const handleSignInWithEmail = async (values) => {
     setPending(true);
@@ -47,7 +46,7 @@ const Login = () => {
   };
 
   return (
-    <AuthLayout color={type === TYPE_CUSTOMER ? COLOR_CUSTOMER : COLOR_HELPER}>
+    <AuthLayout>
       <Meta title="Login | Zoom Errands" description="Zoom Errands Login" />
       <Row
         align="center"
@@ -100,7 +99,11 @@ const Login = () => {
               <Input.Password placeholder="Enter Password" size="large" />
             </Form.Item>
             <div className="flex justify-end mb-2">
-              <Button type="link" size="small">
+              <Button
+                type="link"
+                size="small"
+                onClick={() => setForgotModal({ open: true })}
+              >
                 Forgot Password?
               </Button>
             </div>
@@ -145,6 +148,16 @@ const Login = () => {
           </div>
         </Col>
       </Row>
+      <ForgotPassword
+        {...forgotModal}
+        onOk={() => setForgotModal({ open: false })}
+        onCancel={() => setForgotModal({ open: false })}
+      />
+      <Verification
+        {...vertificationModal}
+        onOk={() => setVerificationModal({ open: false })}
+        onCancel={() => setVerificationModal({ open: false })}
+      />
 
       {/* {socialProviders.length > 0 && (
           <div className="flex flex-col justify-center">

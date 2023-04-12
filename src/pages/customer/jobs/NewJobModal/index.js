@@ -75,11 +75,12 @@ export default ({ data, open, onOk, onCancel }) => {
     <Modal {...modal_props} footer={false}>
       <Divider />
       <Row justify="center">
-        <Col span={16}>
+        <Col xs={24} sm={24} md={16}>
           <Steps
             current={step}
             labelPlacement="vertical"
             items={Object.keys(STEP_ITEMS).map((key) => STEP_ITEMS[key])}
+            responsive={false}
           />
         </Col>
         <Col span={24}>
