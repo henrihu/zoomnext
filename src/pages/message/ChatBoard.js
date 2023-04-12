@@ -7,7 +7,11 @@ export default ({ data, loading }) => (
     <Row>
       <Col
         span={24}
-        style={{ maxHeight: '50vh', overflow: 'auto', padding: 16 }}
+        style={{
+          maxHeight: 'calc(100vh - 105px - 64px - 64px - 50px)',
+          overflow: 'auto',
+          padding: 16,
+        }}
       >
         <Space direction="vertical" className="w-full">
           {data.map((item, index) => (

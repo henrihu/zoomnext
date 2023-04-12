@@ -1,12 +1,7 @@
 import { useState } from 'react';
 import moment from 'moment';
-import { Timeline, Row, Col, Button, Divider, InputNumber, Card } from 'antd';
-import {
-  ClockCircleOutlined,
-  CalendarOutlined,
-  CommentOutlined,
-  PlusOutlined,
-} from '@ant-design/icons';
+import { Timeline, Row, Col, Button } from 'antd';
+import { ClockCircleOutlined, CalendarOutlined } from '@ant-design/icons';
 import ReviewModal from './ReviewModal';
 
 const renderItem = (item) => (
@@ -26,7 +21,6 @@ const renderItem = (item) => (
 );
 
 export default () => {
-  const [tip_amount, setTipAmount] = useState();
   const [modal, setModal] = useState({ open: false });
   return (
     <Row gutter={[16, 16]}>
@@ -56,11 +50,6 @@ export default () => {
         />
       </Col>
       <Col span={24}>
-        <Button shape="round" size="small">
-          Added More Work
-        </Button>
-      </Col>
-      <Col span={24}>
         <Button
           type="primary"
           size="large"
@@ -79,39 +68,6 @@ export default () => {
         onOk={() => setModal({ open: false })}
         onCancel={() => setModal({ open: false })}
       />
-      {/* <Col span={24}>
-        <Card size="small" hoverable>
-          <Row className="w-full">
-            <Col span={12} className="flex items-center">
-              <CommentOutlined
-                style={{ fontSize: 45, marginRight: 16, color: 'gray' }}
-              />
-              <div className="flex flex-col items-center">
-                <div className="mb-2">Hope you have with provider work?</div>
-                <div>You want to give tip to provider?</div>
-              </div>
-            </Col>
-            <Col span={12} className="flex items-center justify-center">
-              <InputNumber
-                value={tip_amount}
-                min={0}
-                maxLength={10}
-                onChange={(value) => setTipAmount(value)}
-                className="mr-4"
-                placeholder="Add Tip Amount"
-                style={{ minWidth: 150 }}
-              />
-              <Button
-                type="primary"
-                shape="round"
-                disabled={!tip_amount || tip_amount <= 0}
-              >
-                Give Tip
-              </Button>
-            </Col>
-          </Row>
-        </Card>
-      </Col> */}
     </Row>
   );
 };

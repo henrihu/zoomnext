@@ -9,9 +9,11 @@ import { ArrowLeftOutlined } from '@ant-design/icons';
 import DetailCard from './DetailCard';
 import BidList from './BidList';
 import StatusList from './StatusList';
+import MoreWork from './MoreWork';
 
 // Actions
 import { getJobDetail } from 'src/store/c_jobs/actions';
+import { JOB_STATUS_ASSIGNED, JOB_STATUS_PENDING } from 'src/utils/constants';
 
 export default () => {
   const dispatch = useDispatch();
@@ -29,7 +31,11 @@ export default () => {
 
   return (
     <>
-      <Meta title="Job Detail | Zoom Errands" description="Zoom Errands" />
+      <Meta
+        title="Job Detail | Zoom Errands"
+        description="Zoom Errands"
+        label="My Job Details"
+      />
       <Row gutter={[16, 16]}>
         <Col span={24}>
           <Button
@@ -40,11 +46,12 @@ export default () => {
             Back to List
           </Button>
         </Col>
-        <Col sm={24} md={8}>
+        <Col sm={24} md={8} className="flex flex-col gap-2">
           <DetailCard data={data} loading={loading} />
+          {data.status === JOB_STATUS_ASSIGNED && <MoreWork />}
         </Col>
         <Col sm={24} md={16}>
-          {data.status == 'pending' ? <BidList /> : <StatusList />}
+          {data.status == JOB_STATUS_PENDING ? <BidList /> : <StatusList />}
         </Col>
       </Row>
     </>

@@ -1,5 +1,6 @@
 import API from 'src/api/jobs';
 import moment from 'moment';
+import { JOB_STATUS_ASSIGNED } from 'src/utils/constants';
 
 export const SET_DATA = '[CUSTOMER JOBS] SET DATA]';
 export const SET_LOADING = '[CUSTOMER JOBS] SET LOADING';
@@ -98,7 +99,7 @@ export const getJobDetail = (params) => {
       // await API.getJobDetail(params);
       const data = {
         title: 'Cleaning',
-        status: 'pending',
+        status: JOB_STATUS_ASSIGNED,
         date: moment(),
         location: '#12, Ahmedabad, GJ, Ahmedabad, India, 380006',
         price: 200,

@@ -1,9 +1,6 @@
-import { useState } from 'react';
 import moment from 'moment';
-import { useRouter } from 'next/router';
 
 // Components
-import Image from 'next/image';
 import { Card, Divider, Row, Col, Tag, Button, Space } from 'antd';
 import { DoubleRightOutlined, CloseOutlined } from '@ant-design/icons';
 
@@ -17,23 +14,14 @@ import {
 import { formatNumber } from 'src/utils/common';
 
 export default ({ data, type, onDetail, onCancel }) => {
-  const router = useRouter();
   return (
-    <Card
-      bodyStyle={{
-        padding: 0,
-        borderRadius: 8,
-        borderLeft: `6px solid ${
-          JOB_STATUS[data.status] && JOB_STATUS[data.status].color
-        }`,
-      }}
-    >
+    <Card bodyStyle={{ padding: 0, borderRadius: 8 }} hoverable>
       <Row>
         <Col
           xs={24}
           sm={24}
           md={3}
-          className="flex flex-col justify-center items-center md:border-r-2 md:border-r-gray gap-1 px-3 py-1"
+          className="flex flex-col justify-center items-center md:border-r-2 md:border-r-gray gap-1 px-4 py-2"
         >
           <div className="flex flex-col justify-center items-center">
             <div className="font-bold mb-1 text-3xl">

@@ -57,7 +57,7 @@ export default ({ open, onOk, onCancel }) => {
               </Tag>
             </Col>
             <Col span={24} className="flex flex-col items-center">
-              <Rate />
+              <Rate defaultValue={1} />
               <span className="text-gray">Your Ratings</span>
             </Col>
           </Row>

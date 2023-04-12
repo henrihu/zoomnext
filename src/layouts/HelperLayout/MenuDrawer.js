@@ -1,7 +1,17 @@
 import { useSelector, useDispatch } from 'react-redux';
 import { useRouter } from 'next/router';
 import Image from 'next/image';
-import { Drawer, Menu, Row, Col, Button, Avatar, Space, theme } from 'antd';
+import {
+  Drawer,
+  Menu,
+  Row,
+  Col,
+  Button,
+  Avatar,
+  Space,
+  theme,
+  Badge,
+} from 'antd';
 import { ArrowsAltOutlined } from '@ant-design/icons';
 import { DATE_FORMAT } from 'src/utils/constants';
 import moment from 'moment';
@@ -43,13 +53,25 @@ export default ({ items, setTitle }) => {
               items.find(({ href }) => router.pathname.indexOf(href) !== -1) &&
               items.find(({ href }) => router.pathname.indexOf(href) !== -1).key
             }
-            inlineIndent={0}
-            items={items}
-            onClick={({ item }) => {
-              item.props.href && router.push(item.props.href);
-              dispatch(setMenuDrawer(false));
-            }}
-          />
+          >
+            {items.map(({ label, icon, href, count }, index) => (
+              <Menu.Item
+                key={index}
+                icon={icon}
+                onClick={() => {
+                  router.push(href);
+                  dispatch(setMenuDrawer(false));
+                }}
+              >
+                {label}
+                <Badge
+                  count={count}
+                  overflowCount={100}
+                  className="ml-2 mb-1"
+                />
+              </Menu.Item>
+            ))}
+          </Menu>
         </Col>
         <Col span={24}>
           <Button type="link">

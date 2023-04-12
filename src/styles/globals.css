@@ -130,3 +130,18 @@ video {
   padding-left: 32px;
   padding-right: 16px;
 }
+
+.user-list .user-item {
+  border-radius: 4px;
+  margin-bottom: 4px;
+  padding: 4px;
+  cursor: pointer;
+}
+.user-list .user-item-selected {
+  background-color: aliceblue;
+  box-shadow: lightgray 0px 1px 5px;
+}
+
+.user-list .user-item:hover {
+  background-color: aliceblue;
+}

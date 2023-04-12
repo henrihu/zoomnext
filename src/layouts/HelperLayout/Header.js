@@ -28,7 +28,7 @@ import MenuDrawer from './MenuDrawer';
 
 // Actions
 import { logOut } from 'src/store/auth/actions';
-import { setMenuDrawer, setTitle } from 'src/store/setting/actions';
+import { setMenuDrawer } from 'src/store/setting/actions';
 import { getNotificationList } from 'src/store/common/actions';
 
 const ITEM_LIST = [
@@ -55,6 +55,7 @@ const ITEM_LIST = [
     label: 'Messages',
     icon: <MessageOutlined />,
     href: '/message',
+    count: 5,
   },
   {
     key: 'reviews',
@@ -161,12 +162,19 @@ export default () => {
               ITEM_LIST.find(({ href }) => router.pathname.indexOf(href) !== -1)
                 .key
             }
+            inlineIndent={0}
             className="flex justify-between flex-auto font-bold min-w-0"
-            items={ITEM_LIST}
-            onClick={({ item }) => {
-              item.props.href && router.push(item.props.href);
-            }}
-          />
+          >
+            {ITEM_LIST.map(({ label, icon, href, count, key }) => (
+              <Menu.Item key={key} onClick={() => router.push(href)}>
+                <div className="flex items-center">
+                  {icon}
+                  <span className="ml-1">{label}</span>
+                  <Badge count={count} overflowCount={100} className="ml-2" />
+                </div>
+              </Menu.Item>
+            ))}
+          </Menu>
         </>
       )}
       {isXsSm && (
@@ -190,7 +198,7 @@ export default () => {
             }}
           >
             <div className="flex justify-center items-center cursor-pointer">
-              <Avatar className="mr-4" size={40} icon={<AntDesignOutlined />} />
+              <Avatar className="mr-2" size={40} src="/images/service.png" />
               <h2 className="font-bold" style={{ fontSize: 18 }}>
                 WYATT LITTLE
               </h2>
@@ -213,10 +221,7 @@ export default () => {
           }}
         />
       </div>
-      <MenuDrawer
-        items={ITEM_LIST}
-        setTitle={(value) => dispatch(setTitle(value))}
-      />
+      {isXsSm && <MenuDrawer items={ITEM_LIST} />}
     </Layout.Header>
   );
 };

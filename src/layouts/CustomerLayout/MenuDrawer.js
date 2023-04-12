@@ -62,10 +62,13 @@ export default ({ items }) => {
                   router.push(href);
                   dispatch(setMenuDrawer(false));
                 }}
-                className="flex items-center"
               >
                 {label}
-                <Badge count={count} overflowCount={100} className="ml-2" />
+                <Badge
+                  count={count}
+                  overflowCount={100}
+                  className="ml-2 mb-1"
+                />
               </Menu.Item>
             ))}
           </Menu>
