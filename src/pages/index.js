@@ -1,6 +1,6 @@
 import { useSelector } from 'react-redux';
 import Meta from '@/components/Meta/index';
-import { LandingLayout, GuestLayout } from '@/layouts/index';
+import { GuestLayout } from '@/layouts/index';
 import {
   CallToAction,
   Features,

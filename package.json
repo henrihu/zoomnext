@@ -1,6 +1,6 @@
 {
-  "name": "nextacular",
-  "version": "1.4.0-Beta",
+  "name": "zoomerrands",
+  "version": "1.0",
   "private": true,
   "scripts": {
     "dev": "next dev -p 8000",

@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import Router, { useRouter } from 'next/router';
-import { ThemeProvider } from 'next-themes';
 import ReactGA from 'react-ga';
 import TopBarProgress from 'react-topbar-progress-indicator';
 import progressBarConfig from '@/config/progress-bar/index';
@@ -54,30 +53,27 @@ const App = ({ Component, pageProps }) => {
   }, [router.events]);
 
   return (
-    <ThemeProvider attribute="class">
-      <ConfigProvider
-        theme={{
-          token: {
-            colorPrimary:
-              type === TYPE_CUSTOMER ? CUSTOMER.color : HELPER.color,
-            colorLink: type === TYPE_CUSTOMER ? CUSTOMER.color : HELPER.color,
-          },
-        }}
-      >
-        {progress && <TopBarProgress />}
-        {authenticated && type === TYPE_CUSTOMER && (
-          <CustomerLayout>
-            <Component {...pageProps} />
-          </CustomerLayout>
-        )}
-        {authenticated && type === TYPE_HELPER && (
-          <HelperLayout>
-            <Component {...pageProps} />
-          </HelperLayout>
-        )}
-        {!authenticated && <Component {...pageProps} />}
-      </ConfigProvider>
-    </ThemeProvider>
+    <ConfigProvider
+      theme={{
+        token: {
+          colorPrimary: type === TYPE_CUSTOMER ? CUSTOMER.color : HELPER.color,
+          colorLink: type === TYPE_CUSTOMER ? CUSTOMER.color : HELPER.color,
+        },
+      }}
+    >
+      {progress && <TopBarProgress />}
+      {authenticated && type === TYPE_CUSTOMER && (
+        <CustomerLayout>
+          <Component {...pageProps} />
+        </CustomerLayout>
+      )}
+      {authenticated && type === TYPE_HELPER && (
+        <HelperLayout>
+          <Component {...pageProps} />
+        </HelperLayout>
+      )}
+      {!authenticated && <Component {...pageProps} />}
+    </ConfigProvider>
   );
 };
 
