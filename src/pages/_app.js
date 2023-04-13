@@ -21,6 +21,7 @@ import { CustomerLayout, HelperLayout } from '../layouts';
 
 import { setType, setData } from 'src/store/auth/actions';
 import { setProgress } from 'src/store/setting/actions';
+import { setAuthorization } from '@/api/base';
 
 const App = ({ Component, pageProps }) => {
   const router = useRouter();
@@ -38,6 +39,9 @@ const App = ({ Component, pageProps }) => {
     }
     dispatch(setType(getStorageItem('user_type')));
     dispatch(setData({ authenticated: getStorageItem('authenticated') }));
+    if (getStorageItem('access_token')) {
+      setAuthorization(getStorageItem('access_token'));
+    }
   }, []);
 
   useEffect(() => {

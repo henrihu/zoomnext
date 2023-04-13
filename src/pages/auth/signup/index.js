@@ -54,10 +54,10 @@ export default () => {
             value={type}
             onChange={(e) => dispatch(setType(e.target.value))}
           >
-            <Radio.Button value={TYPE_CUSTOMER} key="customer">
+            <Radio.Button value={TYPE_CUSTOMER} key={TYPE_CUSTOMER}>
               As Customer
             </Radio.Button>
-            <Radio.Button value={TYPE_HELPER} key="helper">
+            <Radio.Button value={TYPE_HELPER} key={TYPE_HELPER}>
               As Helper
             </Radio.Button>
           </Radio.Group>

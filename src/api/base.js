@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const instance = axios.create({
-  baseURL: 'http://35.154.51.102/zoom-errands-test/public/api/v1/',
+  baseURL: 'http://10.97.5.49:8000/api/v1/',
   headers: {
     'Content-Type': 'application/json',
   },
@@ -15,7 +15,7 @@ export const deleteHeader = (key) => {
 };
 
 export const setAuthorization = (token) => {
-  instance.setAuthorization('Bearer ' + token);
+  instance.defaults.headers.common['Authorization'] = 'Bearer ' + token;
 };
 
 export default instance;

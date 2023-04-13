@@ -13,7 +13,7 @@ export const getMyJobList = () => {
       dispatch(setLoading(key, true));
       const filter = getState().c_jobs.job_list_filter;
       console.log('Job Filter', filter);
-      // await API.getMyJobList(filter);
+      await API.getMyJobList(filter);
       const total_data = [
         {
           title: 'Cleaning',

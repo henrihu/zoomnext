@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from 'react-redux';
 
 // Components
 import Meta from '@/components/Meta/index';
-import { Input, Space, Row, Col, Spin } from 'antd';
+import { Input, Space, Row, Col, Spin, Empty } from 'antd';
 import { SearchOutlined } from '@ant-design/icons';
 import ServiceCard from './Card';
 
@@ -15,7 +15,10 @@ export default () => {
   const { data, loading } = useSelector(({ common }) => common.service_list);
   const [search, setSearch] = useState('');
 
-  const filtered_data = useMemo(() => data.filter((item) => true), [data]);
+  const filtered_data = useMemo(
+    () => data.filter((item) => item.name.indexOf(search) !== -1),
+    [data, search]
+  );
 
   useEffect(() => {
     dispatch(getServiceList());
@@ -40,18 +43,20 @@ export default () => {
             />
           </Col>
           <Col span={24}>
-            <Space
-              wrap
-              size="large"
-              align="center"
-              className="flex justify-center items-center"
-            >
-              {filtered_data &&
-                filtered_data.length > 0 &&
-                filtered_data.map((item, ind) => (
+            {filtered_data && filtered_data.length > 0 ? (
+              <Space
+                wrap
+                size="large"
+                align="center"
+                className="flex justify-center items-center"
+              >
+                {filtered_data.map((item, ind) => (
                   <ServiceCard data={item} key={ind} />
                 ))}
-            </Space>
+              </Space>
+            ) : (
+              <Empty />
+            )}
           </Col>
         </Row>
       </Spin>

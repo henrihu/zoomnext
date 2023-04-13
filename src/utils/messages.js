@@ -1,9 +1,9 @@
-import toast from 'react-hot-toast';
+import { notification } from 'antd';
 
 export const showSuccess = (msg) => {
-  toast.success(msg);
+  notification.success(msg);
 };
 
 export const showError = (msg) => {
-  toast.error(msg);
+  notification.error(msg);
 };

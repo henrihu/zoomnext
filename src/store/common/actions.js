@@ -1,32 +1,24 @@
 import API from 'src/api/common';
 import moment from 'moment';
 import { setNotificationDrawer } from 'src/store/setting/actions';
+import { showError } from 'src/utils/messages';
 
 export const SET_DATA = '[COMMON] SET DATA]';
 export const SET_LOADING = '[COMMON] SET LOADING';
 export const SET_PENDING = '[COMMON] SET PENDING';
 
-export const getServiceList = (data) => {
+export const getServiceList = () => {
   return async (dispatch) => {
     const key = 'service_list';
-    try {
-      dispatch(setLoading(key, true));
-      // await API.getServiceList(data);
-      const data = [
-        { id: 1, label: 'Cleaning' },
-        { id: 2, label: 'Plumber' },
-        { id: 3, label: 'Mechanic' },
-        { id: 4, label: 'Plumber' },
-        { id: 5, label: 'Mechanic' },
-        { id: 6, label: 'Cleaning' },
-        { id: 7, label: 'Plumber' },
-        { id: 8, label: 'Mechanic' },
-        { id: 9, label: 'Plumber' },
-      ];
-      dispatch(setData(key, data));
-    } catch (err) {
-      console.error(err);
+    dispatch(setLoading(key, true));
+    const {
+      data: { message, status, result },
+    } = await API.getServiceList();
+    if (status !== 1) {
+      showError(message);
+      return;
     }
+    dispatch(setData(key, result.serviceList));
     dispatch(setLoading(key, false));
   };
 };

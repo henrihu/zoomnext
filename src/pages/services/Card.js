@@ -1,7 +1,9 @@
 import { Card } from 'antd';
 import Image from 'next/image';
+import { theme } from 'antd';
 
 export default ({ data }) => {
+  const { token } = theme.useToken();
   return (
     <Card
       hoverable
@@ -11,12 +13,24 @@ export default ({ data }) => {
         height: 150,
       }}
     >
-      <Image src="/images/service.png" fill className="rounded-lg" alt="job" />
+      <Image
+        src={`/images/category_image/${data.image}`}
+        fill
+        className="rounded-lg"
+        alt="job"
+        style={{ border: `2px solid ${token.colorPrimary}` }}
+      />
       <h3
         className="font-bold text-white text-center"
-        style={{ position: 'absolute', bottom: 8, width: '100%' }}
+        style={{
+          position: 'absolute',
+          bottom: 8,
+          width: '100%',
+          backgroundColor: token.colorPrimary,
+          alpha: 0.5,
+        }}
       >
-        {data.label}
+        {data.name}
       </h3>
     </Card>
   );

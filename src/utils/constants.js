@@ -1,18 +1,18 @@
 export const TYPE_CUSTOMER = 'customer';
-export const TYPE_HELPER = 'helper';
+export const TYPE_HELPER = 'provider';
 export const COLOR_CUSTOMER = '#4EBDD9';
 export const COLOR_HELPER = '#F77B25';
 
 export const CUSTOMER = {
   label: 'Customer',
-  value: 'customer',
+  value: TYPE_CUSTOMER,
   color: '#4ABDDA',
   backgroundColor: '#C9F2FF',
 };
 
 export const HELPER = {
   label: 'Helper',
-  value: 'helper',
+  value: TYPE_HELPER,
   color: '#F77B25',
   backgroundColor: '#C9F2FF',
 };

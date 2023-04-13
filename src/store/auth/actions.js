@@ -1,6 +1,8 @@
+import { setAuthorization } from '@/api/base';
 import API from 'src/api/auth';
 import { removeStorageItem, setStorageItem } from 'src/utils/common';
 import { TYPE_CUSTOMER } from 'src/utils/constants';
+import { showError, showSuccess } from 'src/utils/messages';
 
 export const SET_DATA = '[AUTH] SET DATA';
 
@@ -12,17 +14,28 @@ export const setType = (type) => (dispatch) => {
   dispatch({ type: SET_DATA, payload: { type: type ? type : TYPE_CUSTOMER } });
 };
 
-export const signInWithEmail = (data, router) => {
+export const signInWithEmail = (signData, router) => {
   return async (dispatch) => {
     try {
-      // await API.signInWithEmail(data);
-      await router.push('/services');
-      dispatch({
-        type: SET_DATA,
-        payload: { authenticated: true, type: data.type },
+      const { data } = await API.signInWithEmail({
+        ...signData,
+        platform: 'web',
       });
-      setStorageItem('user_type', data.type);
-      setStorageItem('authenticated', true);
+      if (data.status === 1) {
+        await router.push('/services');
+        dispatch({
+          type: SET_DATA,
+          payload: { authenticated: true, type: signData.type, ...data.result },
+        });
+        showSuccess(data.message);
+        setStorageItem('user_type', signData.type);
+        setStorageItem('authenticated', true);
+        setStorageItem('access_token', data.result.accessToken);
+        setAuthorization(data.result.accessToken);
+      } else {
+        console.error(data.message);
+        showError(data.message);
+      }
     } catch (err) {
       console.error(err);
     }
