@@ -17,13 +17,13 @@ import {
 } from 'src/utils/constants';
 import { getStorageItem } from 'src/utils/common';
 
-import { CustomerLayout, HelperLayout } from '../layouts';
+import { CustomerLayout, HelperLayout, Authorization } from '../layouts';
 
 import { setType, setData } from 'src/store/auth/actions';
 import { setProgress } from 'src/store/setting/actions';
 import { setAuthorization } from '@/api/base';
 
-const App = ({ Component, pageProps }) => {
+export default wrapper.withRedux(({ Component, pageProps }) => {
   const router = useRouter();
   const dispatch = useDispatch();
   const { authenticated, type } = useSelector(({ auth }) => auth);
@@ -65,20 +65,20 @@ const App = ({ Component, pageProps }) => {
         },
       }}
     >
-      {progress && <TopBarProgress />}
-      {authenticated && type === TYPE_CUSTOMER && (
-        <CustomerLayout>
-          <Component {...pageProps} />
-        </CustomerLayout>
-      )}
-      {authenticated && type === TYPE_HELPER && (
-        <HelperLayout>
-          <Component {...pageProps} />
-        </HelperLayout>
-      )}
-      {!authenticated && <Component {...pageProps} />}
+      <Authorization>
+        {progress && <TopBarProgress />}
+        {authenticated && type === TYPE_CUSTOMER && (
+          <CustomerLayout>
+            <Component {...pageProps} />
+          </CustomerLayout>
+        )}
+        {authenticated && type === TYPE_HELPER && (
+          <HelperLayout>
+            <Component {...pageProps} />
+          </HelperLayout>
+        )}
+        {!authenticated && <Component {...pageProps} />}
+      </Authorization>
     </ConfigProvider>
   );
-};
-
-export default wrapper.withRedux(App);
+});

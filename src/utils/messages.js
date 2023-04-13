@@ -1,9 +1,9 @@
-import { notification } from 'antd';
+import { message } from 'antd';
 
 export const showSuccess = (msg) => {
-  notification.success(msg);
+  message.success(msg);
 };
 
 export const showError = (msg) => {
-  notification.error(msg);
+  message.error(msg);
 };
