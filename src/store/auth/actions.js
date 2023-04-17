@@ -53,23 +53,29 @@ export const signInWithEmail = (signData, router) => {
   };
 };
 
-export const signInWithToken = () => {
+export const signInWithToken = (router) => {
   return async (dispatch) => {
-    await setAuthorization(getStorageItem('access_token'));
-    const {
-      data: { status, result, message },
-    } = await API.getUserDetail();
-    if (status === 1) {
-      dispatch({
-        type: SET_DATA,
-        payload: {
-          authenticated: true,
-          type: getStorageItem('user_type'),
-          ...result,
-        },
-      });
-    } else {
-      showError(data.message);
+    try {
+      await setAuthorization(getStorageItem('access_token'));
+      const {
+        data: { status, result, message },
+      } = await API.getUserDetail();
+      if (status === 1) {
+        dispatch({
+          type: SET_DATA,
+          payload: {
+            authenticated: true,
+            type: getStorageItem('user_type'),
+            ...result,
+          },
+        });
+      } else {
+        showError(data.message);
+        removeStorageItem('user_type');
+        removeStorageItem('acces_token');
+        router.push('/auth/login');
+      }
+    } catch (err) {
       removeStorageItem('user_type');
       removeStorageItem('acces_token');
       router.push('/auth/login');

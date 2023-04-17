@@ -18,7 +18,7 @@ export default ({ data }) => {
         fill
         className="rounded-lg"
         alt="job"
-        style={{ border: `2px solid ${token.colorPrimary}` }}
+        // style={{ border: `2px solid ${token.colorPrimary}` }}
       />
       <h3
         className="font-bold text-white text-center"
@@ -26,7 +26,7 @@ export default ({ data }) => {
           position: 'absolute',
           bottom: 8,
           width: '100%',
-          backgroundColor: token.colorPrimary,
+          // backgroundColor: token.colorPrimary,
           alpha: 0.5,
         }}
       >

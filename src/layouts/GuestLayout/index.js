@@ -1,7 +1,5 @@
 import { useEffect } from 'react';
 import { useRouter } from 'next/router';
-import { useTheme } from 'next-themes';
-import { useSelector } from 'react-redux';
 
 import Meta from '@/components/Meta/index';
 import { Layout } from 'antd';
@@ -14,11 +12,8 @@ export default ({
   description = 'Zoom Errands',
 }) => {
   const router = useRouter();
-  const { setTheme } = useTheme();
 
-  useEffect(() => {
-    setTheme('light');
-  }, [setTheme, router]);
+  useEffect(() => {}, [router]);
 
   return (
     <Layout>
