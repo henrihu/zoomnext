@@ -3,9 +3,11 @@ import base from './base';
 
 export const getServiceList = () =>
   base({ url: '/getServiceList/', method: 'POST' });
-
 export const getNotificationList = () =>
   base({ url: '/getNotificationlist/', method: 'POST' });
+export const getFaqList = () => base({ url: '/getFAQs/', method: 'POST' });
+export const contactUs = (data) =>
+  base({ url: '/contactUs/', method: 'POST', data });
 
 // Profile
 export const updateProfile = (data) =>
@@ -16,6 +18,9 @@ export const uploadProfileImage = () =>
 export default {
   getServiceList,
   getNotificationList,
+  getFaqList,
+  contactUs,
+
   updateProfile,
   uploadProfileImage,
 };

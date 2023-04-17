@@ -1,15 +1,6 @@
-import { useState, useMemo } from 'react';
-import { Modal, Input, Divider, Space, Form } from 'antd';
-import { StarFilled } from '@ant-design/icons';
+import { Modal, Input, Divider, Form } from 'antd';
 
-const helper = {
-  avatar: '/images/service.png',
-  name: 'Robert Range',
-  rating: 4.8,
-  job_count: 9,
-};
-
-export default ({ open, onOk, onCancel }) => {
+export default ({ open, onOk, onCancel, pending }) => {
   const [form] = Form.useForm();
   const modal_props = {
     title: 'Contact Us',
@@ -21,12 +12,15 @@ export default ({ open, onOk, onCancel }) => {
     onOk: () => {
       form
         .validateFields()
-        .then((v) => {
-          onCancel();
-          form.resetFields();
+        .then(async (values) => {
+          const isSuccess = await onOk(values);
+          if (isSuccess) {
+            onCancel();
+            form.resetFields();
+          }
         })
         .catch((info) => {
-          console.log('Validate Failed:', info);
+          console.error('Validate Failed:', info);
         });
     },
     onCancel: () => {
@@ -40,7 +34,7 @@ export default ({ open, onOk, onCancel }) => {
       <Form name="contactUs" layout="vertical" requiredMark={false} form={form}>
         <Form.Item
           label="Full Name"
-          name="name"
+          name="accountName"
           rules={[{ required: true, message: 'Please input name!' }]}
         >
           <Input autoFocus />

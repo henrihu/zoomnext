@@ -3,22 +3,40 @@ import { useSelector, useDispatch } from 'react-redux';
 
 // Components
 import Meta from '@/components/Meta/index';
-import { Input, Collapse, Row, Col, Spin, Space, Divider, Button } from 'antd';
+import {
+  Input,
+  Collapse,
+  Row,
+  Col,
+  Spin,
+  Space,
+  Divider,
+  Button,
+  Empty,
+} from 'antd';
 import { SearchOutlined } from '@ant-design/icons';
 // Actions
-import { getHelpList } from 'src/store/common/actions';
+import { getFaqList, contactUs } from 'src/store/common/actions';
 import ContactUsModal from './ContactUsModal';
 
 export default () => {
   const dispatch = useDispatch();
-  const { data, loading } = useSelector(({ common }) => common.help_list);
+  const { data, loading, pending } = useSelector(
+    ({ common }) => common.faq_list
+  );
   const [search, setSearch] = useState('');
   const [modal, setModal] = useState({ open: false });
 
-  const filtered_data = useMemo(() => data.filter((item) => true), [data]);
+  const filtered_data = useMemo(
+    () =>
+      data.filter((obj) =>
+        JSON.stringify(obj).toLowerCase().includes(search.toLowerCase())
+      ),
+    [data, search]
+  );
 
   useEffect(() => {
-    dispatch(getHelpList());
+    dispatch(getFaqList());
   }, []);
 
   return (
@@ -40,21 +58,17 @@ export default () => {
             />
           </Col>
           <Col xs={24} sm={24} md={16}>
-            <Collapse
-              defaultActiveKey={[
-                filtered_data &&
-                  filtered_data.length > 0 &&
-                  filtered_data[0].id,
-              ]}
-            >
-              {filtered_data &&
-                filtered_data.length > 0 &&
-                filtered_data.map(({ question, answer, id }) => (
+            {filtered_data && filtered_data.length > 0 ? (
+              <Collapse defaultActiveKey={[filtered_data[0].id]}>
+                {filtered_data.map(({ question, answer, id }) => (
                   <Collapse.Panel header={question} key={id}>
                     <p>{answer}</p>
                   </Collapse.Panel>
                 ))}
-            </Collapse>
+              </Collapse>
+            ) : (
+              <Empty />
+            )}
           </Col>
           <Col xs={24} sm={24} md={16}>
             <Divider>
@@ -69,8 +83,9 @@ export default () => {
         </Row>
         <ContactUsModal
           {...modal}
-          onOk={() => setModal({ open: false })}
+          onOk={(contactInfo) => dispatch(contactUs(contactInfo))}
           onCancel={() => setModal({ open: false })}
+          pending={pending && pending.contactUs}
         />
       </Spin>
     </>

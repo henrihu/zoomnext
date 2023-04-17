@@ -23,49 +23,35 @@ export const getServiceList = () => {
   };
 };
 
-export const getHelpList = (data) => {
+export const getFaqList = () => {
   return async (dispatch) => {
-    const key = 'help_list';
-    try {
-      dispatch(setLoading(key, true));
-      // await API.getServiceList(data);
-      const data = [
-        {
-          id: '1',
-          question: 'How does Zoom Errands work?',
-          answer:
-            ' An open-source starter kit that will help you build full-stack multi-tenant SaaS platforms efficiently and help you focus on developing your core SaaS features. Built on top of popular and modern technologies such as Next JS, Tailwind, Prisma, and Stripe',
-        },
-        {
-          id: '2',
-          question: 'How does Zoom Errands work?',
-          answer:
-            ' An open-source starter kit that will help you build full-stack multi-tenant SaaS platforms efficiently and help you focus on developing your core SaaS features. Built on top of popular and modern technologies such as Next JS, Tailwind, Prisma, and Stripe',
-        },
-        {
-          id: '3',
-          question: 'How does Zoom Errands work?',
-          answer:
-            ' An open-source starter kit that will help you build full-stack multi-tenant SaaS platforms efficiently and help you focus on developing your core SaaS features. Built on top of popular and modern technologies such as Next JS, Tailwind, Prisma, and Stripe',
-        },
-        {
-          id: '4',
-          question: 'How does Zoom Errands work?',
-          answer:
-            ' An open-source starter kit that will help you build full-stack multi-tenant SaaS platforms efficiently and help you focus on developing your core SaaS features. Built on top of popular and modern technologies such as Next JS, Tailwind, Prisma, and Stripe',
-        },
-        {
-          id: '5',
-          question: 'How does Zoom Errands work?',
-          answer:
-            ' An open-source starter kit that will help you build full-stack multi-tenant SaaS platforms efficiently and help you focus on developing your core SaaS features. Built on top of popular and modern technologies such as Next JS, Tailwind, Prisma, and Stripe',
-        },
-      ];
-      dispatch(setData(key, data));
-    } catch (err) {
-      console.error(err);
-    }
+    const key = 'faq_list';
+    dispatch(setLoading(key, true));
+    const {
+      data: { message, status, result },
+    } = await API.getFaqList();
     dispatch(setLoading(key, false));
+    if (status !== 1) {
+      showError(message);
+      return;
+    }
+    dispatch(setData(key, result.faqs));
+  };
+};
+
+export const contactUs = (data) => {
+  return async (dispatch) => {
+    const key = 'contactUs';
+    dispatch(setPending(key, true));
+    const {
+      data: { message, status, result },
+    } = await API.contactUs(data);
+    dispatch(setPending(key, false));
+    if (status !== 1) {
+      showError(message);
+      return false;
+    }
+    return true;
   };
 };
 
