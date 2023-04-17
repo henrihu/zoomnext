@@ -10,13 +10,16 @@ import ServiceCard from './Card';
 // Actions
 import { getServiceList } from 'src/store/common/actions';
 
+// Utils
+import { findStrInObj } from 'src/utils/common';
+
 export default () => {
   const dispatch = useDispatch();
   const { data, loading } = useSelector(({ common }) => common.service_list);
   const [search, setSearch] = useState('');
 
   const filtered_data = useMemo(
-    () => data.filter((item) => item.name.indexOf(search) !== -1),
+    () => data.filter((item) => findStrInObj(item, search)),
     [data, search]
   );
 

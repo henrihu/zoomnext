@@ -20,3 +20,6 @@ export const formatDate = (
 ) => {
   return new Intl.DateTimeFormat('en', option).format(date);
 };
+
+export const findStrInObj = (obj, str) =>
+  JSON.stringify(obj).toLowerCase().includes(str.toLowerCase());

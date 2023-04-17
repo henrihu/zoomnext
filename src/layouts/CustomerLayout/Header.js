@@ -27,56 +27,9 @@ import {
 import MenuDrawer from './MenuDrawer';
 
 // Actions
-import { logOut } from 'src/store/auth/actions';
+import { logOut, useAuth } from 'src/store/auth/actions';
 import { setMenuDrawer } from 'src/store/setting/actions';
 import { getNotificationList } from 'src/store/common/actions';
-const ITEM_LIST = [
-  {
-    key: '1',
-    label: 'Home',
-    icon: <HomeOutlined />,
-    href: '/services',
-  },
-  {
-    key: '2',
-    label: 'My Jobs',
-    icon: <ShopOutlined />,
-    href: '/customer/jobs',
-  },
-  {
-    key: 'messages',
-    label: 'Messages',
-    icon: <MessageOutlined />,
-    href: '/message',
-    count: 10,
-  },
-  {
-    key: '4',
-    label: 'Payment Method',
-    icon: <ShopOutlined />,
-    href: '/payment_method',
-  },
-  {
-    key: '5',
-    label: 'Payment History',
-    icon: <ShopOutlined />,
-    href: '/customer/payment_history',
-  },
-  {
-    key: 'notifications',
-    label: 'Notifications',
-    icon: <BellOutlined />,
-    href: '/notification',
-  },
-  {
-    key: '6',
-    label: 'Help',
-    icon: <ProfileOutlined />,
-    href: '/help',
-  },
-  { key: '7', label: "FAQ's", icon: <SettingOutlined /> },
-  { key: '8', label: 'Refer Friends', icon: <UsergroupAddOutlined /> },
-];
 
 const { useBreakpoint } = Grid;
 
@@ -90,6 +43,52 @@ export default () => {
   ]);
   const { notification_list } = useSelector(({ common }) => common);
   const { title } = useSelector(({ setting }) => setting);
+  const { userDetail, notificationCount, messageCount } = useAuth();
+  const ITEM_LIST = useMemo(
+    () => [
+      { key: '1', label: 'Home', icon: <HomeOutlined />, href: '/services' },
+      {
+        key: '2',
+        label: 'My Jobs',
+        icon: <ShopOutlined />,
+        href: '/customer/jobs',
+      },
+      {
+        key: 'messages',
+        label: 'Messages',
+        icon: <MessageOutlined />,
+        href: '/message',
+        count: messageCount,
+      },
+      {
+        key: '4',
+        label: 'Payment Method',
+        icon: <ShopOutlined />,
+        href: '/payment_method',
+      },
+      {
+        key: '5',
+        label: 'Payment History',
+        icon: <ShopOutlined />,
+        href: '/customer/payment_history',
+      },
+      {
+        key: 'notifications',
+        label: 'Notifications',
+        icon: <BellOutlined />,
+        href: '/notification',
+      },
+      {
+        key: '6',
+        label: 'Help',
+        icon: <ProfileOutlined />,
+        href: '/help',
+      },
+      { key: '7', label: "FAQ's", icon: <SettingOutlined /> },
+      { key: '8', label: 'Refer Friends', icon: <UsergroupAddOutlined /> },
+    ],
+    [messageCount]
+  );
   const items = [
     {
       key: 'profile',
@@ -170,14 +169,14 @@ export default () => {
             }}
           >
             <div className="flex justify-center items-center cursor-pointer">
-              <Avatar className="mr-2" size={40} src="/images/service.png" />
+              <Avatar className="mr-2" size={40} src={userDetail.avatarImage} />
               <h2 className="font-bold" style={{ fontSize: 18 }}>
-                WYATT LITTLE
+                {userDetail.firstName} {userDetail.lastName}
               </h2>
             </div>
           </Dropdown>
         )}
-        <Badge count={1} overflowCount={100}>
+        <Badge count={notificationCount} overflowCount={100}>
           <Button
             shape="circle"
             loading={notification_list.loading}
@@ -185,13 +184,15 @@ export default () => {
             onClick={() => dispatch(getNotificationList())}
           />
         </Badge>
-        <Button
-          shape="circle"
-          icon={<MessageOutlined />}
-          onClick={() => {
-            router.push('/message');
-          }}
-        />
+        <Badge count={messageCount} overflowCount={100}>
+          <Button
+            shape="circle"
+            icon={<MessageOutlined />}
+            onClick={() => {
+              router.push('/message');
+            }}
+          />
+        </Badge>
       </div>
       {isXsSm && <MenuDrawer items={ITEM_LIST} />}
     </Layout.Header>

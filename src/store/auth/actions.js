@@ -1,6 +1,11 @@
 import { setAuthorization } from '@/api/base';
+import { useSelector } from 'react-redux';
 import API from 'src/api/auth';
-import { removeStorageItem, setStorageItem } from 'src/utils/common';
+import {
+  getStorageItem,
+  removeStorageItem,
+  setStorageItem,
+} from 'src/utils/common';
 import { TYPE_CUSTOMER } from 'src/utils/constants';
 import { showError, showSuccess } from 'src/utils/messages';
 
@@ -22,22 +27,52 @@ export const signInWithEmail = (signData, router) => {
         platform: 'web',
       });
       if (data.status === 1) {
+        const token = data.result.accessToken;
+        await setAuthorization(token);
+        const {
+          data: { result },
+        } = await API.getUserDetail();
         await router.push('/services');
         dispatch({
           type: SET_DATA,
-          payload: { authenticated: true, type: signData.type, ...data.result },
+          payload: {
+            authenticated: true,
+            type: signData.type,
+            ...result,
+          },
         });
         showSuccess(data.message);
         setStorageItem('user_type', signData.type);
-        setStorageItem('authenticated', true);
-        setStorageItem('access_token', data.result.accessToken);
-        setAuthorization(data.result.accessToken);
+        setStorageItem('access_token', token);
       } else {
-        console.error(data.message);
         showError(data.message);
       }
     } catch (err) {
       console.error(err);
+    }
+  };
+};
+
+export const signInWithToken = () => {
+  return async (dispatch) => {
+    await setAuthorization(getStorageItem('access_token'));
+    const {
+      data: { status, result, message },
+    } = await API.getUserDetail();
+    if (status === 1) {
+      dispatch({
+        type: SET_DATA,
+        payload: {
+          authenticated: true,
+          type: getStorageItem('user_type'),
+          ...result,
+        },
+      });
+    } else {
+      showError(data.message);
+      removeStorageItem('user_type');
+      removeStorageItem('acces_token');
+      router.push('/auth/login');
     }
   };
 };
@@ -61,9 +96,13 @@ export const logOut = (router) => {
         payload: { authenticated: false },
       });
       removeStorageItem('user_type');
-      removeStorageItem('authenticated');
+      removeStorageItem('access_token');
     } catch (err) {
       console.error(err);
     }
   };
+};
+
+export const useAuth = () => {
+  return useSelector(({ auth }) => auth);
 };

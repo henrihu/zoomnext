@@ -8,12 +8,13 @@ import List from './List';
 
 // Actions
 import { getPaymentHistory, setFilter } from 'src/store/payment/actions';
+import { formatNumber } from 'src/utils/common';
 
 export default () => {
   const dispatch = useDispatch();
   const {
     payment_history: {
-      data: { total, data },
+      data: { paymentHistory, hasMore, totalPrice },
       loading,
     },
     payment_history_filter: filter,
@@ -51,7 +52,9 @@ export default () => {
                   hoverable
                   size="small"
                 >
-                  <span class="text-3xl font-bold">$1065.50</span>
+                  <span class="text-3xl font-bold">
+                    ${formatNumber(totalPrice)}
+                  </span>
                   <span className="text-gray">
                     Do you need to post another job?
                   </span>
@@ -64,8 +67,8 @@ export default () => {
           </Col>
           <Col xs={24} sm={24} md={18}>
             <List
-              total={total}
-              data={data}
+              total={paymentHistory.length}
+              data={paymentHistory}
               loading={loading}
               page={filter.page}
               onSetFilter={handleSetFilter}

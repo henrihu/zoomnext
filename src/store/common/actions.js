@@ -1,6 +1,7 @@
 import API from 'src/api/common';
 import moment from 'moment';
 import { setNotificationDrawer } from 'src/store/setting/actions';
+import { setData as setAuthData } from 'src/store/auth/actions';
 import { showError } from 'src/utils/messages';
 
 export const SET_DATA = '[COMMON] SET DATA]';
@@ -9,17 +10,19 @@ export const SET_PENDING = '[COMMON] SET PENDING';
 
 export const getServiceList = () => {
   return async (dispatch) => {
-    const key = 'service_list';
-    dispatch(setLoading(key, true));
-    const {
-      data: { message, status, result },
-    } = await API.getServiceList();
-    if (status !== 1) {
-      showError(message);
-      return;
+    try {
+      const key = 'service_list';
+      dispatch(setLoading(key, true));
+      const { data } = await API.getServiceList();
+      dispatch(setLoading(key, false));
+      if (data.status !== 1) {
+        showError(data.message);
+        return;
+      }
+      dispatch(setData(key, data.result.serviceList));
+    } catch (err) {
+      console.error(err);
     }
-    dispatch(setData(key, result.serviceList));
-    dispatch(setLoading(key, false));
   };
 };
 
@@ -58,21 +61,31 @@ export const contactUs = (data) => {
 export const getNotificationList = (data) => {
   return async (dispatch) => {
     const key = 'notification_list';
-    try {
-      dispatch(setLoading(key, true));
-      // await API.getNotificationList(data);
-      const data = [
-        { id: '1', title: 'Post Updated', date: moment(), status: 1 },
-        { id: '2', title: 'Post Updated', date: moment(), status: 1 },
-        { id: '3', title: 'Post Updated', date: moment(), status: 0 },
-        { id: '4', title: 'Post Updated', date: moment(), status: 0 },
-      ];
-      dispatch(setData(key, data));
-      dispatch(setNotificationDrawer(true));
-    } catch (err) {
-      console.error(err);
-    }
+    dispatch(setLoading(key, true));
+    const { data } = await API.getNotificationList();
     dispatch(setLoading(key, false));
+    if (data.status !== 1) {
+      showError(data.message);
+      return;
+    }
+    dispatch(setData(key, data.result.notificationList));
+    dispatch(setNotificationDrawer(true));
+  };
+};
+
+export const emailNotificationUpdate = (info) => {
+  return async (dispatch, getState) => {
+    const key = 'emailNotificationUpdate';
+    dispatch(setLoading(key, true));
+    const { data } = await API.emailNotificationUpdate(info);
+    dispatch(setLoading(key, false));
+    if (data.status !== 1) {
+      showError(data.message);
+      return;
+    }
+    dispatch(
+      setAuthData({ userDetail: { ...getState().auth.userDetail, ...info } })
+    );
   };
 };
 

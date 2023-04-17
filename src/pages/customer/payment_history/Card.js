@@ -3,6 +3,9 @@ import moment from 'moment';
 import { formatNumber } from 'src/utils/common';
 
 export default ({ data }) => {
+  if (!data) {
+    return <Card>123</Card>;
+  }
   return (
     <Card hoverable size="small" bodyStyle={{ padding: 0 }}>
       <Row align="center">

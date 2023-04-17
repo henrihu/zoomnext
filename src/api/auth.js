@@ -3,6 +3,8 @@ import base from './base';
 export const signInWithEmail = (data) =>
   base({ url: '/login/', data, method: 'POST' });
 export const signUp = (data) => base({ url: '/signUp/', data, method: 'POST' });
+export const getUserDetail = () =>
+  base({ url: '/getUserDetail/', method: 'POST' });
 
 export const socialLogin = (data) =>
   base({ url: '/socialLogin/', data, method: 'POST' });
@@ -18,6 +20,7 @@ export const verifyOtp = (data) =>
 export default {
   signInWithEmail,
   signUp,
+  getUserDetail,
   socialLogin,
   forgotPassword,
   resetPassword,

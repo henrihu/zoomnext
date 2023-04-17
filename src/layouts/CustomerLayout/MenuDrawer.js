@@ -1,6 +1,5 @@
 import { useSelector, useDispatch } from 'react-redux';
 import { useRouter } from 'next/router';
-import Image from 'next/image';
 import {
   Drawer,
   Menu,
@@ -13,8 +12,6 @@ import {
   Badge,
 } from 'antd';
 import { ArrowsAltOutlined } from '@ant-design/icons';
-import { DATE_FORMAT } from 'src/utils/constants';
-import moment from 'moment';
 
 import { logOut } from 'src/store/auth/actions';
 import { setMenuDrawer } from 'src/store/setting/actions';

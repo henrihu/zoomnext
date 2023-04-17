@@ -1,25 +1,24 @@
-import { useLayoutEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { getStorageItem } from 'src/utils/common';
 
-import { setType, setData } from 'src/store/auth/actions';
-import { setAuthorization } from '@/api/base';
+import { signInWithToken } from 'src/store/auth/actions';
 
-const isVaildToken = (token) => {
-  return token ? true : false;
-};
+import Loading from 'src/layouts/Loading';
 
 export default ({ children }) => {
   const dispatch = useDispatch();
 
-  useLayoutEffect(() => {
-    dispatch(setType(getStorageItem('user_type')));
-    dispatch(setData({ authenticated: getStorageItem('authenticated') }));
-    const token = getStorageItem('access_token');
-    if (isVaildToken(token)) {
-      setAuthorization(getStorageItem('access_token'));
-    }
+  const [loading, setLoading] = useState(false);
+
+  const signIn = async () => {
+    setLoading(true);
+    await dispatch(signInWithToken());
+    setLoading(false);
+  };
+
+  useEffect(() => {
+    signIn();
   }, []);
 
-  return children;
+  return !loading ? children : <Loading />;
 };

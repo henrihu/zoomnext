@@ -10,7 +10,8 @@ export default ({ total, page, data, onSetFilter, loading }) => {
       loading={loading}
       renderItem={(item, index) => (
         <div className="mb-2">
-          <PaymentHistoryCard data={item} key={index} />
+          123
+          {/* <PaymentHistoryCard data={item} key={index} /> */}
         </div>
       )}
       pagination={{

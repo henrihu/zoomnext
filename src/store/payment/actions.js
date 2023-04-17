@@ -1,5 +1,6 @@
 import moment from 'moment';
 import API from 'src/api/payment';
+import { showError } from 'src/utils/messages';
 
 export const SET_DATA = '[PAYMENT] SET DATA]';
 export const SET_LOADING = '[PAYMENT] SET LOADING';
@@ -42,99 +43,19 @@ export const getCardList = (data) => {
   };
 };
 
-export const getPaymentHistory = (data) => {
+export const getPaymentHistory = () => {
   return async (dispatch, getState) => {
     const key = 'payment_history';
     try {
-      dispatch(setLoading(key, true));
       const { page } = getState().payment.payment_history_filter;
       const { type } = getState().auth;
-      console.log('Payment History: ', page, type);
-      // await API.getPaymentHistory(data);
-      const total_data = [
-        {
-          id: '1',
-          date: moment(),
-          title: 'Job title info',
-          description: 'Job Details',
-          price: 945,
-        },
-        {
-          id: '2',
-          date: moment(),
-          title: 'Job title info',
-          description: 'Job Details',
-          price: 945,
-        },
-        {
-          id: '3',
-          date: moment(),
-          title: 'Job title info',
-          description: 'Job Details',
-          price: 945,
-        },
-        {
-          id: '4',
-          date: moment(),
-          title: 'Job title info',
-          description: 'Job Details',
-          price: 945,
-        },
-        {
-          id: '5',
-          date: moment(),
-          title: 'Job title info',
-          description: 'Job Details',
-          price: 945,
-        },
-        {
-          id: '6',
-          date: moment(),
-          title: 'Job title info',
-          description: 'Job Details',
-          price: 945,
-        },
-        {
-          id: '7',
-          date: moment(),
-          title: 'Job title info',
-          description: 'Job Details',
-          price: 945,
-        },
-        {
-          id: '8',
-          date: moment(),
-          title: 'Job title info',
-          description: 'Job Details',
-          price: 945,
-        },
-        {
-          id: '9',
-          date: moment(),
-          title: 'Job title info',
-          description: 'Job Details',
-          price: 945,
-        },
-        {
-          id: '10',
-          date: moment(),
-          title: 'Job title info',
-          description: 'Job Details',
-          price: 945,
-        },
-        {
-          id: '11',
-          date: moment(),
-          title: 'Job title info',
-          description: 'Job Details',
-          price: 945,
-        },
-      ];
-      const data = {
-        total: total_data.length,
-        data: total_data.slice((page - 1) * 5, page * 5),
-      };
-      dispatch(setData(key, data));
+      const { data } = await API.getPaymentHistory({ page, type });
+      if (data.status === 1) {
+        dispatch(setData(key, data.result));
+      } else {
+        showError(data.message);
+      }
+      dispatch(setLoading(key, true));
     } catch (err) {
       console.error(err);
     }

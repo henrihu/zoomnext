@@ -2,7 +2,10 @@ import { SET_DATA, SET_FILTER, SET_LOADING } from './actions';
 
 const initialState = {
   card_list: { data: [], loading: false },
-  payment_history: { data: { total: 0, data: [] }, loading: false },
+  payment_history: {
+    data: { hasMore: 0, paymentHistory: [], totalPrice: 0 },
+    loading: false,
+  },
   payment_history_filter: { page: 1 },
 };
 

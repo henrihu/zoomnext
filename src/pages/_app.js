@@ -37,11 +37,6 @@ export default wrapper.withRedux(({ Component, pageProps }) => {
     if (process.env.NODE_ENV === 'production') {
       ReactGA.initialize(process.env.NEXT_PUBLIC_GOOGLE_ANALYTICS_ID);
     }
-    dispatch(setType(getStorageItem('user_type')));
-    dispatch(setData({ authenticated: getStorageItem('authenticated') }));
-    if (getStorageItem('access_token')) {
-      setAuthorization(getStorageItem('access_token'));
-    }
   }, []);
 
   useEffect(() => {

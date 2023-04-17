@@ -1,33 +1,32 @@
-import { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 
 // Components
 import Meta from '@/components/Meta/index';
-import { Space, Row, Col, List, Switch, Card } from 'antd';
+import { Space, Switch, Card } from 'antd';
+import { emailNotificationUpdate } from 'src/store/common/actions';
+import { useAuth } from 'src/store/auth/actions';
 
 // Actions
-// import { getPaymentHistory } from 'src/store/common/actions';
+// import { noti } from 'src/store/common/actions';
 
 const data = [
-  { title: 'New Job Posted', status: true },
-  { title: 'Message Received', status: true },
-  { title: 'Job Bids Received', status: false },
-  { title: 'Payment Charged', status: false },
-  { title: 'Job Completed', status: true },
+  { key: 'isNewJob', title: 'New Job Posted' },
+  { key: 'isSelecJob', title: 'isSelecJob' },
+  { key: 'isMessageReceive', title: 'Message Received' },
+  { key: 'isPaymentReceive', title: 'Payment Charged' },
+  {
+    key: 'isAppUpdatePermission',
+    title: 'App Updated & Permission',
+    status: true,
+  },
+  { key: 'isCompleteJob', title: 'Job Completed', status: true },
+  { key: 'isJobBidReceivedByEmail', title: 'Job Bids Received', status: false },
+  { key: 'isReviewReceivedByEmail', title: 'Review Received', status: false },
 ];
 
 export default () => {
-  //   const dispatch = useDispatch();
-  //   const {
-  //     payment_history: {
-  //       data: { total, data },
-  //       loading,
-  //     },
-  //   } = useSelector(({ payment }) => payment);
-
-  //   useEffect(() => {
-  //     dispatch(getPaymentHistory());
-  //   }, []);
+  const dispatch = useDispatch();
+  const { userDetail } = useAuth();
 
   return (
     <>
@@ -37,11 +36,26 @@ export default () => {
         label="Notifications"
       />
       <Space wrap className="w-full flex justify-center">
-        {data.map(({ title, status }) => (
-          <Card hoverable bodyStyle={{ width: 250 }}>
+        {data.map(({ key, title }) => (
+          <Card hoverable bodyStyle={{ width: 320 }} key={key}>
             <div className="flex justify-between items-center">
               <h3>{title}</h3>
-              <Switch checked={status} />
+              <Switch
+                checked={userDetail && userDetail[key]}
+                onChange={() =>
+                  dispatch(
+                    emailNotificationUpdate(
+                      data.reduce(
+                        (res, cur) =>
+                          cur.key === key
+                            ? { ...res, [key]: 1 - userDetail[key] }
+                            : { ...res, [cur.key]: userDetail[cur.key] },
+                        {}
+                      )
+                    )
+                  )
+                }
+              />
             </div>
           </Card>
         ))}

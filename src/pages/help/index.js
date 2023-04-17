@@ -15,9 +15,11 @@ import {
   Empty,
 } from 'antd';
 import { SearchOutlined } from '@ant-design/icons';
+import ContactUsModal from './ContactUsModal';
 // Actions
 import { getFaqList, contactUs } from 'src/store/common/actions';
-import ContactUsModal from './ContactUsModal';
+// Utils
+import { findStrInObj } from 'src/utils/common';
 
 export default () => {
   const dispatch = useDispatch();
@@ -28,10 +30,7 @@ export default () => {
   const [modal, setModal] = useState({ open: false });
 
   const filtered_data = useMemo(
-    () =>
-      data.filter((obj) =>
-        JSON.stringify(obj).toLowerCase().includes(search.toLowerCase())
-      ),
+    () => data.filter((obj) => findStrInObj(obj, search)),
     [data, search]
   );
 
@@ -47,7 +46,7 @@ export default () => {
         label="Help"
       />
       <Spin spinning={loading}>
-        <Row justify="center" gutter={[8, 8]}>
+        <Row justify="center" gutter={[16, 16]}>
           <Col xs={24} sm={24} md={9}>
             <Input
               placeholder="Search Questions"
@@ -61,7 +60,7 @@ export default () => {
             {filtered_data && filtered_data.length > 0 ? (
               <Collapse defaultActiveKey={[filtered_data[0].id]}>
                 {filtered_data.map(({ question, answer, id }) => (
-                  <Collapse.Panel header={question} key={id}>
+                  <Collapse.Panel header={<h3>{question}</h3>} key={id}>
                     <p>{answer}</p>
                   </Collapse.Panel>
                 ))}
