@@ -2,6 +2,7 @@ import { Card, Button, Row, Col, Space, Switch } from 'antd';
 import Image from 'next/image';
 import { DeleteOutlined } from '@ant-design/icons';
 import moment from 'moment';
+import { setDefaultCard } from 'src/store/payment/actions';
 
 export default ({ data }) => {
   return (
@@ -17,7 +18,11 @@ export default ({ data }) => {
         </Button>,
         <Space>
           Set as primary
-          <Switch checked={data.default} size="small" />
+          <Switch
+            checked={data.isDefault}
+            size="small"
+            onChange={() => dispatch(setDefaultCard(data.id))}
+          />
         </Space>,
       ]}
     >
@@ -37,9 +42,9 @@ export default ({ data }) => {
           </div>
         </Col>
         <Col span={24}>
-          <h2>{data.cardholderName}</h2>
+          <h2>{data.cardHolderName}</h2>
         </Col>
-        <Col span={24}>{moment(data.expDate).format('YYYY-MM')}</Col>
+        {/* <Col span={24}>{moment(data.expDate).format('YYYY-MM')}</Col> */}
       </Row>
     </Card>
   );

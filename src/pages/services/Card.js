@@ -9,29 +9,25 @@ export default ({ data }) => {
       hoverable
       bodyStyle={{
         padding: 0,
-        width: 150,
-        height: 150,
+        width: 180,
+        height: 180,
       }}
     >
-      <Image
+      <img
         src={`/images/category_image/${data.image}`}
-        fill
-        className="rounded-lg"
+        className="rounded-lg w-full h-full"
         alt="job"
-        // style={{ border: `2px solid ${token.colorPrimary}` }}
       />
-      <h3
-        className="font-bold text-white text-center"
+      <div
+        className="w-full h-full rounded-lg absolute top-0 left-0"
         style={{
-          position: 'absolute',
-          bottom: 8,
-          width: '100%',
-          // backgroundColor: token.colorPrimary,
-          alpha: 0.5,
+          background: `linear-gradient(0deg, ${token.colorPrimary}80, transparent, transparent)`,
         }}
       >
-        {data.name}
-      </h3>
+        <h3 className="font-bold text-white text-center absolute w-full bottom-1">
+          {data.name}
+        </h3>
+      </div>
     </Card>
   );
 };

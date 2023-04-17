@@ -8,7 +8,7 @@ import PaymentCard from './Card';
 import NewCardModal from './NewCardModal';
 
 // Actions
-import { getCardList } from 'src/store/payment/actions';
+import { addCard, getCardList } from 'src/store/payment/actions';
 
 export default () => {
   const dispatch = useDispatch();
@@ -54,7 +54,7 @@ export default () => {
       </Spin>
       <NewCardModal
         {...modal}
-        onOk={() => setModal({ open: false })}
+        onOk={(cardInfo) => dispatch(addCard(cardInfo))}
         onCancel={() => setModal({ open: false })}
       />
     </>

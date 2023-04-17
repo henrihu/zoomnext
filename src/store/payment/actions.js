@@ -6,40 +6,70 @@ export const SET_DATA = '[PAYMENT] SET DATA]';
 export const SET_LOADING = '[PAYMENT] SET LOADING';
 export const SET_FILTER = '[PAYMENT] SET FILTER]';
 
-export const getCardList = (data) => {
+export const getCardList = () => {
   return async (dispatch) => {
     const key = 'card_list';
     try {
       dispatch(setLoading(key, true));
-      // await API.getCardList(data);
-      const data = [
-        {
-          cardholderName: 'Roman Range',
-          cardNumber: '4242424242424242',
-          expDate: '12/2022',
-          cvv: '123',
-          default: true,
-        },
-        {
-          cardholderName: 'Roman Range',
-          cardNumber: '4242424242424242',
-          expDate: '12/2022',
-          cvv: '123',
-          default: false,
-        },
-        {
-          cardholderName: 'Roman Range',
-          cardNumber: '4242424242424242',
-          expDate: '12/2022',
-          cvv: '123',
-          default: false,
-        },
-      ];
-      dispatch(setData(key, data));
+      const { data } = await API.getCardList();
+      if (data.status === 1) {
+        dispatch(setData(key, data.result.userCardList));
+      }
     } catch (err) {
       console.error(err);
     }
     dispatch(setLoading(key, false));
+  };
+};
+
+export const addCard = (info) => {
+  return async () => {
+    try {
+      const { data } = await API.addCard({
+        ...info,
+        expDate: `${info.month}/${info.year}`,
+      });
+      if (data.status !== 1) {
+        showError(data.message);
+        return false;
+      }
+      return true;
+    } catch (err) {
+      console.error(err);
+      return false;
+    }
+  };
+};
+
+export const setDefaultCard = (id) => {
+  return async () => {
+    try {
+      const { data } = await API.setDefaultCard({ id });
+      if (data.status !== 1) {
+        showError(data.message);
+        return false;
+      }
+      return true;
+    } catch (err) {
+      console.error(err);
+      return false;
+    }
+  };
+};
+
+export const deleteCard = (id) => {
+  return async () => {
+    try {
+      const { data } = await API.deleteCard({ id });
+      if (data.status !== 1) {
+        showError(data.message);
+        return false;
+      }
+      return true;
+    } catch (err) {
+      console.error(err);
+      return false;
+    }
   };
 };
 
