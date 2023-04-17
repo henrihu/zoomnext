@@ -24,7 +24,7 @@ export default ({ filter, onSetFilter }) => {
           onClick={() => {
             const orderValue = date === 'asc' ? 'desc' : 'asc';
             setDate(orderValue);
-            onSetFilter({ orderKey: 'date', orderValue });
+            onSetFilter({ orderKey: 'jobDateAndTime', orderValue });
           }}
         >
           Date

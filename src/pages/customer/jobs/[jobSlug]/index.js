@@ -51,7 +51,11 @@ export default () => {
           {data.status === JOB_STATUS_ASSIGNED && <MoreWork />}
         </Col>
         <Col sm={24} md={16}>
-          {data.status == JOB_STATUS_PENDING ? <BidList /> : <StatusList />}
+          {data.status == JOB_STATUS_PENDING ? (
+            <BidList data={data.bids} />
+          ) : (
+            <StatusList />
+          )}
         </Col>
       </Row>
     </>

@@ -1,6 +1,7 @@
 import API from 'src/api/jobs';
 import moment from 'moment';
 import { JOB_STATUS_ASSIGNED } from 'src/utils/constants';
+import { showError } from 'src/utils/messages';
 
 export const SET_DATA = '[CUSTOMER JOBS] SET DATA]';
 export const SET_LOADING = '[CUSTOMER JOBS] SET LOADING';
@@ -12,76 +13,20 @@ export const getMyJobList = () => {
     try {
       dispatch(setLoading(key, true));
       const filter = getState().c_jobs.job_list_filter;
-      console.log('Job Filter', filter);
-      await API.getMyJobList(filter);
-      const total_data = [
-        {
-          title: 'Cleaning',
-          status: 'assigned',
-          date: moment(),
-          price: 5000.232,
-          description: 'Job Details',
+      const {
+        data: {
+          message,
+          result: { getMyJob, hasMore },
+          status,
         },
-        {
-          title: 'Plumber',
-          status: 'assigned',
-          date: moment(),
-          price: 500,
-          description: 'Job Details',
-        },
-        {
-          title: 'Mechanic',
-          status: 'pending',
-          date: moment(),
-          price: 100,
-          description: 'Job Details',
-        },
-        {
-          title: 'Plumber',
-          status: 'pending',
-          date: moment(),
-          price: 200,
-          description: 'Job Details',
-        },
-        {
-          title: 'Mechanic',
-          status: 'pending',
-          date: moment(),
-          price: 200,
-          description: 'Job Details',
-        },
-        {
-          title: 'Cleaning',
-          status: 'pending',
-          date: moment(),
-          price: 200,
-          description: 'Job Details',
-        },
-        {
-          title: 'Plumber',
-          status: 'pending',
-          date: moment(),
-          price: 200,
-          description: 'Job Details',
-        },
-        {
-          title: 'Mechanic',
-          status: 'assigned',
-          date: moment(),
-          price: 200,
-          description: 'Job Details',
-        },
-        {
-          title: 'Plumber',
-          status: 'pending',
-          date: moment(),
-          price: 200,
-          description: 'Job Details',
-        },
-      ];
+      } = await API.getMyJobList(filter);
+      if (status !== 1) {
+        showError(message);
+        return;
+      }
       const data = {
-        total: total_data.length,
-        data: total_data.slice((filter.page - 1) * 3, filter.page * 3),
+        total: (filter.page + hasMore) * 10,
+        data: getMyJob,
       };
       dispatch(setData(key, data));
     } catch (err) {
@@ -96,15 +41,18 @@ export const getJobDetail = (params) => {
     const key = 'job_detail';
     try {
       dispatch(setLoading(key, true));
-      // await API.getJobDetail(params);
-      const data = {
-        title: 'Cleaning',
-        status: JOB_STATUS_ASSIGNED,
-        date: moment(),
-        location: '#12, Ahmedabad, GJ, Ahmedabad, India, 380006',
-        price: 200,
-      };
-      dispatch(setData(key, data));
+      const {
+        data: {
+          status,
+          message,
+          result: { job },
+        },
+      } = await API.getJobDetail(params);
+      if (status !== 1) {
+        showError(message);
+        return;
+      }
+      dispatch(setData(key, job));
     } catch (err) {
       console.error(err);
     }

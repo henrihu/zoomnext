@@ -4,7 +4,7 @@ const initialState = {
   job_list: { data: { total: 0, data: [] }, loading: false },
   job_list_filter: {
     page: 1,
-    orderKey: 'date',
+    orderKey: 'jobDateAndTime',
     orderValue: 'asc',
     jobStatus: '',
   },

@@ -20,13 +20,13 @@ export default ({ total, page, data, onSetFilter }) => {
             data={item}
             key={index}
             type={TYPE_CUSTOMER}
-            onDetail={() => router.push(`/customer/jobs/${data.title}/`)}
+            onDetail={() => router.push(`/customer/jobs/${item.jobSlug}/`)}
             onCancel={null}
           />
         </div>
       )}
       pagination={{
-        pageSize: 3,
+        pageSize: 10,
         size: 'small',
         total,
         page,
