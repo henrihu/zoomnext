@@ -48,14 +48,17 @@ export default () => {
         </Col>
         <Col sm={24} md={8} className="flex flex-col gap-2">
           <DetailCard data={data} loading={loading} />
-          {data.status === JOB_STATUS_ASSIGNED && <MoreWork />}
+          {/* {data.status === JOB_STATUS_ASSIGNED && <MoreWork />} */}
+          <MoreWork />
         </Col>
         <Col sm={24} md={16}>
-          {data.status == JOB_STATUS_PENDING ? (
+          {/* {data.status == JOB_STATUS_PENDING ? (
             <BidList data={data.bids} />
           ) : (
             <StatusList />
-          )}
+          )} */}
+          <BidList data={data.bids} />
+          <StatusList data={data.jobStatusHistory} />
         </Col>
       </Row>
     </>

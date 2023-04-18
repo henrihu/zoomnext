@@ -2,38 +2,38 @@ import { Avatar, List, Button, Row, Col, Space, Tag } from 'antd';
 import { StarFilled, MessageOutlined } from '@ant-design/icons';
 import { COLOR_CUSTOMER } from 'src/utils/constants';
 
-const data = [
-  {
-    avatar: '/images/service.png',
-    name: 'Robert Range',
-    rating: 4.8,
-    job_count: 9,
-    amount: 2023.22323,
-  },
-  {
-    avatar: '/images/service.png',
-    name: 'Robert Range',
-    rating: 4.8,
-    job_count: 9,
-    amount: 2023.02323,
-  },
-  {
-    avatar: '/images/service.png',
-    name: 'Robert Range',
-    rating: 4.8,
-    job_count: 9,
-    amount: 2023.23,
-  },
-  {
-    avatar: '/images/service.png',
-    name: 'Robert Range',
-    rating: 4.8,
-    job_count: 9,
-    amount: 2023.22323,
-  },
-];
+// const data = [
+//   {
+//     avatar: '/images/service.png',
+//     name: 'Robert Range',
+//     rating: 4.8,
+//     job_count: 9,
+//     amount: 2023.22323,
+//   },
+//   {
+//     avatar: '/images/service.png',
+//     name: 'Robert Range',
+//     rating: 4.8,
+//     job_count: 9,
+//     amount: 2023.02323,
+//   },
+//   {
+//     avatar: '/images/service.png',
+//     name: 'Robert Range',
+//     rating: 4.8,
+//     job_count: 9,
+//     amount: 2023.23,
+//   },
+//   {
+//     avatar: '/images/service.png',
+//     name: 'Robert Range',
+//     rating: 4.8,
+//     job_count: 9,
+//     amount: 2023.22323,
+//   },
+// ];
 
-export default () => (
+export default ({ data }) => (
   <Row gutter={[16, 16]}>
     <Col span={24}>
       <Row>
@@ -41,7 +41,7 @@ export default () => (
           <Space>
             <h1>Total Bids</h1>
             <Tag color={COLOR_CUSTOMER}>
-              <h2>{data.length}</h2>
+              <h2>{data && data.length}</h2>
             </Tag>
           </Space>
         </Col>
@@ -57,27 +57,27 @@ export default () => (
         renderItem={(item, index) => (
           <List.Item
             extra={
-              <h2 style={{ color: '#87CD9B', width: 150 }}>${item.amount}</h2>
+              <h2 style={{ color: '#87CD9B', width: 150 }}>${item.price}</h2>
             }
           >
             <List.Item.Meta
-              avatar={<Avatar src={item.avatar} />}
+              avatar={<Avatar src={item.usersImage} />}
               title={
                 <Row>
                   <Col span={24}>
-                    <h3>{item.name}</h3>
+                    <h3>{item.firstName}</h3>
                   </Col>
                   <Col span={24}>
                     <Space>
                       <StarFilled style={{ color: '#FADB14' }} />
                       <span className="text-bold">
-                        <b>{item.rating}</b> ({item.job_count})
+                        <b>{item.avgRating}</b> ({item.job_count})
                       </span>
                     </Space>
                   </Col>
                 </Row>
               }
-              description="Ant Design, a design language for background applications, is refined by Ant UED Team"
+              description={item.comment}
             />
             <Space justify className="w-full justify-end">
               <Button shape="round" type="primary" size="small">

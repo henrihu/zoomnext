@@ -10,7 +10,7 @@ import List from './List';
 import NewJobModal from './NewJobModal/index';
 
 // Actions
-import { getMyJobList, setFilter } from 'src/store/c_jobs/actions';
+import { getMyJobList, setFilter, createJob } from 'src/store/c_jobs/actions';
 
 export default () => {
   const dispatch = useDispatch();
@@ -75,7 +75,10 @@ export default () => {
         </Row>
         <NewJobModal
           {...modal}
-          onOk={() => setModal({ open: false })}
+          onOk={(data) => {
+            dispatch(createJob(data));
+            // setModal({ open: false });
+          }}
           onCancel={() => setModal({ open: false })}
         />
       </Spin>

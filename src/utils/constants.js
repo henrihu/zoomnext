@@ -20,9 +20,15 @@ export const HELPER = {
 // Job Status List
 export const JOB_STATUS_ASSIGNED = 'assigned';
 export const JOB_STATUS_PENDING = 'pending';
+export const JOB_STATUS_ONGOING = 'ongoing';
+export const JOB_STATUS_COMPLETE = 'complete';
+export const JOB_STATUS_CANCEL = 'cancel';
 export const JOB_STATUS = {
   [JOB_STATUS_ASSIGNED]: { label: 'Assigned', color: '#00A110' },
   [JOB_STATUS_PENDING]: { label: 'Pending', color: '#FFC53D' },
+  [JOB_STATUS_ONGOING]: { label: 'Ongoing', color: '#b134c7' },
+  [JOB_STATUS_COMPLETE]: { label: 'Complete', color: '#4282db' },
+  [JOB_STATUS_CANCEL]: { label: 'Cancel', color: '#ff4d4f' },
 };
 
 // Budget Option List

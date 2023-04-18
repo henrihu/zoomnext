@@ -33,7 +33,7 @@ export default ({ form, budget, estimateBudget }) => {
             post: POST_OPTION_FIRST_HELPER,
             budget: BUDGET_OPTION_TOTAL_JOB,
             supply: CLEANING_OPTION_HAVE,
-            beds: { checked: true, count: 1 },
+            numberOfBedrooms: { checked: true, count: 1 },
             baths: { checked: true, count: 1 },
           }}
           requiredMark={false}
@@ -80,7 +80,7 @@ export default ({ form, budget, estimateBudget }) => {
           </Form.Item>
 
           <Form.Item label="Cleaning Detail">
-            <Form.Item name="beds">
+            <Form.Item name="numberOfBedrooms">
               <CleaningItem name="Beds" />
             </Form.Item>
             <Form.Item name="baths">
@@ -141,7 +141,7 @@ export default ({ form, budget, estimateBudget }) => {
           </Space.Compact>
           <Form.Item
             label="Budget"
-            name="budget"
+            name="isHourly"
             rules={[{ required: true, message: 'Please input budget!' }]}
           >
             <Radio.Group>

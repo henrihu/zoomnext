@@ -60,6 +60,20 @@ export const getJobDetail = (params) => {
   };
 };
 
+export const createJob = (params) => {
+  return async (dispatch) => {
+    const key = 'create_job';
+    try {
+      dispatch(setLoading(key, true));
+      const data = await API.createJob(params);
+      console.log(data);
+    } catch (err) {
+      console.error(err);
+    }
+    dispatch(setLoading(key, false));
+  };
+};
+
 export const setData = (key, data) => ({ type: SET_DATA, key, data });
 export const setLoading = (key, loading) => ({
   type: SET_LOADING,
