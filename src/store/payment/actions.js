@@ -44,11 +44,12 @@ export const addCard = (info) => {
 export const setDefaultCard = (id) => {
   return async () => {
     try {
-      const { data } = await API.setDefaultCard({ id });
+      const { data } = await API.setDefaultCard(id);
       if (data.status !== 1) {
         showError(data.message);
         return false;
       }
+      dispatch(getCardList());
       return true;
     } catch (err) {
       console.error(err);
@@ -60,11 +61,12 @@ export const setDefaultCard = (id) => {
 export const deleteCard = (id) => {
   return async () => {
     try {
-      const { data } = await API.deleteCard({ id });
+      const { data } = await API.deleteCard(id);
       if (data.status !== 1) {
         showError(data.message);
         return false;
       }
+      dispatch(getCardList());
       return true;
     } catch (err) {
       console.error(err);
@@ -79,13 +81,13 @@ export const getPaymentHistory = () => {
     try {
       const { page } = getState().payment.payment_history_filter;
       const { type } = getState().auth;
+      dispatch(setLoading(key, true));
       const { data } = await API.getPaymentHistory({ page, type });
       if (data.status === 1) {
         dispatch(setData(key, data.result));
       } else {
         showError(data.message);
       }
-      dispatch(setLoading(key, true));
     } catch (err) {
       console.error(err);
     }

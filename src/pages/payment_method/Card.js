@@ -1,10 +1,11 @@
-import { Card, Button, Row, Col, Space, Switch } from 'antd';
+import { Card, Button, Row, Col, Space, Switch, Modal } from 'antd';
+import { useDispatch } from 'react-redux';
 import Image from 'next/image';
 import { DeleteOutlined } from '@ant-design/icons';
-import moment from 'moment';
-import { setDefaultCard } from 'src/store/payment/actions';
+import { deleteCard, setDefaultCard } from 'src/store/payment/actions';
 
 export default ({ data }) => {
+  const dispatch = useDispatch();
   return (
     <Card
       hoverable
@@ -13,7 +14,21 @@ export default ({ data }) => {
       }}
       size="small"
       actions={[
-        <Button type="text" danger icon={<DeleteOutlined />} size="small">
+        <Button
+          type="text"
+          danger
+          icon={<DeleteOutlined />}
+          onClick={() =>
+            Modal.confirm({
+              content: 'Do you really want to delete card?',
+              onOk: () => {
+                dispatch(deleteCard(data.id));
+              },
+              width: 300,
+            })
+          }
+          size="small"
+        >
           Delete
         </Button>,
         <Space>
