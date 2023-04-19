@@ -1,3 +1,5 @@
+import { getNotificationList } from '../common/actions';
+
 export const SET_DATA = '[SETTING] SET DATA';
 
 export const setData = (data) => (dispatch) => {

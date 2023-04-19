@@ -28,8 +28,10 @@ import MenuDrawer from './MenuDrawer';
 
 // Actions
 import { logOut, useAuth } from 'src/store/auth/actions';
-import { setMenuDrawer } from 'src/store/setting/actions';
-import { getNotificationList } from 'src/store/common/actions';
+import {
+  setMenuDrawer,
+  setNotificationDrawer,
+} from 'src/store/setting/actions';
 
 const { useBreakpoint } = Grid;
 
@@ -171,7 +173,7 @@ export default () => {
             <div className="flex justify-center items-center cursor-pointer">
               <Avatar className="mr-2" size={40} src={userDetail.avatarImage} />
               <h2 className="font-bold" style={{ fontSize: 18 }}>
-                {userDetail.firstName} {userDetail.lastName}
+                {userDetail.firstName}
               </h2>
             </div>
           </Dropdown>
@@ -181,7 +183,7 @@ export default () => {
             shape="circle"
             loading={notification_list.loading}
             icon={<BellOutlined />}
-            onClick={() => dispatch(getNotificationList())}
+            onClick={() => dispatch(setNotificationDrawer(true))}
           />
         </Badge>
         <Badge count={messageCount} overflowCount={100}>

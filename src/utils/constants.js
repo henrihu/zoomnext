@@ -63,3 +63,11 @@ export const TIME_FORMAT = 'h:mm A';
 
 // Fee
 export const FEE_RATE = 5;
+
+// LENGTH
+export const LENGTH = {
+  password: {
+    min: 8,
+    max: 16,
+  },
+};
