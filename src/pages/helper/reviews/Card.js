@@ -13,13 +13,13 @@ export default ({ data }) => {
           <div className="font-bold mb-1 text-2xl">
             <StarFilled style={{ color: '#FADB14' }} />
           </div>
-          <div className="text-2xl font-bold">{data.rating}</div>
+          <div className="text-2xl font-bold">{data.providerRating}</div>
         </Col>
         <Col span={21} className="flex items-center px-4 md:px-8">
           <Space direction="vertical">
             <Space className="flex items-end">
               <h3>{data.title}</h3>
-              <span className="text-gray">{formatDate(data.date)}</span>
+              <span className="text-gray">{data.RatingDate}</span>
             </Space>
             <span>{data.review}</span>
           </Space>

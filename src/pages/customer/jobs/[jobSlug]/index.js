@@ -6,10 +6,10 @@ import { useRouter } from 'next/router';
 import Meta from '@/components/Meta/index';
 import { Row, Col, Button } from 'antd';
 import { ArrowLeftOutlined } from '@ant-design/icons';
-import DetailCard from './DetailCard';
-import BidList from './BidList';
-import StatusList from './StatusList';
-import MoreWork from './MoreWork';
+import DetailCard from 'src/components/Job/DetailCard';
+import BidList from 'src/components/Job/BidList';
+import StatusList from 'src/components/Job/StatusList';
+import MoreWork from 'src/components/Job/MoreWork';
 
 // Actions
 import { getJobDetail } from 'src/store/c_jobs/actions';

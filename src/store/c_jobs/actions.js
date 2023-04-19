@@ -25,7 +25,7 @@ export const getMyJobList = () => {
         return;
       }
       const data = {
-        total: (filter.page + hasMore) * 10,
+        hasMore: hasMore,
         data: getMyJob,
       };
       dispatch(setData(key, data));

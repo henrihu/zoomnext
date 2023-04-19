@@ -14,7 +14,7 @@ export default () => {
   const dispatch = useDispatch();
   const {
     job_list: {
-      data: { total, data },
+      data: { hasMore, data },
       loading,
     },
     job_list_filter: filter,
@@ -43,7 +43,7 @@ export default () => {
             md={{ span: 18, order: 1 }}
           >
             <List
-              total={total}
+              hasMore={hasMore}
               data={data}
               page={filter.page}
               onSetFilter={handleSetFilter}

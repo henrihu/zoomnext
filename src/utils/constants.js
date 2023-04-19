@@ -30,6 +30,13 @@ export const JOB_STATUS = {
   [JOB_STATUS_COMPLETE]: { label: 'Complete', color: '#4282db' },
   [JOB_STATUS_CANCEL]: { label: 'Cancel', color: '#ff4d4f' },
 };
+export const JOB_STATUS_HISTORY_LABEL = {
+  [JOB_STATUS_PENDING]: 'Job posted at',
+  [JOB_STATUS_ASSIGNED]: 'Job assigned at',
+  [JOB_STATUS_ONGOING]: 'Job started ongoing at',
+  [JOB_STATUS_COMPLETE]: 'Job completed at',
+  [JOB_STATUS_CANCEL]: 'Job cancelled at',
+};
 
 // Budget Option List
 export const BUDGET_OPTION_TOTAL_JOB = 'total';

@@ -2,37 +2,6 @@ import { Avatar, List, Button, Row, Col, Space, Tag } from 'antd';
 import { StarFilled, MessageOutlined } from '@ant-design/icons';
 import { COLOR_CUSTOMER } from 'src/utils/constants';
 
-// const data = [
-//   {
-//     avatar: '/images/service.png',
-//     name: 'Robert Range',
-//     rating: 4.8,
-//     job_count: 9,
-//     amount: 2023.22323,
-//   },
-//   {
-//     avatar: '/images/service.png',
-//     name: 'Robert Range',
-//     rating: 4.8,
-//     job_count: 9,
-//     amount: 2023.02323,
-//   },
-//   {
-//     avatar: '/images/service.png',
-//     name: 'Robert Range',
-//     rating: 4.8,
-//     job_count: 9,
-//     amount: 2023.23,
-//   },
-//   {
-//     avatar: '/images/service.png',
-//     name: 'Robert Range',
-//     rating: 4.8,
-//     job_count: 9,
-//     amount: 2023.22323,
-//   },
-// ];
-
 export default ({ data }) => (
   <Row gutter={[16, 16]}>
     <Col span={24}>

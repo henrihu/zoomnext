@@ -2,7 +2,7 @@ import { useRouter } from 'next/router';
 
 // Components
 import { List } from 'antd';
-import JobCard from 'src/components/JobCard';
+import JobCard from 'src/components/Job/JobCard';
 
 // Constants
 import { TYPE_CUSTOMER, TYPE_HELPER } from 'src/utils/constants';

@@ -1,10 +1,10 @@
 import { SET_DATA, SET_LOADING, SET_FILTER } from './actions';
 
 const initialState = {
-  job_list: { data: { total: 0, data: [] }, loading: false },
+  job_list: { data: { hasMore: 0, data: [] }, loading: false },
   job_list_filter: {
     page: 1,
-    orderKey: 'date',
+    orderKey: 'jobDateAndTime',
     orderValue: 'asc',
     jobStatus: '',
     latitude: 0,
@@ -15,7 +15,7 @@ const initialState = {
     isNewestFirst: true,
     isHighestPay: false,
   },
-  review_list: { data: { total: 0, data: [] }, loading: false },
+  review_list: { data: { hasMore: 0, data: [] }, loading: false },
   review_filter: { page: 1 },
   job_detail: { data: {}, loading: false },
 };

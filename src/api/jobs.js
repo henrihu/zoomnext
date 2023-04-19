@@ -24,6 +24,8 @@ export const getHelperJoblist = (data) =>
   base({ url: '/getProviderJoblist/', data, method: 'POST' });
 export const getHelperBrowseJoblist = (data) =>
   base({ url: '/getProviderBrowseJoblist/', data, method: 'POST' });
+export const getHelperUserReview = (data) =>
+  base({ url: '/getProviderUserReview/', data, method: 'POST' });
 
 export default {
   getMyJobList,
@@ -38,4 +40,5 @@ export default {
   startJobPickUp,
   getHelperJoblist,
   getHelperBrowseJoblist,
+  getHelperUserReview,
 };

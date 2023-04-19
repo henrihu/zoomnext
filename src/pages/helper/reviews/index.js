@@ -19,9 +19,10 @@ const helper = {
 
 export default () => {
   const dispatch = useDispatch();
+
   const {
     review_list: {
-      data: { total, data },
+      data: { hasMore, data, provider },
       loading,
     },
     review_filter: filter,
@@ -48,22 +49,25 @@ export default () => {
             <Card hoverable>
               <Row gutter={[16, 16]}>
                 <Col span={24} className="flex justify-center">
-                  <Avatar src={helper.avatar} size={100} />
+                  <Avatar src={provider && provider.avatarImage} size={100} />
                 </Col>
                 <Col span={24} className="flex justify-center">
-                  <h2>{helper.name}</h2>
+                  <h2>
+                    {provider && provider.firstName + ' ' + provider.lastName}
+                  </h2>
                 </Col>
                 <Col span={24} className="flex justify-center items-center">
                   <span className="text-gray mr-4">User Ratings</span>
                   <Tag>
                     <StarFilled style={{ color: '#FADB14' }} />
                     <span className="text-bold">
-                      <b>{helper.rating}</b> ({helper.job_count})
+                      <b>{provider && provider.avgRating}</b> (
+                      {provider && provider.totalReview})
                     </span>
                   </Tag>
                 </Col>
                 <Col span={24} className="flex flex-col items-center">
-                  <Rate value={parseInt(helper.rating)} />
+                  <Rate value={parseInt(provider && provider.avgRate)} />
                   <span className="text-gray">Your Ratings</span>
                 </Col>
               </Row>
@@ -71,7 +75,7 @@ export default () => {
           </Col>
           <Col xs={24} sm={24} md={18}>
             <List
-              total={total}
+              hasMore={hasMore}
               data={data}
               loadig={loading}
               page={filter.page}

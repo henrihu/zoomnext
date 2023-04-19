@@ -6,7 +6,7 @@ import { useRouter } from 'next/router';
 import Meta from '@/components/Meta/index';
 import { Row, Col, Button, Card } from 'antd';
 import { ArrowLeftOutlined } from '@ant-design/icons';
-import JobDetail from '@/components/JobDetail';
+import JobDetail from '@/components/Job/JobDetail';
 import BidModal from './BidModal';
 
 // Actions

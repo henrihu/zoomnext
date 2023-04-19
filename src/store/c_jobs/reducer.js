@@ -1,7 +1,7 @@
 import { SET_DATA, SET_LOADING, SET_FILTER } from './actions';
 
 const initialState = {
-  job_list: { data: { total: 0, data: [] }, loading: false },
+  job_list: { data: { hasMore: 0, data: [] }, loading: false },
   job_list_filter: {
     page: 1,
     orderKey: 'jobDateAndTime',

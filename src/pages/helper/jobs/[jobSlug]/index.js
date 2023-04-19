@@ -6,9 +6,9 @@ import { useRouter } from 'next/router';
 import Meta from '@/components/Meta/index';
 import { Row, Col, Button } from 'antd';
 import { ArrowLeftOutlined } from '@ant-design/icons';
-import DetailCard from './DetailCard';
-import BidList from './BidList';
-import StatusList from './StatusList';
+import DetailCard from 'src/components/Job/DetailCard';
+import BidList from 'src/components/Job/BidList';
+import StatusList from 'src/components/Job/StatusList';
 
 // Actions
 import { getJobDetail } from 'src/store/c_jobs/actions';
@@ -44,7 +44,11 @@ export default () => {
           <DetailCard data={data} loading={loading} />
         </Col>
         <Col sm={24} md={16}>
-          {data.status == 'pending' ? <BidList /> : <StatusList />}
+          {data.status == 'pending' ? (
+            <BidList data={data && data.bids} />
+          ) : (
+            <StatusList data={data && data.jobStatusHistory} />
+          )}
         </Col>
       </Row>
     </>
