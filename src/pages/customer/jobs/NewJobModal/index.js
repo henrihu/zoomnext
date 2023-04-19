@@ -1,4 +1,5 @@
 import { useState, useMemo } from 'react';
+import { useRouter } from 'next/router';
 
 // Components
 import { Modal, Form, Divider, Row, Col, Steps, Button, Space } from 'antd';
@@ -6,94 +7,132 @@ import JobStep from './JobStep';
 import ReviewStep from './ReviewStep';
 
 // Utils & Constants
-import { formatNumber } from 'src/utils/common';
-import { BUDGET_OPTION_TOTAL_JOB, FEE_RATE } from 'src/utils/constants';
+import { formatNumber, MergeDateTime } from 'src/utils/common';
+import {
+  POST_OPTION_BID,
+  BUDGET_OPTION_TOTAL_JOB,
+  FEE_RATE,
+  CLEANING_OPTION_BRING,
+  BUDGET_OPTION_HOURLY,
+  CATEGORY_TYPE_CLEANING,
+  CLEANING_OPTION_HAVE,
+  CATEGORY_TYPE_DELIVERY,
+  DATE_TIME_FORMAT,
+  DATE_FORMAT,
+} from 'src/utils/constants';
+import moment from 'moment';
 
-const calcBudget = (option, amount, hour) => {
+const calcBudget = (option, price, hour) => {
   if (option === BUDGET_OPTION_TOTAL_JOB)
-    return amount ? amount * (1 + FEE_RATE / 100) : 0;
-  return amount && hour ? amount * hour * (1 + FEE_RATE / 100) : 0;
+    return price ? price * (1 + FEE_RATE / 100) : 0;
+  return price && hour ? price * hour * (1 + FEE_RATE / 100) : 0;
 };
 
 export default ({ data, open, onOk, onCancel }) => {
+  const router = useRouter();
   const [step, setStep] = useState(0);
   const [values, setValues] = useState({});
   const [form] = Form.useForm();
   const budget = Form.useWatch('budget', form);
-  const amount = Form.useWatch('amount', form);
+  const price = Form.useWatch('price', form);
   const hour = Form.useWatch('hour', form);
+
+  const categoryType = useMemo(() => data && data.categoryType, [data]);
+
   const estimatedBudget = useMemo(() => {
     if (step === 0) {
-      return calcBudget(budget, amount, hour);
+      return calcBudget(budget, price, hour);
     }
-    return calcBudget(values.budget, values.amount, values.hour);
-  }, [budget, amount, hour, step]);
+    return calcBudget(values.budget, values.price, values.hour);
+  }, [budget, price, hour, step]);
+
   const STEP_ITEMS = {
     0: {
       title: 'Job',
-      okText: 'Next',
-      props: { form, budget },
+      oktext: 'Next',
+      props: { form, budget, type: categoryType },
       onOk: () => {
-        setStep(1);
         const param = form.getFieldValue();
-        const temp = {
-          ...data,
-          title: param.title,
-          description: param.description,
-          isHourly: param.isHourly === 'total' ? 0 : 1,
-          isAllowBids: param.post === 'bid' ? 1 : 0,
-          price: param.price,
-
-          address: param.location,
-
-          noOfHours: 3,
-          latitude: 123,
-          longtitude: 123,
-          isBringSupplier: 1,
-
-          numberOfBedrooms: param.beds.count,
+        const cleaning = {
+          numberOfBedRooms: param.beds.count,
           numberOfBathrooms: param.baths.count,
-          isMyOwnSupplier: param.supply === 'have' ? 1 : 0,
-          isBringYourSupplier: param.supply === 'bring' ? 1 : 0,
+          isMyOwnSupplier: param.supply === CLEANING_OPTION_HAVE ? 1 : 0,
+          isBringYourSupplier: param.supply === CLEANING_OPTION_BRING ? 1 : 0,
         };
-        console.log(temp);
-        console.log('param', param);
-        setValues({ ...form.getFieldValue() });
-        // form
-        //   .validateFields()
-        //   .then((v) => {
-        //     setValues(v);
-        //     setStep(1);
-        //   })
-        //   .catch((info) => {
-        //     console.log('Validate Failed:', info);
-        //   });
+        let res = {
+          ...data,
+          ...param.location,
+          ...param,
+          isAllowBids: param.post === POST_OPTION_BID ? 1 : 0,
+          jobDateAndTime: param.date,
+          isHourly: param.budget === BUDGET_OPTION_HOURLY ? 1 : 0,
+          noOfHours: param.budget === BUDGET_OPTION_HOURLY ? param.hour : 0,
+          jobDateAndTime: moment().format(DATE_TIME_FORMAT),
+        };
+        if (categoryType === CATEGORY_TYPE_CLEANING) {
+          res = { ...res, ...cleaning };
+          res.jobDateAndTime = MergeDateTime(param.date, param.time);
+        }
+        if (categoryType === CATEGORY_TYPE_DELIVERY) {
+          res.pickUpDateAndTime = MergeDateTime(
+            param.pickUpDate,
+            param.pickUpTime
+          );
+          res.pickUpaddress = param.pickUpLocation.address;
+          Object.keys(param.pickUpLocation).map(
+            (item, ind) =>
+              (res['pickUp' + item[0].toUpperCase() + item.slice(1)] =
+                param.pickUpLocation[item])
+          );
+
+          res.dropOffDateAndTime = MergeDateTime(
+            param.dropOffDate,
+            param.dropOffTime
+          );
+          Object.keys(param.dropOffLocation).map(
+            (item, ind) =>
+              (res['dropOff' + item[0].toUpperCase() + item.slice(1)] =
+                param.dropOffLocation[item])
+          );
+        }
+        console.log('res', res);
+        setValues(res);
+        setStep(1);
       },
-      renderComponent: (props) => <JobStep {...props} />,
+      // rendercomponent: (props) => <JobStep {...props} />,
     },
     1: {
       title: 'Review',
-      okText: 'Post Job',
-      cancelText: 'Prev',
-      props: { data: values },
+      oktext: 'Post Job',
+      canceltext: 'Prev',
+      props: { data: values, type: categoryType },
       onOk: () => {
         Modal.confirm({
           content: 'Confirm your post?',
-          onOk: () => onOk(values),
+          centered: true,
+          onOk: async () => {
+            const res = await onOk(values);
+            if (res !== false) {
+              onCancel();
+              router.push(`/customer/jobs/${res.job.jobSlug}`);
+            }
+          },
         });
       },
       onCancel: () => {
         setStep(0);
       },
-      renderComponent: (props) => <ReviewStep {...props} />,
+      // rendercomponent: (props) => <ReviewStep {...props} />,
     },
   };
+
   const modal_props = {
     title: 'Job Details',
     open,
     maskClosable: false,
     onCancel,
   };
+
   return (
     <Modal {...modal_props} footer={false}>
       <Divider />
@@ -107,7 +146,9 @@ export default ({ data, open, onOk, onCancel }) => {
           />
         </Col>
         <Col span={24}>
-          {STEP_ITEMS[step].renderComponent(STEP_ITEMS[step].props)}
+          {step === 0 && <JobStep {...STEP_ITEMS[step].props} />}
+          {step === 1 && <ReviewStep {...STEP_ITEMS[step].props} />}
+          {/* {STEP_ITEMS[step].rendercomponent(STEP_ITEMS[step].props)} */}
         </Col>
         <Col span={24}>
           <Divider style={{ margin: '4px 0px' }} />
@@ -125,13 +166,13 @@ export default ({ data, open, onOk, onCancel }) => {
         </Col>
         <Col span={24} className="flex justify-end">
           <Space>
-            {STEP_ITEMS[step].cancelText && (
+            {STEP_ITEMS[step].canceltext && (
               <Button onClick={STEP_ITEMS[step].onCancel}>
-                {STEP_ITEMS[step].cancelText}
+                {STEP_ITEMS[step].canceltext}
               </Button>
             )}
             <Button type="primary" onClick={STEP_ITEMS[step].onOk}>
-              {STEP_ITEMS[step].okText}
+              {STEP_ITEMS[step].oktext}
             </Button>
           </Space>
         </Col>

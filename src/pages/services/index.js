@@ -79,10 +79,7 @@ export default () => {
         </Row>
         <NewJobModal
           {...modal}
-          onOk={(data) => {
-            dispatch(createJob(data));
-            // setModal({ open: false });
-          }}
+          onOk={(data) => dispatch(createJob(data))}
           onCancel={() => setModal({ open: false })}
         />
       </Spin>

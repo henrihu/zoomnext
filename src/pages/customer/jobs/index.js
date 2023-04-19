@@ -3,11 +3,9 @@ import { useSelector, useDispatch } from 'react-redux';
 
 // Components
 import Meta from '@/components/Meta/index';
-import { Button, Row, Col, Spin } from 'antd';
-import { PlusOutlined } from '@ant-design/icons';
+import { Row, Col, Spin } from 'antd';
 import Filter from './Filter';
 import List from './List';
-import NewJobModal from './NewJobModal/index';
 
 // Actions
 import { getMyJobList, setFilter, createJob } from 'src/store/c_jobs/actions';
@@ -57,30 +55,9 @@ export default () => {
             sm={{ span: 24, order: 1 }}
             md={{ span: 6, order: 2 }}
           >
-            <Row gutter={[8, 8]}>
-              <Col span={24}>
-                <Filter filter={filter} onSetFilter={handleSetFilter} />
-              </Col>
-              <Col span={24}>
-                <Button
-                  danger
-                  icon={<PlusOutlined />}
-                  onClick={() => setModal({ open: true })}
-                >
-                  Click here to post more task!
-                </Button>
-              </Col>
-            </Row>
+            <Filter filter={filter} onSetFilter={handleSetFilter} />
           </Col>
         </Row>
-        <NewJobModal
-          {...modal}
-          onOk={(data) => {
-            dispatch(createJob(data));
-            // setModal({ open: false });
-          }}
-          onCancel={() => setModal({ open: false })}
-        />
       </Spin>
     </>
   );

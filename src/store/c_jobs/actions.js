@@ -1,7 +1,7 @@
 import API from 'src/api/jobs';
 import moment from 'moment';
 import { JOB_STATUS_ASSIGNED } from 'src/utils/constants';
-import { showError } from 'src/utils/messages';
+import { showError, showSuccess } from 'src/utils/messages';
 
 export const SET_DATA = '[CUSTOMER JOBS] SET DATA]';
 export const SET_LOADING = '[CUSTOMER JOBS] SET LOADING';
@@ -65,12 +65,19 @@ export const createJob = (params) => {
     const key = 'create_job';
     try {
       dispatch(setLoading(key, true));
-      const data = await API.createJob(params);
-      console.log(data);
+      const { data } = await API.createJob(params);
+      dispatch(setLoading(key, false));
+      if (data.status !== 1) {
+        showError(data.message);
+        return false;
+      }
+      showSuccess(data.message);
+      return data.result;
     } catch (err) {
       console.error(err);
+      dispatch(setLoading(key, false));
+      return false;
     }
-    dispatch(setLoading(key, false));
   };
 };
 

@@ -39,6 +39,10 @@ export const BUDGET_OPTION_LIST = {
   [BUDGET_OPTION_HOURLY]: { label: 'Hourly' },
 };
 
+// Address Option List
+export const ADDRESS_OPTION_PICKUP = 'pickUp';
+export const ADDRESS_OPTION_DROPOFF = 'dropOff';
+
 // Post Option List
 export const POST_OPTION_FIRST_HELPER = 'first';
 export const POST_OPTION_BID = 'bid';
@@ -64,8 +68,24 @@ export const MESSAGE_TYPE_MESSAGE = 'MESSAGE';
 export const MESSAGE_TYPE_IMAGE = 'IMAGE';
 
 // Date & Time Format
+export const DATE_TIME_FORMAT = 'YYYY-MM-DD HH:mm:ss';
 export const DATE_FORMAT = 'YYYY-MM-DD';
 export const TIME_FORMAT = 'h:mm A';
 
 // Fee
 export const FEE_RATE = 5;
+
+// Category Type
+export const CATEGORY_TYPE_CLEANING = 'Cleaning';
+export const CATEGORY_TYPE_DELIVERY = 'Delivery';
+export const CATEGORY_TYPE_NORMAL = 'Normal';
+
+export const TEMP_ADDRESS_DATE = {
+  latitude: '123',
+  longitude: '123',
+  address: 'sss',
+  state: 'sss',
+  city: 'sss',
+  country: 'sss',
+  zipcode: '385943',
+};

@@ -20,9 +20,12 @@ import {
   CLEANING_OPTION_LIST,
   TIME_FORMAT,
   CLEANING_OPTION_HAVE,
+  CATEGORY_TYPE_CLEANING,
+  CATEGORY_TYPE_DELIVERY,
 } from 'src/utils/constants';
+import SelectAddress from './SelectAddress';
 
-export default ({ form, budget, estimateBudget }) => {
+export default ({ form, budget, type }) => {
   return (
     <Row justify="center">
       <Col span={24}>
@@ -54,6 +57,7 @@ export default ({ form, budget, estimateBudget }) => {
               </Space>
             </Radio.Group>
           </Form.Item>
+
           <Form.Item
             label="Job Title"
             name="title"
@@ -79,31 +83,6 @@ export default ({ form, budget, estimateBudget }) => {
             />
           </Form.Item>
 
-          <Form.Item label="Cleaning Detail">
-            <Form.Item name="beds">
-              <CleaningItem name="Beds" />
-            </Form.Item>
-            <Form.Item name="baths">
-              <CleaningItem name="Baths" />
-            </Form.Item>
-            <Form.Item
-              name="supply"
-              rules={[
-                { required: true, message: 'Please input your username!' },
-              ]}
-            >
-              <Radio.Group>
-                <Space>
-                  {Object.keys(CLEANING_OPTION_LIST).map((key) => (
-                    <Radio value={key} key={key}>
-                      {CLEANING_OPTION_LIST[key].label}
-                    </Radio>
-                  ))}
-                </Space>
-              </Radio.Group>
-            </Form.Item>
-          </Form.Item>
-
           <Form.Item
             label="Select Location"
             name="location"
@@ -117,31 +96,68 @@ export default ({ form, budget, estimateBudget }) => {
             <SelectLocation name="Location" />
           </Form.Item>
 
-          <Space.Compact block>
-            <Form.Item
-              label="Date"
-              name="date"
-              className="w-full"
-              rules={[{ required: true, message: 'Please select date!' }]}
-            >
-              <DatePicker className="w-full" />
-            </Form.Item>
-            <Form.Item
-              label="Time"
-              name="time"
-              className="w-full"
-              rules={[{ required: true, message: 'Please select time!' }]}
-            >
-              <TimePicker
-                className="w-full"
-                minuteStep={15}
-                format={TIME_FORMAT}
-              />
-            </Form.Item>
-          </Space.Compact>
+          {type === CATEGORY_TYPE_CLEANING && (
+            <>
+              <Space.Compact block>
+                <Form.Item
+                  label="Date"
+                  name="date"
+                  className="w-full"
+                  rules={[{ required: true, message: 'Please select date!' }]}
+                >
+                  <DatePicker className="w-full" />
+                </Form.Item>
+
+                <Form.Item
+                  label="Time"
+                  name="time"
+                  className="w-full"
+                  rules={[{ required: true, message: 'Please select time!' }]}
+                >
+                  <TimePicker
+                    className="w-full"
+                    minuteStep={15}
+                    format={TIME_FORMAT}
+                  />
+                </Form.Item>
+              </Space.Compact>
+              <Form.Item label="Cleaning Detail">
+                <Form.Item name="beds">
+                  <CleaningItem name="Beds" />
+                </Form.Item>
+                <Form.Item name="baths">
+                  <CleaningItem name="Baths" />
+                </Form.Item>
+                <Form.Item
+                  name="supply"
+                  rules={[
+                    { required: true, message: 'Please input your username!' },
+                  ]}
+                >
+                  <Radio.Group>
+                    <Space>
+                      {Object.keys(CLEANING_OPTION_LIST).map((key) => (
+                        <Radio value={key} key={key}>
+                          {CLEANING_OPTION_LIST[key].label}
+                        </Radio>
+                      ))}
+                    </Space>
+                  </Radio.Group>
+                </Form.Item>
+              </Form.Item>
+            </>
+          )}
+
+          {type === CATEGORY_TYPE_DELIVERY && (
+            <>
+              <SelectAddress type="pickUp" />
+              <SelectAddress type="dropOff" />
+            </>
+          )}
+
           <Form.Item
             label="Budget"
-            name="isHourly"
+            name="budget"
             rules={[{ required: true, message: 'Please input budget!' }]}
           >
             <Radio.Group>
@@ -152,11 +168,12 @@ export default ({ form, budget, estimateBudget }) => {
               ))}
             </Radio.Group>
           </Form.Item>
+
           <Row gutter={8}>
             <Col span={budget === BUDGET_OPTION_HOURLY ? 12 : 24}>
               <Form.Item
-                name="amount"
-                rules={[{ required: true, message: 'Please input amount!' }]}
+                name="price"
+                rules={[{ required: true, message: 'Please input price!' }]}
               >
                 <InputNumber
                   addonBefore="$"

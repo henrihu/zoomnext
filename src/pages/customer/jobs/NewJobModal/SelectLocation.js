@@ -1,5 +1,6 @@
 import { Button, Space, Card, Checkbox } from 'antd';
 import { EnvironmentOutlined } from '@ant-design/icons';
+import { TEMP_ADDRESS_DATE } from 'src/utils/constants';
 
 export default ({ name = 'Location', value, onChange }) => {
   return (
@@ -7,7 +8,7 @@ export default ({ name = 'Location', value, onChange }) => {
       size="small"
       className="cursor-pointer"
       bodyStyle={{ border: '1px solid #d9d9d9', borderRadius: 6 }}
-      onClick={() => onChange('My Location')}
+      onClick={() => onChange(TEMP_ADDRESS_DATE)}
     >
       <div className="flex items-center">
         <Button
@@ -17,8 +18,8 @@ export default ({ name = 'Location', value, onChange }) => {
           shape="circle"
         />
         <div className="flex flex-col">
-          <span className="font-bold">{name}</span>
-          <span>{value}</span>
+          <span>{name}</span>
+          <small>{value && value.address}</small>
         </div>
       </div>
     </Card>

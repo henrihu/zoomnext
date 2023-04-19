@@ -21,5 +21,9 @@ export const formatDate = (
   return new Intl.DateTimeFormat('en', option).format(date);
 };
 
+export const MergeDateTime = (date, time) => {
+  return date.format('YYYY-MM-DD') + ' ' + time.format('HH:mm:ss');
+};
+
 export const findStrInObj = (obj, str) =>
   JSON.stringify(obj).toLowerCase().includes(str.toLowerCase());
