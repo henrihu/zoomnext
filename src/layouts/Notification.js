@@ -105,6 +105,7 @@ export default () => {
         {data && data.hasMore ? (
           <Button
             size="small"
+            type="text"
             icon={<DownOutlined />}
             onClick={() =>
               setPagination({ ...pagination, page: pagination.page + 1 })

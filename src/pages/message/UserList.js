@@ -1,23 +1,7 @@
 import { useMemo, useState } from 'react';
 import { Avatar, List, Input, Card, Badge, Divider, theme } from 'antd';
 import { findStrInObj } from 'src/utils/common';
-
-// RequestDate: '17-Aug-2022';
-// firstName: 'Michael Thomsoner';
-// id: 2;
-// identifier: '5_6_29';
-// isallowSendSms: 1;
-// jobId: 29;
-// lastMessageId: 18;
-// lastName: 'provide';
-// message: 'Hii';
-// messageTime: '17 Aug 2022';
-// messageType: 'MESSAGE';
-// mobileNumber: '4565456545';
-// mt: '2022-08-17 06:09:48';
-// profileImage: 'http://10.97.5.48:8000/images/profiles/user5_1661070694.jpg';
-// unReadCount: 0;
-// userId: 5;
+import { format } from 'timeago.js';
 
 export default ({ data, loading, selected, setSelected }) => {
   const { token } = theme.useToken();
@@ -48,11 +32,13 @@ export default ({ data, loading, selected, setSelected }) => {
           <List.Item
             extra={
               <div className="flex flex-col items-end gap-1">
-                <span className="text-gray">{item.messageTime}</span>
+                <span className="text-gray">{format(item.mt)}</span>
                 {item.unReadCount ? (
                   <Badge count={item.unReadCount} color={token.colorPrimary} />
+                ) : item.isallowSendSms ? (
+                  <Badge dot color="blue" />
                 ) : (
-                  <Badge dot color={item.isallowSendSms ? 'blue' : 'red'} />
+                  <></>
                 )}
               </div>
             }

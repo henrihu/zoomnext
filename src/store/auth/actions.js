@@ -16,6 +16,7 @@ export const setData = (data) => (dispatch) => {
 };
 
 export const setType = (type) => (dispatch) => {
+  setStorageItem('user_type', type);
   dispatch({ type: SET_DATA, payload: { type: type ? type : TYPE_CUSTOMER } });
 };
 

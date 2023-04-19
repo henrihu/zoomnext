@@ -170,7 +170,7 @@ export const getChats = (selected) => {
         jobId: selected.jobId,
       });
       if (data.status === 1) {
-        dispatch(setData(key, data.result.data));
+        dispatch(setData(key, data.result.data.reverse()));
       } else {
         showError(data.message);
       }
@@ -182,14 +182,22 @@ export const getChats = (selected) => {
 };
 
 export const sendMessage = (info) => {
-  return async () => {
+  return async (dispatch, getState) => {
+    const key = 'sendMessage';
     try {
+      dispatch(setPending(key, true));
       const { data } = await API.sendMessage({
         timeZone: '+00:00',
         ...info,
       });
+      dispatch(setPending(key, false));
       if (data.status === 1) {
-        // dispatch(setData(key, data.result.data));
+        dispatch(
+          setData('chats', [
+            ...getState().common.chats.data,
+            data.result.lastMessage,
+          ])
+        );
         return true;
       } else {
         showError(data.message);
@@ -197,6 +205,7 @@ export const sendMessage = (info) => {
       }
     } catch (err) {
       console.error(err);
+      dispatch(setPending(key, false));
       return false;
     }
   };

@@ -2,19 +2,7 @@ import { Button, Row, Col, Card, Input, Divider, Space, Avatar } from 'antd';
 import { SendOutlined, PlusOutlined } from '@ant-design/icons';
 import { MESSAGE_TYPE_MESSAGE } from 'src/utils/constants';
 import { useAuth } from 'src/store/auth/actions';
-
-// createdAt: '2022-08-17 18:46:09';
-// id: 23;
-// identifier: '5_6_22';
-// isRead: 1;
-// message: 'I am fine';
-// messageDate: '17 August 2022';
-// messageTime: '06:46 PM';
-// messageType: 'MESSAGE';
-// messageUrl: 'I am fine';
-// receiverId: 5;
-// senderId: 6;
-// thumbnailImage: '';
+import { format } from 'timeago.js';
 
 const renderMessageBox = (data) => {
   return (
@@ -59,17 +47,13 @@ export default ({ data }) => {
             />
             <div className="flex flex-col gap-1">
               {renderMessageBox(data)}
-              <span className="text-gray">
-                {data.messageDate} {data.messageTime}
-              </span>
+              <span className="text-gray">{format(data.createdAt)}</span>
             </div>
           </div>
         ) : (
           <div className="flex flex-col items-end gap-1">
             {renderMessageBox(data)}
-            <span className="text-gray">
-              {data.messageDate} {data.messageTime}
-            </span>
+            <span className="text-gray">{format(data.createdAt)}</span>
           </div>
         )}
       </Col>

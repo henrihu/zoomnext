@@ -12,15 +12,21 @@ import {
   Badge,
 } from 'antd';
 import { ArrowsAltOutlined } from '@ant-design/icons';
-
-import { logOut } from 'src/store/auth/actions';
+import { logOut, setType, useAuth } from 'src/store/auth/actions';
 import { setMenuDrawer } from 'src/store/setting/actions';
+import {
+  CUSTOMER,
+  HELPER,
+  TYPE_CUSTOMER,
+  TYPE_HELPER,
+} from 'src/utils/constants';
 
 export default ({ items }) => {
   const dispatch = useDispatch();
   const router = useRouter();
   const { token } = theme.useToken();
   const { menu_drawer } = useSelector(({ setting }) => setting);
+  const { type } = useAuth();
   return (
     <Drawer
       open={menu_drawer}
@@ -71,8 +77,19 @@ export default ({ items }) => {
           </Menu>
         </Col>
         <Col span={24}>
-          <Button type="link">
-            Switch to Helper <ArrowsAltOutlined />
+          <Button
+            type="link"
+            onClick={() => {
+              router.push('/services');
+              dispatch(
+                setType(type === TYPE_CUSTOMER ? TYPE_HELPER : TYPE_CUSTOMER)
+              );
+            }}
+          >
+            {`Switch to ${
+              type === TYPE_CUSTOMER ? HELPER.label : CUSTOMER.label
+            }`}
+            <ArrowsAltOutlined />
           </Button>
         </Col>
         <Col span={24}>

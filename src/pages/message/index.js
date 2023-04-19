@@ -5,10 +5,14 @@ import { useSelector, useDispatch } from 'react-redux';
 import Meta from '@/components/Meta/index';
 import { Card, Row, Col, Spin, Space, Button } from 'antd';
 import UserList from './UserList';
-import ChatBoard from './ChatBoard';
+import MessageList from './MessageList';
 
 // Actions
-import { getChats, getConversations } from 'src/store/common/actions';
+import {
+  getChats,
+  getConversations,
+  initStore,
+} from 'src/store/common/actions';
 import { setData as setAuthData } from 'src/store/auth/actions';
 
 export default () => {
@@ -19,6 +23,10 @@ export default () => {
   useEffect(() => {
     dispatch(getConversations());
     dispatch(setAuthData({ messageCount: 0 }));
+    return () => {
+      dispatch(initStore('conversations'));
+      dispatch(initStore('chats'));
+    };
   }, []);
 
   useEffect(() => {
@@ -45,7 +53,7 @@ export default () => {
             />
           </Col>
           <Col xs={24} sm={24} md={16}>
-            <ChatBoard
+            <MessageList
               data={chats.data}
               loading={chats.loading}
               selected={selected}

@@ -50,6 +50,7 @@ export default () => {
                   alignItems: 'center',
                   gap: 8,
                 }}
+                loading={loading}
                 hoverable
                 size="small"
               >
