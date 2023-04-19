@@ -35,6 +35,29 @@ export default ({ data, open, onOk, onCancel }) => {
       props: { form, budget },
       onOk: () => {
         setStep(1);
+        const param = form.getFieldValue();
+        const temp = {
+          ...data,
+          title: param.title,
+          description: param.description,
+          isHourly: param.isHourly === 'total' ? 0 : 1,
+          isAllowBids: param.post === 'bid' ? 1 : 0,
+          price: param.price,
+
+          address: param.location,
+
+          noOfHours: 3,
+          latitude: 123,
+          longtitude: 123,
+          isBringSupplier: 1,
+
+          numberOfBedrooms: param.beds.count,
+          numberOfBathrooms: param.baths.count,
+          isMyOwnSupplier: param.supply === 'have' ? 1 : 0,
+          isBringYourSupplier: param.supply === 'bring' ? 1 : 0,
+        };
+        console.log(temp);
+        console.log('param', param);
         setValues({ ...form.getFieldValue() });
         // form
         //   .validateFields()

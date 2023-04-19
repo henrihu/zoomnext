@@ -33,7 +33,7 @@ export default ({ form, budget, estimateBudget }) => {
             post: POST_OPTION_FIRST_HELPER,
             budget: BUDGET_OPTION_TOTAL_JOB,
             supply: CLEANING_OPTION_HAVE,
-            numberOfBedrooms: { checked: true, count: 1 },
+            beds: { checked: true, count: 1 },
             baths: { checked: true, count: 1 },
           }}
           requiredMark={false}
@@ -80,7 +80,7 @@ export default ({ form, budget, estimateBudget }) => {
           </Form.Item>
 
           <Form.Item label="Cleaning Detail">
-            <Form.Item name="numberOfBedrooms">
+            <Form.Item name="beds">
               <CleaningItem name="Beds" />
             </Form.Item>
             <Form.Item name="baths">

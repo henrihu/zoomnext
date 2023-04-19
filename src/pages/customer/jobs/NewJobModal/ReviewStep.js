@@ -81,8 +81,7 @@ export default ({ data }) => {
       </Col>
       <Col span={24}>
         <DescItem label="Cleaning Details">
-          {data.numberOfBedrooms.checked &&
-            `${data.numberOfBedrooms.count} Bedroom `}
+          {data.beds.checked && `${data.beds.count} Bedroom `}
           {data.baths.checked && `${data.baths.count} Bathroom`}
         </DescItem>
       </Col>

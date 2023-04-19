@@ -2,7 +2,7 @@ import { Card } from 'antd';
 import Image from 'next/image';
 import { theme } from 'antd';
 
-export default ({ data }) => {
+export default ({ data, onClick }) => {
   const { token } = theme.useToken();
   return (
     <Card
@@ -12,6 +12,7 @@ export default ({ data }) => {
         width: 150,
         height: 150,
       }}
+      onClick={onClick}
     >
       <Image
         src={`/images/category_image/${data.image}`}

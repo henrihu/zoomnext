@@ -12,11 +12,14 @@ import { getServiceList } from 'src/store/common/actions';
 
 // Utils
 import { findStrInObj } from 'src/utils/common';
+import NewJobModal from '../customer/jobs/NewJobModal';
+import { createJob } from 'src/store/c_jobs/actions';
 
 export default () => {
   const dispatch = useDispatch();
   const { data, loading } = useSelector(({ common }) => common.service_list);
   const [search, setSearch] = useState('');
+  const [modal, setModal] = useState({ open: false });
 
   const filtered_data = useMemo(
     () => data.filter((item) => findStrInObj(item, search)),
@@ -54,7 +57,19 @@ export default () => {
                 className="flex justify-center items-center"
               >
                 {filtered_data.map((item, ind) => (
-                  <ServiceCard data={item} key={ind} />
+                  <ServiceCard
+                    data={item}
+                    onClick={() =>
+                      setModal({
+                        open: true,
+                        data: {
+                          categorySlug: item.slug,
+                          categoryType: item.type,
+                        },
+                      })
+                    }
+                    key={ind}
+                  />
                 ))}
               </Space>
             ) : (
@@ -62,6 +77,14 @@ export default () => {
             )}
           </Col>
         </Row>
+        <NewJobModal
+          {...modal}
+          onOk={(data) => {
+            dispatch(createJob(data));
+            // setModal({ open: false });
+          }}
+          onCancel={() => setModal({ open: false })}
+        />
       </Spin>
     </>
   );
