@@ -84,7 +84,6 @@ export default () => {
         icon: <ProfileOutlined />,
         href: '/help',
       },
-      { key: '7', label: "FAQ's", icon: <SettingOutlined /> },
       { key: '8', label: 'Refer Friends', icon: <UsergroupAddOutlined /> },
     ],
     [messageCount]
@@ -126,13 +125,14 @@ export default () => {
           </Link>
           <Menu
             mode="horizontal"
-            defaultSelectedKeys={
+            defaultSelectedKeys={[
               ITEM_LIST.find(
                 ({ href }) => router.pathname.indexOf(href) !== -1
               ) &&
-              ITEM_LIST.find(({ href }) => router.pathname.indexOf(href) !== -1)
-                .key
-            }
+                ITEM_LIST.find(
+                  ({ href }) => router.pathname.indexOf(href) !== -1
+                ).key,
+            ]}
             inlineIndent={0}
             className="flex justify-between flex-auto font-bold min-w-0"
           >

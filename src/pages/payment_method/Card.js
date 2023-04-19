@@ -1,9 +1,11 @@
-import { Card, Button, Row, Col, Space, Switch } from 'antd';
+import { Card, Button, Row, Col, Space, Switch, Modal } from 'antd';
+import { useDispatch } from 'react-redux';
 import Image from 'next/image';
 import { DeleteOutlined } from '@ant-design/icons';
-import moment from 'moment';
+import { deleteCard, setDefaultCard } from 'src/store/payment/actions';
 
 export default ({ data }) => {
+  const dispatch = useDispatch();
   return (
     <Card
       hoverable
@@ -12,12 +14,30 @@ export default ({ data }) => {
       }}
       size="small"
       actions={[
-        <Button type="text" danger icon={<DeleteOutlined />} size="small">
+        <Button
+          type="text"
+          danger
+          icon={<DeleteOutlined />}
+          onClick={() =>
+            Modal.confirm({
+              content: 'Do you really want to delete card?',
+              onOk: () => {
+                dispatch(deleteCard(data.id));
+              },
+              width: 300,
+            })
+          }
+          size="small"
+        >
           Delete
         </Button>,
         <Space>
           Set as primary
-          <Switch checked={data.default} size="small" />
+          <Switch
+            checked={data.isDefault}
+            size="small"
+            onChange={() => dispatch(setDefaultCard(data.id))}
+          />
         </Space>,
       ]}
     >
@@ -37,9 +57,9 @@ export default ({ data }) => {
           </div>
         </Col>
         <Col span={24}>
-          <h2>{data.cardholderName}</h2>
+          <h2>{data.cardHolderName}</h2>
         </Col>
-        <Col span={24}>{moment(data.expDate).format('YYYY-MM')}</Col>
+        {/* <Col span={24}>{moment(data.expDate).format('YYYY-MM')}</Col> */}
       </Row>
     </Card>
   );

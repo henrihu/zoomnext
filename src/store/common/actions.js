@@ -28,48 +28,60 @@ export const getServiceList = () => {
 
 export const getFaqList = () => {
   return async (dispatch) => {
-    const key = 'faq_list';
-    dispatch(setLoading(key, true));
-    const {
-      data: { message, status, result },
-    } = await API.getFaqList();
-    dispatch(setLoading(key, false));
-    if (status !== 1) {
-      showError(message);
-      return;
+    try {
+      const key = 'faq_list';
+      dispatch(setLoading(key, true));
+      const {
+        data: { message, status, result },
+      } = await API.getFaqList();
+      dispatch(setLoading(key, false));
+      if (status !== 1) {
+        showError(message);
+        return;
+      }
+      dispatch(setData(key, result.faqs));
+    } catch (err) {
+      console.error(err);
     }
-    dispatch(setData(key, result.faqs));
   };
 };
 
 export const contactUs = (data) => {
   return async (dispatch) => {
-    const key = 'contactUs';
-    dispatch(setPending(key, true));
-    const {
-      data: { message, status, result },
-    } = await API.contactUs(data);
-    dispatch(setPending(key, false));
-    if (status !== 1) {
-      showError(message);
+    try {
+      const key = 'contactUs';
+      dispatch(setPending(key, true));
+      const {
+        data: { message, status, result },
+      } = await API.contactUs(data);
+      dispatch(setPending(key, false));
+      if (status !== 1) {
+        showError(message);
+        return false;
+      }
+      return true;
+    } catch (err) {
       return false;
     }
-    return true;
   };
 };
 
 export const getNotificationList = (data) => {
   return async (dispatch) => {
-    const key = 'notification_list';
-    dispatch(setLoading(key, true));
-    const { data } = await API.getNotificationList();
-    dispatch(setLoading(key, false));
-    if (data.status !== 1) {
-      showError(data.message);
-      return;
+    try {
+      const key = 'notification_list';
+      dispatch(setLoading(key, true));
+      const { data } = await API.getNotificationList();
+      dispatch(setLoading(key, false));
+      if (data.status !== 1) {
+        showError(data.message);
+        return;
+      }
+      dispatch(setData(key, data.result.notificationList));
+      dispatch(setNotificationDrawer(true));
+    } catch (err) {
+      console.error(err);
     }
-    dispatch(setData(key, data.result.notificationList));
-    dispatch(setNotificationDrawer(true));
   };
 };
 

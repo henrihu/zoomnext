@@ -21,9 +21,12 @@ export default ({ open, onOk, onCancel }) => {
     onOk: () => {
       form
         .validateFields()
-        .then((v) => {
-          onCancel();
-          form.resetFields();
+        .then(async (values) => {
+          const isSuccess = await onOk(values);
+          if (isSuccess) {
+            onCancel();
+            form.resetFields();
+          }
         })
         .catch((info) => {
           console.log('Validate Failed:', info);
@@ -60,8 +63,8 @@ export default ({ open, onOk, onCancel }) => {
             <Form.Item name="year" rules={[{ required: true }]}>
               <Input placeholder="Year" />
             </Form.Item>
-            <Form.Item name="cvv" rules={[{ required: true }]}>
-              <Input placeholder="CVV" />
+            <Form.Item name="cvc" rules={[{ required: true }]}>
+              <Input placeholder="CVC" />
             </Form.Item>
           </Space>
         </Form.Item>
