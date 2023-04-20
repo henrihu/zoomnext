@@ -57,6 +57,9 @@ export const signInWithEmail = (signData, router) => {
 export const signInWithToken = (router) => {
   return async (dispatch) => {
     try {
+      if (!getStorageItem('access_token')) {
+        return;
+      }
       await setAuthorization(getStorageItem('access_token'));
       const {
         data: { status, result, message },
@@ -72,14 +75,10 @@ export const signInWithToken = (router) => {
         });
       } else {
         showError(data.message);
-        removeStorageItem('user_type');
-        removeStorageItem('acces_token');
-        router.push('/auth/login');
+        dispatch(logOut(router));
       }
     } catch (err) {
-      removeStorageItem('user_type');
-      removeStorageItem('acces_token');
-      router.push('/auth/login');
+      dispatch(logOut(router));
     }
   };
 };
@@ -103,11 +102,12 @@ export const signUp = (info) => {
 export const logOut = (router) => {
   return async (dispatch) => {
     try {
-      await router.push('/');
-      dispatch({
+      await dispatch({
         type: SET_DATA,
         payload: { authenticated: false },
       });
+      await router.push('/');
+
       removeStorageItem('user_type');
       removeStorageItem('access_token');
     } catch (err) {

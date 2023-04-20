@@ -188,7 +188,7 @@ export default () => {
         label: 'Profile',
         icon: <ProfileOutlined />,
         type: 'link',
-        href: `/${type}/profile`,
+        href: '/profile',
       },
       {
         key: 'switch',
