@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Button, Row, Col } from 'antd';
+import { Button, Row, Col, Select } from 'antd';
 import {
   SortAscendingOutlined,
   SortDescendingOutlined,
@@ -8,6 +8,7 @@ import {
 export default ({ filter, onSetFilter }) => {
   const [date, setDate] = useState('asc');
   const [totalPrice, setTotalPrice] = useState('asc');
+  const [jobStatus, setJobStatus] = useState('all');
   return (
     <Row gutter={[8, 8]}>
       <Col xs={8} sm={8} md={24}>
@@ -20,7 +21,7 @@ export default ({ filter, onSetFilter }) => {
             )
           }
           className="w-full"
-          type={filter.orderKey == 'date' ? 'primary' : 'default'}
+          type={filter.orderKey == 'jobDateAndTime' ? 'primary' : 'default'}
           onClick={() => {
             const orderValue = date === 'asc' ? 'desc' : 'asc';
             setDate(orderValue);
@@ -51,9 +52,18 @@ export default ({ filter, onSetFilter }) => {
         </Button>
       </Col>
       <Col xs={8} sm={8} md={24}>
-        <Button icon={<SortAscendingOutlined />} className="w-full">
-          Location
-        </Button>
+        <Select
+          className="w-full text-center"
+          value={jobStatus}
+          onChange={(val) => {
+            setJobStatus(val);
+            onSetFilter({ jobStatus: val });
+          }}
+        >
+          <Select.Option value="all">All</Select.Option>
+          <Select.Option value="open">open</Select.Option>
+          <Select.Option value="close">close</Select.Option>
+        </Select>
       </Col>
     </Row>
   );

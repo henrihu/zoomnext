@@ -79,7 +79,7 @@ export default () => {
             )}
           </Col>
         </Row>
-        {userDetail.isCustomer && (
+        {userDetail && userDetail.isCustomer && (
           <NewJobModal
             {...modal}
             onOk={(data) => dispatch(createJob(data))}
