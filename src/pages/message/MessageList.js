@@ -25,6 +25,12 @@ export default ({ data, loading, selected }) => {
   useEffect(() => {
     setMessage('');
   }, [selected]);
+  useEffect(() => {
+    if (!loading) {
+      const chatBoard = window.document.getElementById('chat-board');
+      chatBoard.scrollTo(0, chatBoard.scrollHeight);
+    }
+  }, [loading]);
   const handleSendMessage = async () => {
     setPending(true);
     const isSuccess = await dispatch(
@@ -37,6 +43,8 @@ export default ({ data, loading, selected }) => {
     );
     if (isSuccess) {
       setMessage('');
+      const chatBoard = window.document.getElementById('chat-board');
+      chatBoard.scrollTo(0, chatBoard.scrollHeight);
     }
     setPending(false);
   };
@@ -69,6 +77,7 @@ export default ({ data, loading, selected }) => {
             overflow: 'auto',
             padding: 16,
           }}
+          id="chat-board"
         >
           <Space direction="vertical" className="w-full">
             {data.map((item, index) => (

@@ -30,18 +30,6 @@ export default ({ data, loading, selected, setSelected }) => {
         }}
         renderItem={(item, index) => (
           <List.Item
-            extra={
-              <div className="flex flex-col items-end gap-1">
-                <span className="text-gray">{format(item.mt)}</span>
-                {item.unReadCount ? (
-                  <Badge count={item.unReadCount} color={token.colorPrimary} />
-                ) : item.isallowSendSms ? (
-                  <Badge dot color="blue" />
-                ) : (
-                  <></>
-                )}
-              </div>
-            }
             key={index}
             onClick={() => setSelected(item)}
             className={[
@@ -49,21 +37,35 @@ export default ({ data, loading, selected, setSelected }) => {
               selected && selected.id === item.id && 'user-item-selected',
             ]}
           >
-            <div className="flex items-center">
-              <Avatar
-                src={item.profileImage}
-                className="mr-1"
-                size="large"
-                style={{ minWidth: 32, minHeight: 32 }}
-              />
-              <div className="flex flex-col gap-1 ml-1">
-                <span className="font-bold">{item.firstName}</span>
-                <span
-                  className="text-gray overflow-hidden"
-                  style={{ width: 200 }}
-                >
-                  {item.message}
-                </span>
+            <div className="flex items-center p-2">
+              <Avatar src={item.profileImage} className="mr-2" size={45} />
+              <div className="flex flex-1 flex-col justify-center overflow-hidden gap-1">
+                <div className="flex justify-between items-center">
+                  <span className="font-bold">{item.firstName}</span>
+                  <span className="text-gray">{format(item.mt)}</span>
+                </div>
+                <div className="flex justify-between items-center">
+                  <div
+                    style={{
+                      flex: 1,
+                      whiteSpace: 'nowrap',
+                      textOverflow: 'ellipsis',
+                      overflow: 'hidden',
+                    }}
+                  >
+                    {item.message}
+                  </div>
+                  {item.unReadCount ? (
+                    <Badge
+                      count={item.unReadCount}
+                      color={token.colorPrimary}
+                    />
+                  ) : item.isallowSendSms ? (
+                    <Badge dot color="blue" />
+                  ) : (
+                    <></>
+                  )}
+                </div>
               </div>
             </div>
           </List.Item>

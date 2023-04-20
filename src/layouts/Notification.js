@@ -76,7 +76,7 @@ export default () => {
                         </span>
                       </Space>
                       <div className="flex items-center">
-                        {isRead ? (
+                        {!isRead ? (
                           <Badge dot={true} status="processing" />
                         ) : (
                           <></>
@@ -103,17 +103,19 @@ export default () => {
           )}
         </Spin>
         {data && data.hasMore ? (
-          <Button
-            size="small"
-            type="text"
-            icon={<DownOutlined />}
-            onClick={() =>
-              setPagination({ ...pagination, page: pagination.page + 1 })
-            }
-            loading={loading}
-          >
-            Load More
-          </Button>
+          <div className="flex justify-end">
+            <Button
+              size="small"
+              type="text"
+              icon={<DownOutlined />}
+              onClick={() =>
+                setPagination({ ...pagination, page: pagination.page + 1 })
+              }
+              loading={loading}
+            >
+              Load More
+            </Button>
+          </div>
         ) : (
           <></>
         )}

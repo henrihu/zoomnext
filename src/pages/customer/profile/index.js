@@ -42,7 +42,7 @@ export default () => {
 
   const SelectCountryCode = (
     <Form.Item name="countryCode" noStyle>
-      <Select style={{ width: 90 }} size="large">
+      <Select style={{ width: 80 }} size="large">
         <Select.Option value="+91">+91</Select.Option>
         <Select.Option value="+86">+86</Select.Option>
         <Select.Option value="+87">+87</Select.Option>

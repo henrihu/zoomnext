@@ -84,10 +84,16 @@ export const signInWithToken = (router) => {
   };
 };
 
-export const signUp = (data) => {
+export const signUp = (info) => {
   return async (dispatch) => {
     try {
-      // await API.signUp(data);
+      const { data } = await API.signUp(info);
+      if (data.status === 1) {
+        showSuccess(data.message);
+        return true;
+      } else {
+        showError(data.message);
+      }
     } catch (err) {
       console.error(err);
     }
