@@ -7,6 +7,13 @@ const initialState = {
     orderKey: 'jobDateAndTime',
     orderValue: 'asc',
     jobStatus: '',
+  },
+  browse_job_list: { data: { hasMore: 0, data: [] }, loading: false },
+  browse_job_list_filter: {
+    page: 1,
+    orderKey: 'jobDateAndTime',
+    orderValue: 'asc',
+    jobStatus: '',
     latitude: 0,
     longitude: 20,
     categoryId: [],

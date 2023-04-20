@@ -31,6 +31,31 @@ export const getJobList = () => {
   };
 };
 
+export const getBrowseJobList = () => {
+  return async (dispatch, getState) => {
+    const key = 'browse_job_list';
+    try {
+      dispatch(setLoading(key, true));
+      const filter = getState().h_jobs.job_list_filter;
+      const {
+        data: {
+          message,
+          result: { getMyJob, hasMore },
+          status,
+        },
+      } = await API.getHelperJoblist(filter);
+      if (status !== 1) {
+        showError(message);
+        return;
+      }
+      dispatch(setData(key, { hasMore: hasMore, data: getMyJob }));
+    } catch (err) {
+      console.error(err);
+    }
+    dispatch(setLoading(key, false));
+  };
+};
+
 export const getJobDetail = (params) => {
   return async (dispatch) => {
     const key = 'job_detail';

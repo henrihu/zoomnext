@@ -7,7 +7,7 @@ import {
 
 export default ({ filter, onSetFilter }) => {
   const [date, setDate] = useState('asc');
-  const [totalPrice, setTotalPrice] = useState('asc');
+  const [status, setStatus] = useState('asc');
   return (
     <Row gutter={[8, 8]}>
       <Col xs={8} sm={8} md={24}>
@@ -20,7 +20,7 @@ export default ({ filter, onSetFilter }) => {
             )
           }
           className="w-full"
-          type={filter.orderKey == 'date' ? 'primary' : 'default'}
+          type={filter.orderKey == 'jobDateAndTime' ? 'primary' : 'default'}
           onClick={() => {
             const orderValue = date === 'asc' ? 'desc' : 'asc';
             setDate(orderValue);
@@ -33,26 +33,21 @@ export default ({ filter, onSetFilter }) => {
       <Col xs={8} sm={8} md={24}>
         <Button
           icon={
-            totalPrice === 'asc' ? (
+            status === 'asc' ? (
               <SortAscendingOutlined />
             ) : (
               <SortDescendingOutlined />
             )
           }
           className="w-full"
-          type={filter.orderKey == 'totalPrice' ? 'primary' : 'default'}
+          type={filter.orderKey == 'status' ? 'primary' : 'default'}
           onClick={() => {
-            const orderValue = totalPrice === 'asc' ? 'desc' : 'asc';
-            setTotalPrice(orderValue);
-            onSetFilter({ orderKey: 'totalPrice', orderValue });
+            const orderValue = status === 'asc' ? 'desc' : 'asc';
+            setStatus(orderValue);
+            onSetFilter({ orderKey: 'status', orderValue });
           }}
         >
-          Price
-        </Button>
-      </Col>
-      <Col xs={8} sm={8} md={24}>
-        <Button icon={<SortAscendingOutlined />} className="w-full">
-          Location
+          Status
         </Button>
       </Col>
     </Row>

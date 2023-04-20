@@ -14,9 +14,11 @@ import { getServiceList } from 'src/store/common/actions';
 import { findStrInObj } from 'src/utils/common';
 import NewJobModal from '../customer/jobs/NewJobModal';
 import { createJob } from 'src/store/c_jobs/actions';
+import { useAuth } from 'src/store/auth/actions';
 
 export default () => {
   const dispatch = useDispatch();
+  const { userDetail } = useAuth();
   const { data, loading } = useSelector(({ common }) => common.service_list);
   const [search, setSearch] = useState('');
   const [modal, setModal] = useState({ open: false });
@@ -77,11 +79,13 @@ export default () => {
             )}
           </Col>
         </Row>
-        <NewJobModal
-          {...modal}
-          onOk={(data) => dispatch(createJob(data))}
-          onCancel={() => setModal({ open: false })}
-        />
+        {userDetail.isCustomer && (
+          <NewJobModal
+            {...modal}
+            onOk={(data) => dispatch(createJob(data))}
+            onCancel={() => setModal({ open: false })}
+          />
+        )}
       </Spin>
     </>
   );
