@@ -2,8 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
-@import '../../node_modules/react-chat-elements/dist/main.css';
-
 blockquote,
 body,
 dl,

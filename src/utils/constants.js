@@ -32,8 +32,8 @@ export const JOB_STATUS = {
 };
 export const JOB_STATUS_HISTORY_LABEL = {
   [JOB_STATUS_PENDING]: 'Job posted at',
-  [JOB_STATUS_ASSIGNED]: 'Job assigned at',
-  [JOB_STATUS_ONGOING]: 'Job started ongoing at',
+  [JOB_STATUS_ASSIGNED]: 'Job accepted at',
+  [JOB_STATUS_ONGOING]: 'Job started at',
   [JOB_STATUS_COMPLETE]: 'Job completed at',
   [JOB_STATUS_CANCEL]: 'Job cancelled at',
 };
