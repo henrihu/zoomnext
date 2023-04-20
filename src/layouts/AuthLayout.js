@@ -2,11 +2,12 @@ import { useEffect } from 'react';
 import { useRouter } from 'next/router';
 import { useSelector } from 'react-redux';
 import { theme } from 'antd';
+import { useAuth } from 'src/store/auth/actions';
 
 const AuthLayout = ({ children }) => {
   const router = useRouter();
   const { token } = theme.useToken();
-  const { authenticated } = useSelector(({ auth }) => auth);
+  const { authenticated } = useAuth();
 
   useEffect(() => {
     if (authenticated) {

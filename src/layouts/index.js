@@ -1,7 +1,6 @@
 import AuthLayout from './AuthLayout';
-import CustomerLayout from './CustomerLayout';
-import HelperLayout from './HelperLayout';
+import Layout from './Layout';
 import GuestLayout from './GuestLayout';
 import Authorization from './Authorization';
 
-export { AuthLayout, CustomerLayout, HelperLayout, GuestLayout, Authorization };
+export { AuthLayout, Layout, GuestLayout, Authorization };

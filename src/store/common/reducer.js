@@ -1,11 +1,14 @@
-import { SET_DATA, SET_LOADING, SET_PENDING } from './actions';
+import { INIT_STORE, SET_DATA, SET_LOADING, SET_PENDING } from './actions';
 
 const initialState = {
   service_list: { data: [], loading: false },
   faq_list: { data: [], loading: false },
-  notification_list: { data: [], loading: false },
-  message_list: { data: [], loading: false },
-  loading: {},
+  notification_list: {
+    data: { notifications: [], hasMore: false },
+    loading: false,
+  },
+  converstations: { data: [], loading: false },
+  chats: { data: [], loading: false },
   pending: {},
 };
 
@@ -34,6 +37,11 @@ export default (state = initialState, action) => {
           ...state.pending,
           [action.key]: action.pending,
         },
+      };
+    case INIT_STORE:
+      return {
+        ...state,
+        [action.key]: initialState[action.key] && initialState[action.key],
       };
     default:
       return { ...state };

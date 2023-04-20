@@ -4,6 +4,7 @@ import { useRouter } from 'next/router';
 import Meta from '@/components/Meta/index';
 import { Layout } from 'antd';
 import GuestHeader from './Header';
+import { useAuth } from 'src/store/auth/actions';
 const { Content, Footer } = Layout;
 
 export default ({
@@ -12,8 +13,13 @@ export default ({
   description = 'Zoom Errands',
 }) => {
   const router = useRouter();
+  const { authenticated } = useAuth();
 
-  useEffect(() => {}, [router]);
+  useEffect(() => {
+    if (authenticated) {
+      router.push('/services');
+    }
+  }, [router]);
 
   return (
     <Layout>

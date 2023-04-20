@@ -17,7 +17,7 @@ import {
 } from 'src/utils/constants';
 import { getStorageItem } from 'src/utils/common';
 
-import { CustomerLayout, HelperLayout, Authorization } from '../layouts';
+import { Layout, Authorization } from '../layouts';
 
 import { setType, setData } from 'src/store/auth/actions';
 import { setProgress } from 'src/store/setting/actions';
@@ -62,15 +62,10 @@ export default wrapper.withRedux(({ Component, pageProps }) => {
     >
       <Authorization>
         {progress && <TopBarProgress />}
-        {authenticated && type === TYPE_CUSTOMER && (
-          <CustomerLayout>
+        {authenticated && (
+          <Layout>
             <Component {...pageProps} />
-          </CustomerLayout>
-        )}
-        {authenticated && type === TYPE_HELPER && (
-          <HelperLayout>
-            <Component {...pageProps} />
-          </HelperLayout>
+          </Layout>
         )}
         {!authenticated && <Component {...pageProps} />}
       </Authorization>

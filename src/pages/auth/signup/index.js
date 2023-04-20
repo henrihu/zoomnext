@@ -6,11 +6,12 @@ import { useRouter } from 'next/router';
 // Components
 import Meta from '@/components/Meta/index';
 import { AuthLayout } from '@/layouts/index';
-import { Button, Radio, Input, Form, Row, Col } from 'antd';
+import { Button, Radio, Input, Form, Row, Col, Select } from 'antd';
 // Constants
 import {
   COLOR_CUSTOMER,
   COLOR_HELPER,
+  LENGTH,
   TYPE_CUSTOMER,
   TYPE_HELPER,
 } from 'src/utils/constants';
@@ -25,9 +26,24 @@ export default () => {
 
   const handleSignUp = async (values) => {
     setPending(true);
-    await dispatch(signUp({ ...values, type }));
+    const isSuccess = await dispatch(
+      signUp({ ...values, type, platform: 'web' })
+    );
+    if (isSuccess) {
+      router.push('/auth/login');
+    }
     setPending(false);
   };
+
+  const SelectCountryCode = (
+    <Form.Item name="countryCode" noStyle>
+      <Select style={{ width: 80 }} size="large">
+        <Select.Option value="+91">+91</Select.Option>
+        <Select.Option value="+86">+86</Select.Option>
+        <Select.Option value="+87">+87</Select.Option>
+      </Select>
+    </Form.Item>
+  );
 
   return (
     <AuthLayout color={type === TYPE_CUSTOMER ? COLOR_CUSTOMER : COLOR_HELPER}>
@@ -65,7 +81,7 @@ export default () => {
         <Col span={24}>
           <Form className="w-full" onFinish={handleSignUp}>
             <Form.Item
-              name="name"
+              name="firstName"
               rules={[{ required: true, message: 'Please input your name!' }]}
             >
               <Input placeholder="Full Name" size="large" />
@@ -81,19 +97,55 @@ export default () => {
             </Form.Item>
             <Form.Item
               name="password"
+              dependencies={['confirmPassword']}
               rules={[
                 { required: true, message: 'Please input your password!' },
+                {
+                  min: LENGTH.password.min,
+                  message: `Min Length ${LENGTH.password.min}`,
+                },
+                {
+                  max: LENGTH.password.max,
+                  message: `Max Length ${LENGTH.password.max}`,
+                },
               ]}
+              hasFeedback
             >
-              <Input.Password placeholder="Password" size="large" />
+              <Input.Password size="large" placeholder="Password" />
             </Form.Item>
             <Form.Item
-              name="mobile"
+              name="confirmPassword"
+              dependencies={['password']}
+              hasFeedback
+              rules={[
+                { required: true, message: 'Please confirm your password!' },
+                ({ getFieldValue }) => ({
+                  validator(_, value) {
+                    if (!value || getFieldValue('password') === value) {
+                      return Promise.resolve();
+                    }
+                    return Promise.reject(
+                      new Error(
+                        'The two passwords that you entered do not match!'
+                      )
+                    );
+                  },
+                }),
+              ]}
+            >
+              <Input.Password placeholder="Confirm Password" />
+            </Form.Item>
+            <Form.Item
+              name="mobileNumber"
               rules={[
                 { required: true, message: 'Please input your mobile number!' },
               ]}
             >
-              <Input placeholder="Mobile Number" size="large" />
+              <Input
+                size="large"
+                placeholder="Mobile Number"
+                addonBefore={SelectCountryCode}
+              />
             </Form.Item>
             <Form.Item
               name="location"

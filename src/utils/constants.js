@@ -96,3 +96,11 @@ export const TEMP_ADDRESS_DATE = {
   country: 'sss',
   zipcode: '385943',
 };
+
+// LENGTH
+export const LENGTH = {
+  password: {
+    min: 8,
+    max: 16,
+  },
+};

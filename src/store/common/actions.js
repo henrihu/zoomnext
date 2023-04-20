@@ -1,12 +1,11 @@
 import API from 'src/api/common';
-import moment from 'moment';
-import { setNotificationDrawer } from 'src/store/setting/actions';
 import { setData as setAuthData } from 'src/store/auth/actions';
-import { showError } from 'src/utils/messages';
+import { showError, showSuccess } from 'src/utils/messages';
 
 export const SET_DATA = '[COMMON] SET DATA]';
 export const SET_LOADING = '[COMMON] SET LOADING';
 export const SET_PENDING = '[COMMON] SET PENDING';
+export const INIT_STORE = '[COMMON] INIT STORE';
 
 export const getServiceList = () => {
   return async (dispatch) => {
@@ -66,122 +65,91 @@ export const contactUs = (data) => {
   };
 };
 
-export const getNotificationList = (data) => {
-  return async (dispatch) => {
+export const getNotificationList = (pagination) => {
+  return async (dispatch, getState) => {
     try {
       const key = 'notification_list';
       dispatch(setLoading(key, true));
-      const { data } = await API.getNotificationList();
+      const { data } = await API.getNotificationList(pagination);
       dispatch(setLoading(key, false));
       if (data.status !== 1) {
         showError(data.message);
         return;
       }
-      dispatch(setData(key, data.result.notificationList));
-      dispatch(setNotificationDrawer(true));
+      dispatch(
+        setData(key, {
+          ...data.result,
+          notifications: [
+            ...getState().common.notification_list.data.notifications,
+            ...data.result.notifications,
+          ],
+        })
+      );
     } catch (err) {
       console.error(err);
+    }
+  };
+};
+
+export const removeNotification = (notificationId) => {
+  return async (dispatch, getState) => {
+    try {
+      const key = `removeNotification${notificationId}`;
+      dispatch(setPending(key, true));
+      const { data } = await API.removeNotification({ notificationId });
+      dispatch(setPending(key, false));
+      if (data.status === 1) {
+        const notification = getState().common.notification_list.data;
+        dispatch(
+          setData('notification_list', {
+            ...notification,
+            notifications: notification.notifications.filter(
+              ({ id }) => id !== notificationId
+            ),
+          })
+        );
+        return true;
+      } else {
+        showError(data.message);
+        return false;
+      }
+    } catch (err) {
+      return false;
     }
   };
 };
 
 export const emailNotificationUpdate = (info) => {
   return async (dispatch, getState) => {
-    const key = 'emailNotificationUpdate';
-    dispatch(setLoading(key, true));
-    const { data } = await API.emailNotificationUpdate(info);
-    dispatch(setLoading(key, false));
-    if (data.status !== 1) {
-      showError(data.message);
-      return;
+    try {
+      const key = 'emailNotificationUpdate';
+      dispatch(setLoading(key, true));
+      const { data } = await API.emailNotificationUpdate(info);
+      dispatch(setLoading(key, false));
+      if (data.status !== 1) {
+        showError(data.message);
+        return;
+      }
+      dispatch(
+        setAuthData({ userDetail: { ...getState().auth.userDetail, ...info } })
+      );
+    } catch (err) {
+      console.error(err);
     }
-    dispatch(
-      setAuthData({ userDetail: { ...getState().auth.userDetail, ...info } })
-    );
   };
 };
 
-export const getMessageList = (data) => {
+export const getConversations = () => {
   return async (dispatch) => {
-    const key = 'message_list';
+    const key = 'converstations';
     try {
       dispatch(setLoading(key, true));
-      // await API.getNotificationList(data);
-      const data = [
-        {
-          id: 1,
-          message:
-            'Hello! I have one question Hello! I have one questionHello! I have one questionHello! I have one questionHello! I have one questionHello! I have one question',
-          isRead: 1,
-          messageType: 'MESSAGE',
-          state: 1,
-        },
-        {
-          id: 2,
-          message: "I'm on the job",
-          isRead: 1,
-          messageType: 'MESSAGE',
-          state: 1,
-        },
-        {
-          id: 3,
-          message: "I'm on the job",
-          isRead: 1,
-          messageType: 'MESSAGE',
-          state: 0,
-        },
-        {
-          id: 4,
-          message: '/images/service.png',
-          isRead: 1,
-          messageType: 'IMAGE',
-          state: 0,
-        },
-        {
-          id: 5,
-          message: "I'm on the job",
-          isRead: 1,
-          messageType: 'MESSAGE',
-          state: 1,
-        },
-        {
-          id: 1,
-          message:
-            'Hello! I have one question Hello! I have one questionHello! I have one questionHello! I have one questionHello! I have one questionHello! I have one question',
-          isRead: 1,
-          messageType: 'MESSAGE',
-          state: 1,
-        },
-        {
-          id: 2,
-          message: "I'm on the job",
-          isRead: 1,
-          messageType: 'MESSAGE',
-          state: 1,
-        },
-        {
-          id: 3,
-          message: "I'm on the job",
-          isRead: 1,
-          messageType: 'MESSAGE',
-          state: 0,
-        },
-        {
-          id: 4,
-          message: '/images/service.png',
-          isRead: 1,
-          messageType: 'IMAGE',
-          state: 0,
-        },
-        {
-          id: 5,
-          message: "I'm on the job",
-          isRead: 1,
-          messageType: 'MESSAGE',
-          state: 1,
-        },
-      ];
-      dispatch(setData(key, data));
+      const { data } = await API.getConversations({ timeZone: '+05:30' });
+      if (data.status === 1) {
+        dispatch(setData(key, data.result.conversations));
+      } else {
+        showError(data.message);
+      }
     } catch (err) {
       console.error(err);
     }
@@ -189,12 +157,76 @@ export const getMessageList = (data) => {
   };
 };
 
-export const updateProfile = (data) => {
+export const getChats = (selected) => {
+  return async (dispatch) => {
+    const key = 'chats';
+    try {
+      dispatch(setLoading(key, true));
+      const { data } = await API.getChats({
+        indexId: 0,
+        isGreater: 1,
+        otherUserId: selected.userId,
+        timeZone: '+05:30',
+        jobId: selected.jobId,
+      });
+      if (data.status === 1) {
+        dispatch(setData(key, data.result.data.reverse()));
+      } else {
+        showError(data.message);
+      }
+    } catch (err) {
+      console.error(err);
+    }
+    dispatch(setLoading(key, false));
+  };
+};
+
+export const sendMessage = (info) => {
+  return async (dispatch, getState) => {
+    const key = 'sendMessage';
+    try {
+      dispatch(setPending(key, true));
+      const { data } = await API.sendMessage({
+        timeZone: '+00:00',
+        ...info,
+      });
+      dispatch(setPending(key, false));
+      if (data.status === 1) {
+        dispatch(
+          setData('chats', [
+            ...getState().common.chats.data,
+            data.result.lastMessage,
+          ])
+        );
+        return true;
+      } else {
+        showError(data.message);
+        return false;
+      }
+    } catch (err) {
+      console.error(err);
+      dispatch(setPending(key, false));
+      return false;
+    }
+  };
+};
+
+export const updateProfile = (info) => {
   return async (dispatch) => {
     const key = 'update_profile';
     try {
       dispatch(setPending(key, true));
-      // await API.updateProfile(data);
+      const { data } = await API.updateProfile(info);
+      if (data.status === 1) {
+        dispatch(
+          setAuthData({
+            userDetail: data.result.userDetail,
+          })
+        );
+        showSuccess(data.message);
+      } else {
+        showError(data.message);
+      }
     } catch (err) {
       console.error(err);
     }
@@ -202,16 +234,50 @@ export const updateProfile = (data) => {
   };
 };
 
-export const uploadProfileImage = (data) => {
-  return async (dispatch) => {
+export const uploadProfileImage = (info) => {
+  return async (dispatch, getState) => {
     const key = 'upload_profile';
     try {
       dispatch(setPending(key, true));
-      // await API.uploadProfileImage(data);
+      const { data } = await API.uploadProfileImage(info);
+      if (data.status === 1) {
+        dispatch(
+          setAuthData({
+            userDetail: {
+              ...getState().auth.userDetail,
+              avatarImage: data.result.profileImage,
+            },
+          })
+        );
+      } else {
+        showError(data.message);
+      }
     } catch (err) {
       console.error(err);
     }
     dispatch(setPending(key, false));
+  };
+};
+
+export const changePassword = (info) => {
+  return async (dispatch) => {
+    const key = 'change_password';
+    try {
+      dispatch(setPending(key, true));
+      const { data } = await API.changePassword(info);
+      dispatch(setPending(key, false));
+      if (data.status === 1) {
+        showSuccess(data.message);
+        return true;
+      } else {
+        showError(data.message);
+        return false;
+      }
+    } catch (err) {
+      console.error(err);
+      dispatch(setPending(key, false));
+      return false;
+    }
   };
 };
 
@@ -226,3 +292,4 @@ export const setPending = (key, pending) => ({
   key,
   pending,
 });
+export const initStore = (key) => ({ type: INIT_STORE, key });

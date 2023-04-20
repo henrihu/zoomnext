@@ -3,7 +3,7 @@ import { useRouter } from 'next/router';
 import { useSelector } from 'react-redux';
 
 import { Layout } from 'antd';
-import Header from './Header';
+import Header from '../Header';
 import Footer from '../Footer';
 import Notification from '../Notification';
 import { useAuth } from 'src/store/auth/actions';

@@ -1,21 +1,18 @@
 import base from './base';
 
-export const signInWithEmail = (data) =>
+const signInWithEmail = (data) =>
   base({ url: '/login/', data, method: 'POST' });
-export const signUp = (data) => base({ url: '/signUp/', data, method: 'POST' });
-export const getUserDetail = () =>
-  base({ url: '/getUserDetail/', method: 'POST' });
+const signUp = (data) => base({ url: '/signUp/', data, method: 'POST' });
+const getUserDetail = () => base({ url: '/getUserDetail/', method: 'POST' });
 
-export const socialLogin = (data) =>
+const socialLogin = (data) =>
   base({ url: '/socialLogin/', data, method: 'POST' });
-export const forgotPassword = (data) =>
+const forgotPassword = (data) =>
   base({ url: '/forgotPassword/', data, method: 'POST' });
-export const resetPassword = (data) =>
+const resetPassword = (data) =>
   base({ url: '/resetPassword/', data, method: 'POST' });
-export const resendOtp = (data) =>
-  base({ url: '/resendOtp/', data, method: 'POST' });
-export const verifyOtp = (data) =>
-  base({ url: '/verifyOtp/', data, method: 'POST' });
+const resendOtp = (data) => base({ url: '/resendOtp/', data, method: 'POST' });
+const verifyOtp = (data) => base({ url: '/verifyOtp/', data, method: 'POST' });
 
 export default {
   signInWithEmail,

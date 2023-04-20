@@ -4,7 +4,7 @@ import { useRouter } from 'next/router';
 
 // Components
 import Meta from '@/components/Meta/index';
-import { Button, Input, Form, Row, Col, Card } from 'antd';
+import { Button, Input, Form, Row, Col, Card, Select } from 'antd';
 import {
   ProfileOutlined,
   KeyOutlined,
@@ -13,7 +13,13 @@ import {
 } from '@ant-design/icons';
 import AvatarUpload from 'src/components/AvatarUpload/index';
 // Actions
-import { updateProfile, uploadProfileImage } from 'src/store/common/actions';
+import {
+  updateProfile,
+  uploadProfileImage,
+  changePassword,
+} from 'src/store/common/actions';
+import { useAuth } from 'src/store/auth/actions';
+import { LENGTH } from 'src/utils/constants';
 
 const layout = {
   labelCol: { span: 8 },
@@ -23,17 +29,26 @@ const layout = {
 export default () => {
   const dispatch = useDispatch();
   const router = useRouter();
-  const { type } = useSelector(({ auth }) => auth);
-  const [pending, setPending] = useState(false);
+  const { pending } = useSelector(({ common }) => common);
+  const { type, userDetail } = useAuth();
 
-  const [loading, setLoading] = useState(false);
-  const [imageUrl, setImageUrl] = useState();
-
-  const hadleUpdateProfile = async (values) => {
-    setPending(true);
-    await dispatch(updateProfile({ ...values, type }));
-    setPending(false);
+  const hadleUpdateProfile = (values) => {
+    dispatch(updateProfile({ ...values, type }));
   };
+
+  const handleChangePassword = (values) => {
+    dispatch(changePassword(values));
+  };
+
+  const SelectCountryCode = (
+    <Form.Item name="countryCode" noStyle>
+      <Select style={{ width: 80 }} size="large">
+        <Select.Option value="+91">+91</Select.Option>
+        <Select.Option value="+86">+86</Select.Option>
+        <Select.Option value="+87">+87</Select.Option>
+      </Select>
+    </Form.Item>
+  );
 
   return (
     <>
@@ -55,8 +70,10 @@ export default () => {
             <Row justify="center" gutter={[16, 16]}>
               <Col span={24} className="flex justify-center">
                 <AvatarUpload
-                  name="profileImage"
-                  action="http://www.mocky.io/v2/5cc8019d300000980a055e76"
+                  onUpload={(profileImage) =>
+                    dispatch(uploadProfileImage({ profileImage }))
+                  }
+                  url={userDetail && userDetail.avatarImage}
                 />
               </Col>
               <Col span={24}>
@@ -65,11 +82,12 @@ export default () => {
                   onFinish={hadleUpdateProfile}
                   {...layout}
                   labelAlign="left"
+                  initialValues={userDetail}
                   requiredMark={false}
                 >
                   <Form.Item
                     label="Full Name"
-                    name="name"
+                    name="firstName"
                     rules={[
                       { required: true, message: 'Please input your name!' },
                     ]}
@@ -88,7 +106,7 @@ export default () => {
                   </Form.Item>
                   <Form.Item
                     label="Mobile Number"
-                    name="mobile"
+                    name="mobileNumber"
                     rules={[
                       {
                         required: true,
@@ -96,24 +114,26 @@ export default () => {
                       },
                     ]}
                   >
-                    <Input size="large" />
+                    <Input size="large" addonBefore={SelectCountryCode} />
                   </Form.Item>
                   <Form.Item
                     label="Location"
                     name="location"
-                    rules={[
-                      {
-                        required: true,
-                        message: 'Please input your location!',
-                      },
-                    ]}
+                    rules={
+                      [
+                        // {
+                        //   required: true,
+                        //   message: 'Please input your location!',
+                        // },
+                      ]
+                    }
                   >
                     <Input size="large" />
                   </Form.Item>
                   <Form.Item className="flex justify-center">
                     <Button
                       type="primary"
-                      loading={pending}
+                      loading={pending && pending.update_profile}
                       shape="round"
                       htmlType="submit"
                     >
@@ -134,36 +154,57 @@ export default () => {
               </h3>
             }
           >
-            <Form className="w-full" onFinish={null} requiredMark={false}>
+            <Form
+              className="w-full"
+              onFinish={handleChangePassword}
+              requiredMark={false}
+            >
               <Form.Item
-                name="old"
+                name="oldPassword"
                 rules={[
                   {
                     required: true,
                     message: 'Please input your old password!',
+                  },
+                  {
+                    min: LENGTH.password.min,
+                    message: `Min Length ${LENGTH.password.min}`,
+                  },
+                  {
+                    max: LENGTH.password.max,
+                    message: `Max Length ${LENGTH.password.max}`,
                   },
                 ]}
               >
                 <Input.Password placeholder="Old Password" />
               </Form.Item>
               <Form.Item
-                name="password"
+                name="newPassword"
+                dependencies={['confirmPassword']}
                 rules={[
                   { required: true, message: 'Please input your password!' },
+                  {
+                    min: LENGTH.password.min,
+                    message: `Min Length ${LENGTH.password.min}`,
+                  },
+                  {
+                    max: LENGTH.password.max,
+                    message: `Max Length ${LENGTH.password.max}`,
+                  },
                 ]}
                 hasFeedback
               >
                 <Input.Password placeholder="New Password" />
               </Form.Item>
               <Form.Item
-                name="confirm"
-                dependencies={['password']}
+                name="confirmPassword"
+                dependencies={['newPassword']}
                 hasFeedback
                 rules={[
                   { required: true, message: 'Please confirm your password!' },
                   ({ getFieldValue }) => ({
                     validator(_, value) {
-                      if (!value || getFieldValue('password') === value) {
+                      if (!value || getFieldValue('newPassword') === value) {
                         return Promise.resolve();
                       }
                       return Promise.reject(
@@ -180,7 +221,7 @@ export default () => {
               <Form.Item className="flex justify-center">
                 <Button
                   type="primary"
-                  loading={pending}
+                  loading={pending && pending.change_password}
                   shape="round"
                   htmlType="submit"
                 >
