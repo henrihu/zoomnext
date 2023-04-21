@@ -1,17 +1,20 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useRouter } from 'next/router';
 
 // Components
 import Meta from '@/components/Meta/index';
-import { Row, Col, Button } from 'antd';
+import { Row, Col, Button, Card } from 'antd';
 import { ArrowLeftOutlined } from '@ant-design/icons';
-import DetailCard from 'src/components/Job/DetailCard';
-import BidList from 'src/components/Job/BidList';
-import StatusList from 'src/components/Job/StatusList';
+import JobDetail from '@/components/Job/JobDetail';
 
 // Actions
-import { getJobDetail } from 'src/store/c_jobs/actions';
+import { getJobDetail } from 'src/store/h_jobs/actions';
+import {
+  JOB_STATUS_ASSIGNED,
+  JOB_STATUS_ONGOING,
+  TYPE_HELPER,
+} from 'src/utils/constants';
 
 export default () => {
   const dispatch = useDispatch();
@@ -19,7 +22,8 @@ export default () => {
   const jobSlug = router.query.jobSlug;
   const {
     job_detail: { data, loading },
-  } = useSelector(({ c_jobs }) => c_jobs);
+  } = useSelector(({ h_jobs }) => h_jobs);
+  const [modal, setModal] = useState({ open: false });
 
   useEffect(() => {
     if (jobSlug) {
@@ -40,15 +44,20 @@ export default () => {
             Back to List
           </Button>
         </Col>
-        <Col sm={24} md={8}>
-          <DetailCard data={data} loading={loading} />
-        </Col>
         <Col sm={24} md={16}>
-          {data.status == 'pending' ? (
-            <BidList data={data && data.bids} />
-          ) : (
-            <StatusList data={data && data.jobStatusHistory} />
-          )}
+          <Card hoverable loading={loading}>
+            <JobDetail data={data} type={TYPE_HELPER} />
+          </Card>
+        </Col>
+        <Col sm={24} md={8}>
+          <Button
+            type="primary"
+            size="large"
+            shape="round"
+            onClick={() => setModal({ open: true, jobId: data.id })}
+          >
+            Location on Map
+          </Button>
         </Col>
       </Row>
     </>

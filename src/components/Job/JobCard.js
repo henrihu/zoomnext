@@ -25,13 +25,13 @@ export default ({ data, type, onDetail, onCancel }) => {
         >
           <div className="flex flex-col justify-center items-center">
             <div className="font-bold mb-1 text-3xl">
-              {moment(data.date).day()}
+              {moment(data.jobDateAndTime).date()}
             </div>
             <span className="text-gray text-center">
               {new Intl.DateTimeFormat('en', { month: 'short' })
-                .format(data.date)
+                .format(moment(data.jobDateAndTime))
                 .toUpperCase()}{' '}
-              {moment(data.date).year()}
+              {moment(data.jobDateAndTime).year()}
             </span>
           </div>
           <Card hoverable bodyStyle={{ padding: 0, cursor: 'default' }}>
@@ -80,7 +80,7 @@ export default ({ data, type, onDetail, onCancel }) => {
                     className="font-bold"
                     style={{ fontSize: 24, color: '#89CE9D' }}
                   >
-                    ${formatNumber(data.price)}
+                    ${formatNumber(data.totalCustomerPrice)}
                   </div>
                 </Col>
                 <Col span={6}>

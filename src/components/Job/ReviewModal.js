@@ -14,6 +14,7 @@ import {
 } from 'antd';
 import { StarFilled } from '@ant-design/icons';
 import { FEE_RATE } from 'src/utils/constants';
+import { useAuth } from 'src/store/auth/actions';
 
 const helper = {
   avatar: '/images/service.png',
@@ -24,6 +25,7 @@ const helper = {
 
 export default ({ open, onOk, onCancel }) => {
   const [hasTip, setHasTip] = useState(true);
+  const { userDetail = {} } = useAuth();
   const [tipAmount, setTipAmount] = useState();
   const modal_props = {
     title: 'Rate & Review',
@@ -42,17 +44,17 @@ export default ({ open, onOk, onCancel }) => {
         <Col span={24} className="flex justify-center">
           <Row>
             <Col span={24} className="flex justify-center">
-              <Avatar src={helper.avatar} size={100} />
+              <Avatar src={userDetail.avatarImage} size={100} />
             </Col>
             <Col span={24} className="flex justify-center">
-              <h2>{helper.name}</h2>
+              <h2>{userDetail.name}</h2>
             </Col>
             <Col span={24} className="flex justify-center items-center">
               <span className="text-gray mr-4">User Ratings</span>
               <Tag>
                 <StarFilled style={{ color: '#FADB14' }} />
                 <span className="text-bold">
-                  <b>{helper.rating}</b> ({helper.job_count})
+                  <b>{userDetail.rating}</b> ({userDetail.job_count})
                 </span>
               </Tag>
             </Col>

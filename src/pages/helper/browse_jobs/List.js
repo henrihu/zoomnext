@@ -1,18 +1,24 @@
 import { useRouter } from 'next/router';
+import { useMemo, useState } from 'react';
 
 // Components
 import { List } from 'antd';
 import JobCard from 'src/components/Job/JobCard';
 
 // Constants
-import { TYPE_CUSTOMER, TYPE_HELPER } from 'src/utils/constants';
+import { TYPE_HELPER } from 'src/utils/constants';
 
-export default ({ total, page, data, onSetFilter }) => {
+export default ({ total = 0, data = [] }) => {
   const router = useRouter();
+  const [page, setPage] = useState(1);
+  const result = useMemo(
+    () => (total < 3 ? data : data.slice((page - 1) * 3, page * 3)),
+    [page, total, data]
+  );
   return (
     <List
       itemLayout="horizontal"
-      dataSource={data}
+      dataSource={result}
       split
       renderItem={(item, index) => (
         <div className="mb-3">
@@ -20,7 +26,7 @@ export default ({ total, page, data, onSetFilter }) => {
             data={item}
             key={index}
             type={TYPE_HELPER}
-            onDetail={() => router.push(`/helper/browse_jobs/${item.title}/`)}
+            onDetail={() => router.push(`/helper/browse_jobs/${item.jobSlug}/`)}
             onCancel={null}
           />
         </div>
@@ -30,8 +36,8 @@ export default ({ total, page, data, onSetFilter }) => {
         size: 'small',
         total,
         page,
-        onChange: (page) => {
-          onSetFilter({ page });
+        onChange: (p) => {
+          setPage(p);
         },
       }}
     />

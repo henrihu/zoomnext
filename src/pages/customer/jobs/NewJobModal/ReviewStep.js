@@ -1,6 +1,4 @@
-import moment from 'moment';
-import { Space, Row, Col, Typography, Card } from 'antd';
-import { EnvironmentOutlined } from '@ant-design/icons';
+import { Space, Row, Col, Typography } from 'antd';
 
 // Utils & Constants
 import {
@@ -13,7 +11,7 @@ import {
 } from 'src/utils/constants';
 import { formatNumber } from 'src/utils/common';
 
-import AddressDetail from './AddressDetail';
+import AddressDetail from '@/components/Job/AddressDetail';
 
 const DescItem = ({ children, label }) => {
   return (

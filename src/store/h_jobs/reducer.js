@@ -8,12 +8,10 @@ const initialState = {
     orderValue: 'asc',
     jobStatus: '',
   },
-  browse_job_list: { data: { hasMore: 0, data: [] }, loading: false },
+  browse_job_list: { data: { total: 0, data: [] }, loading: false },
   browse_job_list_filter: {
-    page: 1,
     orderKey: 'jobDateAndTime',
     orderValue: 'asc',
-    jobStatus: '',
     latitude: 0,
     longitude: 20,
     categoryId: [],
@@ -25,6 +23,7 @@ const initialState = {
   review_list: { data: { hasMore: 0, data: [] }, loading: false },
   review_filter: { page: 1 },
   job_detail: { data: {}, loading: false },
+  provider_categories: [],
 };
 
 export default (state = initialState, action) => {

@@ -22,6 +22,7 @@ export const getMyJobList = () => {
       } = await API.getMyJobList(filter);
       if (status !== 1) {
         showError(message);
+        dispatch(setLoading(key, false));
         return;
       }
       const data = {
@@ -50,6 +51,7 @@ export const getJobDetail = (params) => {
       } = await API.getJobDetail(params);
       if (status !== 1) {
         showError(message);
+        dispatch(setLoading(key, false));
         return;
       }
       dispatch(setData(key, job));
@@ -66,6 +68,27 @@ export const createJob = (params) => {
     try {
       dispatch(setLoading(key, true));
       const { data } = await API.createJob(params);
+      dispatch(setLoading(key, false));
+      if (data.status !== 1) {
+        showError(data.message);
+        return false;
+      }
+      showSuccess(data.message);
+      return data.result;
+    } catch (err) {
+      console.error(err);
+      dispatch(setLoading(key, false));
+      return false;
+    }
+  };
+};
+
+export const approveBid = (params) => {
+  return async (dispatch) => {
+    const key = 'approve_bid';
+    try {
+      dispatch(setLoading(key, true));
+      const { data } = await API.approveBid(params);
       dispatch(setLoading(key, false));
       if (data.status !== 1) {
         showError(data.message);

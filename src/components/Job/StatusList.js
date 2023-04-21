@@ -21,7 +21,7 @@ const renderItem = (item) => (
   </Row>
 );
 
-export default ({ data = [] }) => {
+export default ({ data: { id, jobStatusHistory = [] } }) => {
   const [modal, setModal] = useState({ open: false });
   return (
     <Row gutter={[16, 16]}>
@@ -32,7 +32,7 @@ export default ({ data = [] }) => {
         <Timeline
           mode="left"
           items={[
-            ...data.map((item) => {
+            ...jobStatusHistory.map((item) => {
               return { children: renderItem(item) };
             }),
             {
@@ -48,7 +48,7 @@ export default ({ data = [] }) => {
           size="large"
           shape="round"
           className="mr-4"
-          onClick={() => setModal({ open: true })}
+          onClick={() => setModal({ open: true, id: id })}
         >
           Complete Job
         </Button>

@@ -10,7 +10,7 @@ import JobDetail from '@/components/Job/JobDetail';
 import BidModal from './BidModal';
 
 // Actions
-import { getJobDetail } from 'src/store/h_jobs/actions';
+import { getJobDetail, jobBid } from 'src/store/h_jobs/actions';
 import { TYPE_HELPER } from 'src/utils/constants';
 
 export default () => {
@@ -51,7 +51,7 @@ export default () => {
             type="primary"
             size="large"
             shape="round"
-            onClick={() => setModal({ open: true })}
+            onClick={() => setModal({ open: true, jobId: data.id })}
           >
             Send Bid
           </Button>
@@ -59,7 +59,7 @@ export default () => {
       </Row>
       <BidModal
         {...modal}
-        onOk={() => setModal({ open: false })}
+        onOk={(data) => dispatch(jobBid(data))}
         onCancel={() => setModal({ open: false })}
       />
     </>

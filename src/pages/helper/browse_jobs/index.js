@@ -8,31 +8,34 @@ import Filter from './Filter';
 import List from './List';
 
 // Actions
-import { getJobList, setFilter } from 'src/store/h_jobs/actions';
-import { getServiceList } from 'src/store/common/actions';
+import {
+  getBrowseJobList,
+  getHelperCategories,
+  setFilter,
+} from 'src/store/h_jobs/actions';
 
 export default () => {
   const dispatch = useDispatch();
   const {
-    job_list: {
+    browse_job_list: {
       data: { total, data },
       loading,
     },
-    job_list_filter: filter,
+    browse_job_list_filter: filter,
+    provider_categories,
   } = useSelector(({ h_jobs }) => h_jobs);
-  const { service_list } = useSelector(({ common }) => common);
 
   const handleSetFilter = (d) => {
-    dispatch(setFilter('job_list_filter', d));
+    dispatch(setFilter('browse_job_list_filter', d));
   };
 
   useEffect(() => {
-    dispatch(getServiceList());
+    dispatch(getHelperCategories());
   }, []);
 
   useEffect(() => {
-    dispatch(getJobList());
-  }, [filter.orderKey, filter.orderValue, filter.page]);
+    dispatch(getBrowseJobList());
+  }, [filter.orderKey, filter.orderValue]);
 
   return (
     <>
@@ -48,12 +51,7 @@ export default () => {
             sm={{ span: 24, order: 2 }}
             md={{ span: 18, order: 1 }}
           >
-            <List
-              total={total}
-              data={data}
-              page={filter.page}
-              onSetFilter={handleSetFilter}
-            />
+            <List total={total} data={data} />
           </Col>
           <Col
             xs={{ span: 24, order: 1 }}
@@ -63,9 +61,9 @@ export default () => {
             <Filter
               filter={filter}
               onSetFilter={handleSetFilter}
-              onFilter={() => dispatch(getJobList())}
+              onFilter={() => dispatch(getBrowseJobList())}
               loading={loading}
-              service_list={service_list.data}
+              category_list={provider_categories.data}
             />
           </Col>
         </Row>
