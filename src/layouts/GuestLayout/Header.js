@@ -2,9 +2,11 @@ import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { Layout, Space, Button } from 'antd';
 import { LoginOutlined, UserAddOutlined } from '@ant-design/icons';
+import { useScreen } from 'src/utils/common';
 
 export default () => {
   const router = useRouter();
+  const isXsSm = useScreen();
   return (
     <Layout.Header
       style={{
@@ -16,17 +18,19 @@ export default () => {
       }}
       className="flex items-center justify-between"
     >
-      <Link
-        href="/services"
-        className="text-4xl font-bold"
-        style={{
-          minWidth: 250,
-          background: 'white',
-          marginLeft: 24,
-        }}
-      >
-        Zoom Errands
-      </Link>
+      {!isXsSm && (
+        <Link
+          href="/services"
+          className="text-4xl font-bold"
+          style={{
+            minWidth: 250,
+            background: 'white',
+            marginLeft: 24,
+          }}
+        >
+          Zoom Errands
+        </Link>
+      )}
 
       <Space>
         <Button

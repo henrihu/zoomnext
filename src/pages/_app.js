@@ -1,27 +1,16 @@
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import Router, { useRouter } from 'next/router';
 import ReactGA from 'react-ga';
 import TopBarProgress from 'react-topbar-progress-indicator';
 import progressBarConfig from '@/config/progress-bar/index';
 import { ConfigProvider } from 'antd';
-
 import wrapper from 'src/store';
-
 import '@/styles/globals.css';
-import {
-  CUSTOMER,
-  HELPER,
-  TYPE_CUSTOMER,
-  TYPE_HELPER,
-} from 'src/utils/constants';
-import { getStorageItem } from 'src/utils/common';
-
+import { CUSTOMER, HELPER, TYPE_CUSTOMER } from 'src/utils/constants';
 import { Layout, Authorization } from '../layouts';
-
-import { setType, setData } from 'src/store/auth/actions';
 import { setProgress } from 'src/store/setting/actions';
-import { setAuthorization } from '@/api/base';
+import { getStorageItem } from 'src/utils/common';
 
 export default wrapper.withRedux(({ Component, pageProps }) => {
   const router = useRouter();

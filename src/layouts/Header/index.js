@@ -1,16 +1,7 @@
 import { useMemo, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useRouter } from 'next/router';
-import {
-  Layout,
-  Menu,
-  Dropdown,
-  Avatar,
-  Button,
-  Badge,
-  Grid,
-  theme,
-} from 'antd';
+import { Layout, Menu, Dropdown, Avatar, Button, Badge, theme } from 'antd';
 import Link from 'next/link';
 import {
   ShopOutlined,
@@ -38,17 +29,13 @@ import {
   TYPE_CUSTOMER,
   TYPE_HELPER,
 } from 'src/utils/constants';
-
-const { useBreakpoint } = Grid;
+import { useScreen } from 'src/utils/common';
 
 export default () => {
   const router = useRouter();
   const dispatch = useDispatch();
-  const screens = useBreakpoint();
   const { token } = theme.useToken();
-  const isXsSm = useMemo(() => screens.xs || (screens.sm && !screens.md), [
-    screens,
-  ]);
+  const isXsSm = useScreen();
   const { notification_list } = useSelector(({ common }) => common);
   const { title } = useSelector(({ setting }) => setting);
   const { userDetail, notificationCount, messageCount, type } = useAuth();

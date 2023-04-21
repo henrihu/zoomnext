@@ -1,3 +1,6 @@
+import { Grid } from 'antd';
+import { useMemo } from 'react';
+
 export const setStorageItem = (key, value) => {
   window.localStorage.setItem(key, value);
 };
@@ -27,3 +30,12 @@ export const MergeDateTime = (date, time) => {
 
 export const findStrInObj = (obj, str) =>
   JSON.stringify(obj).toLowerCase().includes(str.toLowerCase());
+
+export const useScreen = () => {
+  const { useBreakpoint } = Grid;
+  const screens = useBreakpoint();
+  const isXsSm = useMemo(() => screens.xs || (screens.sm && !screens.md), [
+    screens,
+  ]);
+  return isXsSm;
+};

@@ -20,6 +20,7 @@ export default () => {
   const dispatch = useDispatch();
   const { converstations, chats } = useSelector(({ common }) => common);
   const [selected, setSelected] = useState();
+  const [label, setLabel] = useState('Messages');
 
   useEffect(() => {
     dispatch(getConversations());
@@ -33,6 +34,7 @@ export default () => {
   useEffect(() => {
     if (selected && selected.id) {
       dispatch(getChats(selected));
+      setLabel(selected.firstName);
     }
   }, [selected]);
 
@@ -41,7 +43,7 @@ export default () => {
       <Meta
         title="Messages | Zoom Errands"
         description="Zoom Errands"
-        label="Messages"
+        label={label}
       />
       <Spin spinning={false}>
         <Row justify="center" gutter={[8, 8]}>

@@ -1,3 +1,5 @@
+export const PLATFORM = 'web';
+
 export const TYPE_CUSTOMER = 'customer';
 export const TYPE_HELPER = 'provider';
 export const COLOR_CUSTOMER = '#4EBDD9';

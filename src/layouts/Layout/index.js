@@ -7,10 +7,12 @@ import Header from '../Header';
 import Footer from '../Footer';
 import Notification from '../Notification';
 import { useAuth } from 'src/store/auth/actions';
+import { useScreen } from 'src/utils/common';
 
 export default ({ children }) => {
   const router = useRouter();
   const { authenticated } = useAuth();
+  const isXsSm = useScreen();
 
   useEffect(() => {
     if (!authenticated) {
@@ -23,7 +25,7 @@ export default ({ children }) => {
       <Header />
       <Layout.Content
         style={{
-          padding: 32,
+          padding: isXsSm ? 16 : 32,
           minHeight: 'calc(100vh - 105px - 64px)',
         }}
       >

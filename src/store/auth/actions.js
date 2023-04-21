@@ -6,7 +6,7 @@ import {
   removeStorageItem,
   setStorageItem,
 } from 'src/utils/common';
-import { TYPE_CUSTOMER } from 'src/utils/constants';
+import { PLATFORM, TYPE_CUSTOMER } from 'src/utils/constants';
 import { showError, showSuccess } from 'src/utils/messages';
 
 export const SET_DATA = '[AUTH] SET DATA';
@@ -25,7 +25,7 @@ export const signInWithEmail = (signData, router) => {
     try {
       const { data } = await API.signInWithEmail({
         ...signData,
-        platform: 'web',
+        platform: PLATFORM,
       });
       if (data.status === 1) {
         const token = data.result.accessToken;
@@ -84,7 +84,7 @@ export const signInWithToken = (router) => {
 };
 
 export const signUp = (info) => {
-  return async (dispatch) => {
+  return async () => {
     try {
       const { data } = await API.signUp(info);
       if (data.status === 1) {
@@ -107,7 +107,6 @@ export const logOut = (router) => {
         payload: { authenticated: false },
       });
       await router.push('/');
-
       removeStorageItem('user_type');
       removeStorageItem('access_token');
     } catch (err) {
