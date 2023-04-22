@@ -4,7 +4,6 @@ import { useSelector, useDispatch } from 'react-redux';
 // Components
 import Meta from '@/components/Meta/index';
 import { Card, Row, Col, Spin, Space, Button } from 'antd';
-import ChatList from './ChatList';
 import UserList from './UserList';
 import MessageList from './MessageList';
 
