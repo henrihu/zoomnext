@@ -11,7 +11,7 @@ import {
 } from 'src/utils/constants';
 import { formatNumber } from 'src/utils/common';
 
-import AddressDetail from '@/components/Job/AddressDetail';
+import AddressDetail from './AddressDetail';
 
 const DescItem = ({ children, label }) => {
   return (
