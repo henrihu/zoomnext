@@ -25,21 +25,22 @@ export default ({ data, type, onDetail, onCancel }) => {
         >
           <div className="flex flex-col justify-center items-center">
             <div className="font-bold mb-1 text-3xl">
-              {moment(data.jobDateAndTime).date()}
+              {moment(data.date).day()}
             </div>
             <span className="text-gray text-center">
               {new Intl.DateTimeFormat('en', { month: 'short' })
-                .format(moment(data.jobDateAndTime))
+                .format(data.date)
                 .toUpperCase()}{' '}
-              {moment(data.jobDateAndTime).year()}
+              {moment(data.date).year()}
             </span>
           </div>
           <Card hoverable bodyStyle={{ padding: 0, cursor: 'default' }}>
             <img
-              src={data.avatarImage}
-              alt="avatar"
+              src="/images/service.png"
+              alt="job"
               width="100%"
               height="100%"
+              className="rounded-lg"
             />
           </Card>
         </Col>
@@ -79,13 +80,13 @@ export default ({ data, type, onDetail, onCancel }) => {
                     className="font-bold"
                     style={{ fontSize: 24, color: '#89CE9D' }}
                   >
-                    ${formatNumber(data.totalCustomerPrice)}
+                    ${formatNumber(data.price)}
                   </div>
                 </Col>
                 <Col span={6}>
                   {type === TYPE_CUSTOMER &&
                     data.status === JOB_STATUS_PENDING && (
-                      <span className="text-gray">Bids: {data.bidCount}</span>
+                      <span className="text-gray">Bids: {0}</span>
                     )}
                 </Col>
                 <Col span={6} className="flex justify-end">

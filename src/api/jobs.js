@@ -26,8 +26,6 @@ export const getHelperBrowseJoblist = (data) =>
   base({ url: '/getProviderBrowseJoblist/', data, method: 'POST' });
 export const getHelperUserReview = (data) =>
   base({ url: '/getProviderUserReview/', data, method: 'POST' });
-export const getHelperCategories = () =>
-  base({ url: '/getProviderCategories/', method: 'POST' });
 
 export default {
   getMyJobList,
@@ -43,5 +41,4 @@ export default {
   getHelperJoblist,
   getHelperBrowseJoblist,
   getHelperUserReview,
-  getHelperCategories,
 };

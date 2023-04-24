@@ -47,7 +47,7 @@ export default ({ data, loading }) => {
           <h3>
             <EnvironmentOutlined className="mr-2" />
           </h3>
-          <h3>{data && data.address}</h3>
+          <h3>{data && data.location}</h3>
         </Col>
       </Row>
     </Card>

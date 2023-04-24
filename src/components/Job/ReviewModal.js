@@ -22,9 +22,7 @@ const helper = {
   job_count: 9,
 };
 
-export default ({ open, id, onOk, onCancel }) => {
-  const [rating, setRating] = useState(1);
-  const [review, setReview] = useState();
+export default ({ open, onOk, onCancel }) => {
   const [hasTip, setHasTip] = useState(true);
   const [tipAmount, setTipAmount] = useState();
   const modal_props = {
@@ -32,17 +30,8 @@ export default ({ open, id, onOk, onCancel }) => {
     open,
     okText: 'Submit',
     cancelButtonProps: { style: { display: 'none' } },
-    onOk: async () => {
-      const isSuccess = await onOk({
-        id,
-        providerRating: rating,
-        ratingDesc: review,
-        isTip: hasTip ? 1 : 0,
-        tipAmount: hasTip ? tipAmount : 0,
-      });
-      if (isSuccess) {
-        onCancel();
-      }
+    onOk: () => {
+      onCancel();
     },
     onCancel,
   };
@@ -68,7 +57,7 @@ export default ({ open, id, onOk, onCancel }) => {
               </Tag>
             </Col>
             <Col span={24} className="flex flex-col items-center">
-              <Rate value={rating} onChange={(value) => setRating(value)} />
+              <Rate defaultValue={1} />
               <span className="text-gray">Your Ratings</span>
             </Col>
           </Row>
@@ -77,9 +66,7 @@ export default ({ open, id, onOk, onCancel }) => {
         <Col span={24}>
           <Input.TextArea
             autoSize={{ minRows: 3, maxRows: 5 }}
-            value={review}
             placeholder="Write your review here"
-            onChange={(e) => setReview(e.target.value)}
           />
         </Col>
         <Col span={24} className="flex items-center">
