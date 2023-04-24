@@ -104,27 +104,6 @@ export const approveBid = (params) => {
   };
 };
 
-export const customerCompleteJob = (params) => {
-  return async (dispatch) => {
-    const key = 'customer_complete_job';
-    try {
-      dispatch(setLoading(key, true));
-      const { data } = await API.customerCompleteJob(params);
-      dispatch(setLoading(key, false));
-      if (data.status !== 1) {
-        showError(data.message);
-        return false;
-      }
-      showSuccess(data.message);
-      return data.result;
-    } catch (err) {
-      console.error(err);
-      dispatch(setLoading(key, false));
-      return false;
-    }
-  };
-};
-
 export const setData = (key, data) => ({ type: SET_DATA, key, data });
 export const setLoading = (key, loading) => ({
   type: SET_LOADING,
