@@ -61,8 +61,12 @@ export default () => {
                   <Tag>
                     <StarFilled style={{ color: '#FADB14' }} />
                     <span className="text-bold">
-                      <b>{provider && provider.avgRating}</b> (
-                      {provider && provider.totalReview})
+                      <b>
+                        {provider && provider.totalReview !== 0
+                          ? provider.totalRating / provider.totalReview
+                          : 0}
+                      </b>{' '}
+                      ({provider && provider.totalReview})
                     </span>
                   </Tag>
                 </Col>

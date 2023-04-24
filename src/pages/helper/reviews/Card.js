@@ -1,6 +1,7 @@
-import { Card, Row, Col, Space } from 'antd';
+import { Card, Row, Col, Space, Tag, Divider } from 'antd';
 import { formatDate } from 'src/utils/common';
 import { StarFilled } from '@ant-design/icons';
+import moment from 'moment';
 
 export default ({ data }) => {
   return (
@@ -13,15 +14,17 @@ export default ({ data }) => {
           <div className="font-bold mb-1 text-2xl">
             <StarFilled style={{ color: '#FADB14' }} />
           </div>
-          <div className="text-2xl font-bold">{data.providerRating}</div>
+          <div className="text-lg font-bold">{data.providerRating}</div>
         </Col>
-        <Col span={21} className="flex items-center px-4 md:px-8">
+        <Col span={21} className="flex items-center px-4 md:px-8 py-2">
           <Space direction="vertical">
-            <Space className="flex items-end">
+            <Space size={[0, 2]} direction="vertical">
               <h3>{data.title}</h3>
-              <span className="text-gray">{data.RatingDate}</span>
+              <small className="text-gray">
+                {data.RatingDate.replace(data.title, '')}
+              </small>
             </Space>
-            <span>{data.review}</span>
+            <span className="font-bold">{data.ratingDesc}</span>
           </Space>
         </Col>
       </Row>

@@ -14,7 +14,6 @@ import {
 } from 'antd';
 import { StarFilled } from '@ant-design/icons';
 import { FEE_RATE } from 'src/utils/constants';
-import { useAuth } from 'src/store/auth/actions';
 
 const helper = {
   avatar: '/images/service.png',
@@ -23,17 +22,27 @@ const helper = {
   job_count: 9,
 };
 
-export default ({ open, onOk, onCancel }) => {
+export default ({ open, id, onOk, onCancel }) => {
+  const [rating, setRating] = useState(1);
+  const [review, setReview] = useState();
   const [hasTip, setHasTip] = useState(true);
-  const { userDetail = {} } = useAuth();
   const [tipAmount, setTipAmount] = useState();
   const modal_props = {
     title: 'Rate & Review',
     open,
     okText: 'Submit',
     cancelButtonProps: { style: { display: 'none' } },
-    onOk: () => {
-      onCancel();
+    onOk: async () => {
+      const isSuccess = await onOk({
+        id,
+        providerRating: rating,
+        ratingDesc: review,
+        isTip: hasTip ? 1 : 0,
+        tipAmount: hasTip ? tipAmount : 0,
+      });
+      if (isSuccess) {
+        onCancel();
+      }
     },
     onCancel,
   };
@@ -44,22 +53,22 @@ export default ({ open, onOk, onCancel }) => {
         <Col span={24} className="flex justify-center">
           <Row>
             <Col span={24} className="flex justify-center">
-              <Avatar src={userDetail.avatarImage} size={100} />
+              <Avatar src={helper.avatar} size={100} />
             </Col>
             <Col span={24} className="flex justify-center">
-              <h2>{userDetail.name}</h2>
+              <h2>{helper.name}</h2>
             </Col>
             <Col span={24} className="flex justify-center items-center">
               <span className="text-gray mr-4">User Ratings</span>
               <Tag>
                 <StarFilled style={{ color: '#FADB14' }} />
                 <span className="text-bold">
-                  <b>{userDetail.rating}</b> ({userDetail.job_count})
+                  <b>{helper.rating}</b> ({helper.job_count})
                 </span>
               </Tag>
             </Col>
             <Col span={24} className="flex flex-col items-center">
-              <Rate defaultValue={1} />
+              <Rate value={rating} onChange={(value) => setRating(value)} />
               <span className="text-gray">Your Ratings</span>
             </Col>
           </Row>
@@ -68,7 +77,9 @@ export default ({ open, onOk, onCancel }) => {
         <Col span={24}>
           <Input.TextArea
             autoSize={{ minRows: 3, maxRows: 5 }}
+            value={review}
             placeholder="Write your review here"
+            onChange={(e) => setReview(e.target.value)}
           />
         </Col>
         <Col span={24} className="flex items-center">

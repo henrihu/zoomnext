@@ -36,11 +36,10 @@ export default ({ data, type, onDetail, onCancel }) => {
           </div>
           <Card hoverable bodyStyle={{ padding: 0, cursor: 'default' }}>
             <img
-              src="/images/service.png"
-              alt="job"
+              src={data.avatarImage}
+              alt="avatar"
               width="100%"
               height="100%"
-              className="rounded-lg"
             />
           </Card>
         </Col>
@@ -86,7 +85,7 @@ export default ({ data, type, onDetail, onCancel }) => {
                 <Col span={6}>
                   {type === TYPE_CUSTOMER &&
                     data.status === JOB_STATUS_PENDING && (
-                      <span className="text-gray">Bids: {0}</span>
+                      <span className="text-gray">Bids: {data.bidCount}</span>
                     )}
                 </Col>
                 <Col span={6} className="flex justify-end">
