@@ -12,8 +12,7 @@ import {
   Upload,
 } from 'antd';
 import { SendOutlined, PlusOutlined } from '@ant-design/icons';
-import { MESSAGE_TYPE_IMAGE, MESSAGE_TYPE_MESSAGE } from 'src/utils/constants';
-import { MessageList } from 'react-chat-elements';
+import { MESSAGE_TYPE_MESSAGE } from 'src/utils/constants';
 
 import Message from './Message';
 import { sendMessage } from 'src/store/common/actions';

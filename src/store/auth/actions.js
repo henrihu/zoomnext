@@ -6,7 +6,7 @@ import {
   removeStorageItem,
   setStorageItem,
 } from 'src/utils/common';
-import { TYPE_CUSTOMER } from 'src/utils/constants';
+import { PLATFORM, TYPE_CUSTOMER } from 'src/utils/constants';
 import { showError, showSuccess } from 'src/utils/messages';
 
 export const SET_DATA = '[AUTH] SET DATA';
@@ -25,7 +25,7 @@ export const signInWithEmail = (signData, router) => {
     try {
       const { data } = await API.signInWithEmail({
         ...signData,
-        platform: 'web',
+        platform: PLATFORM,
       });
       if (data.status === 1) {
         const token = data.result.accessToken;
@@ -57,6 +57,9 @@ export const signInWithEmail = (signData, router) => {
 export const signInWithToken = (router) => {
   return async (dispatch) => {
     try {
+      if (!getStorageItem('access_token')) {
+        return;
+      }
       await setAuthorization(getStorageItem('access_token'));
       const {
         data: { status, result, message },
@@ -72,20 +75,16 @@ export const signInWithToken = (router) => {
         });
       } else {
         showError(data.message);
-        removeStorageItem('user_type');
-        removeStorageItem('acces_token');
-        router.push('/auth/login');
+        dispatch(logOut(router));
       }
     } catch (err) {
-      removeStorageItem('user_type');
-      removeStorageItem('acces_token');
-      router.push('/auth/login');
+      dispatch(logOut(router));
     }
   };
 };
 
 export const signUp = (info) => {
-  return async (dispatch) => {
+  return async () => {
     try {
       const { data } = await API.signUp(info);
       if (data.status === 1) {
@@ -103,11 +102,11 @@ export const signUp = (info) => {
 export const logOut = (router) => {
   return async (dispatch) => {
     try {
-      await router.push('/');
-      dispatch({
+      await dispatch({
         type: SET_DATA,
         payload: { authenticated: false },
       });
+      await router.push('/');
       removeStorageItem('user_type');
       removeStorageItem('access_token');
     } catch (err) {

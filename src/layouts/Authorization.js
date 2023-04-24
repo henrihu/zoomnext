@@ -10,7 +10,7 @@ export default ({ children }) => {
   const dispatch = useDispatch();
   const router = useRouter();
 
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   const signIn = async () => {
     setLoading(true);

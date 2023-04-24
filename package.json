@@ -3,7 +3,7 @@
   "version": "1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev -p 5555",
+    "dev": "next dev -p 8000",
     "build": "next build",
     "start": "next start -p 5555",
     "lint": "next lint"
@@ -16,11 +16,10 @@
     "axios": "^1.3.4",
     "date-fns": "^2.29.3",
     "moment": "^2.29.4",
-    "next": "^13.3.0",
+    "next": "^13.3.1",
     "next-auth": "^4.12.3",
     "next-redux-wrapper": "^8.1.0",
     "react": "^18.2.0",
-    "react-chat-elements": "^12.0.8",
     "react-copy-to-clipboard": "^5.1.0",
     "react-dom": "^18.2.0",
     "react-ga": "^3.3.1",
@@ -30,6 +29,7 @@
     "redux": "^4.2.1",
     "redux-devtools-extension": "^2.13.9",
     "redux-thunk": "^2.4.2",
+    "timeago.js": "^4.0.2",
     "validator": "^13.7.0",
     "yarn": "^1.22.19"
   },

@@ -27,15 +27,24 @@ export default ({ data }) => {
           <span className="text-gray">{data && data.date.split(' ')[1]}</span>
           <span className="text-gray">{data && data.date.split(' ')[2]}</span>
         </Col>
-        <Col span={15} className="flex items-center px-4 md:px-8">
+        <Col xs={21} sm={21} md={15} className="flex items-center px-4 md:px-8">
           <Space direction="vertical">
             <h3>{data && data.title}</h3>
             <span>{data && data.description}</span>
           </Space>
         </Col>
-        <Col span={6} className="flex items-center justify-end pr-3">
-          <div className="font-bold" style={{ fontSize: 24, color: '#89CE9D' }}>
+        <Col
+          xs={24}
+          sm={24}
+          md={6}
+          className="flex flex-col justify-center items-end md:items-center border-t-2 border-t-gray md:border-t-0 pr-4 md:pr-0"
+        >
+          <div className="font-bold mb-1 text-2xl" style={{ color: '#89CE9D' }}>
             ${formatNumber(data.totalPrice)}
+          </div>
+          <div className="flex justify-between font-bold text-xl text-gray">
+            <div>${formatNumber(data.amount)}</div> +{' '}
+            <div>${formatNumber(data.commission)}</div>
           </div>
         </Col>
       </Row>

@@ -12,6 +12,7 @@ import {
   COLOR_CUSTOMER,
   COLOR_HELPER,
   LENGTH,
+  PLATFORM,
   TYPE_CUSTOMER,
   TYPE_HELPER,
 } from 'src/utils/constants';
@@ -27,7 +28,7 @@ export default () => {
   const handleSignUp = async (values) => {
     setPending(true);
     const isSuccess = await dispatch(
-      signUp({ ...values, type, platform: 'web' })
+      signUp({ ...values, type, platform: PLATFORM })
     );
     if (isSuccess) {
       router.push('/auth/login');

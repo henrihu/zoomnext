@@ -42,7 +42,7 @@ export default ({ items }) => {
               size={80}
               style={{ border: `2px solid ${token.colorPrimary}` }}
               onClick={() => {
-                router.push('/customer/profile');
+                router.push('/profile');
                 dispatch(setMenuDrawer(false));
               }}
             />
