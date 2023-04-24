@@ -1,6 +1,10 @@
 import { Avatar, List, Button, Row, Col, Space, Tag } from 'antd';
 import { StarFilled, MessageOutlined } from '@ant-design/icons';
-import { COLOR_CUSTOMER } from 'src/utils/constants';
+import {
+  APPROVE_MODE_ACCEPT,
+  APPROVE_MODE_REJECT,
+  COLOR_CUSTOMER,
+} from 'src/utils/constants';
 
 export default ({ data, approveBid }) => {
   return (
