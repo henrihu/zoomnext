@@ -1,4 +1,5 @@
 import { Grid } from 'antd';
+import moment from 'moment';
 import { useMemo } from 'react';
 
 export const setStorageItem = (key, value) => {
@@ -38,4 +39,11 @@ export const useScreen = () => {
     screens,
   ]);
   return isXsSm;
+};
+
+export const getTimeZone = () => {
+  const offset = moment().utcOffset();
+  return `${offset < 0 ? '-' : ''}${parseInt(Math.abs(offset) / 60)}:${
+    Math.abs(offset) % 60
+  }`;
 };

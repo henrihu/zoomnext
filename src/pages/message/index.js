@@ -38,7 +38,7 @@ export default () => {
         if (selected && selected.id) {
           dispatch(getChats(selected, false));
         }
-      }, 5000);
+      }, 10000);
       dispatch(getChats(selected));
       setLabel(selected.firstName);
     }

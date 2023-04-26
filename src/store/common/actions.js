@@ -1,5 +1,6 @@
 import API from 'src/api/common';
 import { setData as setAuthData } from 'src/store/auth/actions';
+import { getTimeZone } from 'src/utils/common';
 import { showError, showSuccess } from 'src/utils/messages';
 
 export const SET_DATA = '[COMMON] SET DATA]';
@@ -14,7 +15,6 @@ export const uploadImage = (info) => {
       dispatch(setPending(key, true));
       const { data } = await API.uploadImage(info);
       if (data.status === 1) {
-        console.log('uploadImage', data);
         return data.result;
       } else {
         showError(data.message);
@@ -22,6 +22,7 @@ export const uploadImage = (info) => {
     } catch (err) {
       console.error(err);
     }
+    console.log('uploadImage err');
     dispatch(setPending(key, false));
   };
 };
@@ -163,7 +164,7 @@ export const getConversations = () => {
     const key = 'converstations';
     try {
       dispatch(setLoading(key, true));
-      const { data } = await API.getConversations({ timeZone: '+05:30' });
+      const { data } = await API.getConversations({ timeZone: getTimeZone() });
       if (data.status === 1) {
         dispatch(setData(key, data.result.conversations));
       } else {
@@ -185,7 +186,7 @@ export const getChats = (selected, loading = true) => {
         indexId: 0,
         isGreater: 1,
         otherUserId: selected.userId,
-        timeZone: '+05:30',
+        timeZone: getTimeZone(),
         jobId: selected.jobId,
       });
       if (data.status === 1) {
@@ -206,7 +207,7 @@ export const sendMessage = (info) => {
     try {
       dispatch(setPending(key, true));
       const { data } = await API.sendMessage({
-        timeZone: '+00:00',
+        timeZone: getTimeZone(),
         ...info,
       });
       dispatch(setPending(key, false));
