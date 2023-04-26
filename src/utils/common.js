@@ -17,6 +17,10 @@ export const formatNumber = (num, decimalScale = 2) => {
   return Number(num).toFixed(decimalScale);
 };
 
+export const divideNumber = (num, den = 1, decimalScale = 1) => {
+  return den === 0 ? 0 : formatNumber(num / den, decimalScale);
+};
+
 export const formatDate = (
   date,
   option = { day: 'numeric', month: 'short', year: 'numeric' }
@@ -34,8 +38,9 @@ export const findStrInObj = (obj, str) =>
 export const useScreen = () => {
   const { useBreakpoint } = Grid;
   const screens = useBreakpoint();
-  const isXsSm = useMemo(() => screens.xs || (screens.sm && !screens.md), [
-    screens,
-  ]);
+  const isXsSm = useMemo(
+    () => screens.xs || (screens.sm && !screens.md),
+    [screens]
+  );
   return isXsSm;
 };

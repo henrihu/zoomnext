@@ -9,13 +9,7 @@ import List from './List';
 
 // Actions
 import { getReviewList, setFilter } from 'src/store/h_jobs/actions';
-
-const helper = {
-  avatar: '/images/service.png',
-  name: 'Robert Range',
-  rating: 4.8,
-  job_count: 9,
-};
+import { divideNumber } from 'src/utils/common';
 
 export default () => {
   const dispatch = useDispatch();
@@ -58,22 +52,24 @@ export default () => {
                 </Col>
                 <Col span={24} className="flex justify-center items-center">
                   <span className="text-gray mr-4">User Ratings</span>
-                  <Tag>
-                    <StarFilled style={{ color: '#FADB14' }} />
-                    <span className="text-bold">
+                  <Tag color={'#d8f6fd'}>
+                    <StarFilled className="star-blue" />
+                    <span className="text-bold star-blue">
                       <b>
-                        {provider && provider.totalReview !== 0
-                          ? provider.totalRating / provider.totalReview
-                          : 0}
+                        {provider &&
+                          divideNumber(
+                            provider.totalRating,
+                            provider.totalReview
+                          )}
                       </b>{' '}
                       ({provider && provider.totalReview})
                     </span>
                   </Tag>
                 </Col>
-                <Col span={24} className="flex flex-col items-center">
+                {/* <Col span={24} className="flex flex-col items-center">
                   <Rate value={parseInt(provider && provider.avgRate)} />
                   <span className="text-gray">Your Ratings</span>
-                </Col>
+                </Col> */}
               </Row>
             </Card>
           </Col>

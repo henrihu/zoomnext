@@ -13,7 +13,7 @@ import {
 } from 'src/utils/constants';
 import { formatNumber } from 'src/utils/common';
 
-export default ({ data, type, onDetail, onCancel }) => {
+export default ({ data, type, onDetail, onCancel, isCancelExist }) => {
   return (
     <Card bodyStyle={{ padding: 0, borderRadius: 8 }} hoverable>
       <Row>
@@ -88,17 +88,19 @@ export default ({ data, type, onDetail, onCancel }) => {
                       <span className="text-gray">Bids: {data.bidCount}</span>
                     )}
                 </Col>
-                <Col span={6} className="flex justify-end">
-                  <Button
-                    shape="round"
-                    size="small"
-                    danger
-                    icon={<CloseOutlined />}
-                    onClick={onCancel}
-                  >
-                    {type === TYPE_CUSTOMER ? 'Close' : 'Cancel'}
-                  </Button>
-                </Col>
+                {isCancelExist && (
+                  <Col span={6} className="flex justify-end">
+                    <Button
+                      shape="round"
+                      size="small"
+                      danger
+                      icon={<CloseOutlined />}
+                      onClick={() => onCancel({ jobId: data.id })}
+                    >
+                      {type === TYPE_CUSTOMER ? 'Close' : 'Cancel'}
+                    </Button>
+                  </Col>
+                )}
               </Row>
             </Col>
           </Row>

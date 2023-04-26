@@ -62,6 +62,18 @@ video {
   color: gray;
 }
 
+.star-blue {
+  color: #43c9e1;
+}
+
+.star-lightblue {
+  color: #d8f6fd;
+}
+
+.disp-text {
+  white-space: pre-wrap;
+}
+
 ::-webkit-scrollbar {
   width: 6px;
 }

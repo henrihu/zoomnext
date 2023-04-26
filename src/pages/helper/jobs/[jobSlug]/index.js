@@ -12,6 +12,8 @@ import JobDetail from '@/components/Job/JobDetail';
 import { getJobDetail } from 'src/store/h_jobs/actions';
 import {
   JOB_STATUS_ASSIGNED,
+  JOB_STATUS_CANCEL,
+  JOB_STATUS_COMPLETE,
   JOB_STATUS_ONGOING,
   TYPE_HELPER,
 } from 'src/utils/constants';
@@ -24,6 +26,21 @@ export default () => {
     job_detail: { data, loading },
   } = useSelector(({ h_jobs }) => h_jobs);
   const [modal, setModal] = useState({ open: false });
+
+  const statusList = {
+    [JOB_STATUS_ASSIGNED]: {
+      label: 'Start',
+      action: () => {
+        console.log('start');
+      },
+    },
+    [JOB_STATUS_ONGOING]: {
+      label: 'Location On Map',
+      action: () => {
+        console.log('Location On Map');
+      },
+    },
+  };
 
   useEffect(() => {
     if (jobSlug) {
@@ -49,16 +66,21 @@ export default () => {
             <JobDetail data={data} type={TYPE_HELPER} />
           </Card>
         </Col>
-        <Col sm={24} md={8}>
-          <Button
-            type="primary"
-            size="large"
-            shape="round"
-            onClick={() => setModal({ open: true, jobId: data.id })}
-          >
-            Location on Map
-          </Button>
-        </Col>
+        {data.status !== JOB_STATUS_COMPLETE &&
+          data.status !== JOB_STATUS_CANCEL && (
+            <Col sm={24} md={8}>
+              <Button
+                type="primary"
+                size="large"
+                shape="round"
+                onClick={
+                  statusList[data.status] && statusList[data.status].action
+                }
+              >
+                {statusList[data.status] && statusList[data.status].label}
+              </Button>
+            </Col>
+          )}
       </Row>
     </>
   );

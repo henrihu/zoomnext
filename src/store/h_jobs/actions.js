@@ -1,6 +1,7 @@
 import API from 'src/api/jobs';
 import moment from 'moment';
-import { showError } from 'src/utils/messages';
+import { showError, showSuccess } from 'src/utils/messages';
+import { TYPE_HELPER } from 'src/utils/constants';
 
 export const SET_DATA = '[HELPER JOBS] SET DATA]';
 export const SET_LOADING = '[HELPER JOBS] SET LOADING';
@@ -114,6 +115,29 @@ export const jobBid = (param) => {
         showError(message);
         return false;
       }
+      showSuccess(message);
+      return true;
+    } catch (err) {
+      console.error(err);
+      return false;
+    }
+  };
+};
+
+export const cancelJob = (param) => {
+  return async (dispatch) => {
+    const key = 'cancel_job';
+    try {
+      dispatch(setLoading(key, true));
+      const {
+        data: { status, message },
+      } = await API.cancelJob({ ...param, type: TYPE_HELPER });
+      dispatch(setLoading(key, false));
+      if (status !== 1) {
+        showError(message);
+        return false;
+      }
+      showSuccess(message);
       return true;
     } catch (err) {
       console.error(err);

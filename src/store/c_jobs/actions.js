@@ -1,6 +1,6 @@
 import API from 'src/api/jobs';
 import moment from 'moment';
-import { JOB_STATUS_ASSIGNED } from 'src/utils/constants';
+import { JOB_STATUS_ASSIGNED, TYPE_CUSTOMER } from 'src/utils/constants';
 import { showError, showSuccess } from 'src/utils/messages';
 
 export const SET_DATA = '[CUSTOMER JOBS] SET DATA]';
@@ -78,6 +78,28 @@ export const createJob = (params) => {
     } catch (err) {
       console.error(err);
       dispatch(setLoading(key, false));
+      return false;
+    }
+  };
+};
+
+export const cancelJob = (param) => {
+  return async (dispatch) => {
+    const key = 'cancel_job';
+    try {
+      dispatch(setLoading(key, true));
+      const {
+        data: { status, message },
+      } = await API.cancelJob({ ...param, type: TYPE_CUSTOMER });
+      dispatch(setLoading(key, false));
+      if (status !== 1) {
+        showError(message);
+        return false;
+      }
+      showSuccess(message);
+      return true;
+    } catch (err) {
+      console.error(err);
       return false;
     }
   };

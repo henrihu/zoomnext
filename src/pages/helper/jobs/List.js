@@ -8,7 +8,7 @@ import SimplePagination from 'src/components/SimplePagination';
 // Constants
 import { TYPE_CUSTOMER, TYPE_HELPER } from 'src/utils/constants';
 
-export default ({ hasMore, page, data, onSetFilter }) => {
+export default ({ hasMore, page, data, onSetFilter, onCancel, type }) => {
   const router = useRouter();
   return (
     <>
@@ -23,7 +23,8 @@ export default ({ hasMore, page, data, onSetFilter }) => {
               key={index}
               type={TYPE_HELPER}
               onDetail={() => router.push(`/helper/jobs/${item.jobSlug}/`)}
-              onCancel={null}
+              onCancel={onCancel}
+              isCancelExist={type === TYPE_CUSTOMER}
             />
           </div>
         )}

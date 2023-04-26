@@ -6,9 +6,9 @@ import { List } from 'antd';
 import JobCard from 'src/components/Job/JobCard';
 
 // Constants
-import { TYPE_HELPER } from 'src/utils/constants';
+import { TYPE_CUSTOMER, TYPE_HELPER } from 'src/utils/constants';
 
-export default ({ total = 0, data = [] }) => {
+export default ({ total = 0, data = [], type }) => {
   const router = useRouter();
   const [page, setPage] = useState(1);
   const result = useMemo(
@@ -27,7 +27,7 @@ export default ({ total = 0, data = [] }) => {
             key={index}
             type={TYPE_HELPER}
             onDetail={() => router.push(`/helper/browse_jobs/${item.jobSlug}/`)}
-            onCancel={null}
+            isCancelExist={type === TYPE_CUSTOMER}
           />
         </div>
       )}
