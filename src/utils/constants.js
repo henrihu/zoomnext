@@ -106,3 +106,7 @@ export const LENGTH = {
     max: 16,
   },
 };
+
+// Media Type
+export const MEDIA_TYPE_IMAGE = 'Image';
+export const MEDIA_TYPE_VIDEO = 'Video';

@@ -1,6 +1,17 @@
 import { toFormData } from 'axios';
 import base from './base';
 
+// Upload Image
+const uploadImage = (data) =>
+  base({
+    url: '/uploadImage/',
+    method: 'POST',
+    data: toFormData(data),
+    headers: {
+      'Content-Type': 'multipart/form-data',
+    },
+  });
+
 // Services
 const getServiceList = () => base({ url: '/getServiceList/', method: 'POST' });
 
@@ -43,6 +54,7 @@ const sendMessage = (data) =>
   base({ url: '/sendMessage/', method: 'POST', data });
 
 export default {
+  uploadImage,
   getServiceList,
   getNotificationList,
   removeNotification,

@@ -12,10 +12,14 @@ import {
   Upload,
 } from 'antd';
 import { SendOutlined, PlusOutlined } from '@ant-design/icons';
-import { MESSAGE_TYPE_MESSAGE } from 'src/utils/constants';
+import {
+  MEDIA_TYPE_IMAGE,
+  MESSAGE_TYPE_IMAGE,
+  MESSAGE_TYPE_MESSAGE,
+} from 'src/utils/constants';
 
 import Message from './Message';
-import { sendMessage } from 'src/store/common/actions';
+import { sendMessage, uploadImage } from 'src/store/common/actions';
 
 export default ({ data, loading, selected }) => {
   const dispatch = useDispatch();
@@ -61,14 +65,27 @@ export default ({ data, loading, selected }) => {
       showError('Image must smaller than 2MB!');
     }
     // setLoading(true);
-    // await onUpload(file);
+    const image = await dispatch(
+      uploadImage({
+        mediaType: MEDIA_TYPE_IMAGE,
+        module: 'chat',
+        media: file,
+      })
+    );
+    await dispatch(
+      sendMessage({
+        message: image.fileName,
+        receiverId: selected.userId,
+        jobId: selected.jobId,
+        messageType: MESSAGE_TYPE_IMAGE,
+      })
+    );
     // setLoading(false);
     return false;
   };
   return (
     <Card
       title={<h2>{selected && selected.firstName}</h2>}
-      // loading={loading}
       bodyStyle={{ padding: 0 }}
     >
       <Row>
@@ -128,25 +145,3 @@ export default ({ data, loading, selected }) => {
     </Card>
   );
 };
-
-/* <Col span={24} className="p-4">
-    <MessageList
-      lockable={true}
-      dataSource={messages}
-      toBottomHeight={'100%'}
-    />
-  </Col> */
-
-// const messages = useMemo(
-//   () =>
-//     data.map((item) => ({
-//       ...item,
-//       position: item.senderId === userDetail.id ? 'left' : 'right',
-//       type: item.messageType === MESSAGE_TYPE_MESSAGE ? 'text' : 'photo',
-//       text: item.messageType === MESSAGE_TYPE_MESSAGE && item.message,
-//       photo: item.messageType === MESSAGE_TYPE_IMAGE && item.messageUrl,
-//       date: item.createdAt,
-//       unread: item.isRead,
-//     })),
-//   [data]
-// );

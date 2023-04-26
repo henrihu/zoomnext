@@ -7,6 +7,25 @@ export const SET_LOADING = '[COMMON] SET LOADING';
 export const SET_PENDING = '[COMMON] SET PENDING';
 export const INIT_STORE = '[COMMON] INIT STORE';
 
+export const uploadImage = (info) => {
+  return async (dispatch) => {
+    const key = 'upload_image';
+    try {
+      dispatch(setPending(key, true));
+      const { data } = await API.uploadImage(info);
+      if (data.status === 1) {
+        console.log('uploadImage', data);
+        return data.result;
+      } else {
+        showError(data.message);
+      }
+    } catch (err) {
+      console.error(err);
+    }
+    dispatch(setPending(key, false));
+  };
+};
+
 export const getServiceList = () => {
   return async (dispatch) => {
     try {
