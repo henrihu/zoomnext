@@ -157,11 +157,11 @@ export const getConversations = () => {
   };
 };
 
-export const getChats = (selected) => {
+export const getChats = (selected, loading = true) => {
   return async (dispatch) => {
     const key = 'chats';
     try {
-      dispatch(setLoading(key, true));
+      loading && dispatch(setLoading(key, true));
       const { data } = await API.getChats({
         indexId: 0,
         isGreater: 1,

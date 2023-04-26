@@ -20,12 +20,7 @@ const renderMessageBox = (data) => {
       {data.messageType === MESSAGE_TYPE_MESSAGE ? (
         data.message
       ) : (
-        <img
-          src={data.messageUrl}
-          width={100}
-          height={100}
-          className="rounded"
-        />
+        <img src={data.message} width={100} height={100} className="rounded" />
       )}
     </Card>
   );

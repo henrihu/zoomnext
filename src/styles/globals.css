@@ -62,17 +62,16 @@ video {
   color: gray;
 }
 
+/* Scroll Bar */
 ::-webkit-scrollbar {
   width: 6px;
 }
-
 ::-webkit-scrollbar-track {
   border-radius: 8px;
   background-color: #e7e7e7;
   border: 1px solid #cacaca;
   box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
 }
-
 ::-webkit-scrollbar-thumb {
   border-radius: 8px;
   background-color: #535252;

@@ -21,15 +21,18 @@ export default ({ data, loading, selected }) => {
   const dispatch = useDispatch();
   const [pending, setPending] = useState(false);
   const [message, setMessage] = useState('');
+
   useEffect(() => {
     setMessage('');
   }, [selected]);
+
   useEffect(() => {
     if (!loading) {
       const chatBoard = window.document.getElementById('chat-board');
       chatBoard.scrollTo(0, chatBoard.scrollHeight);
     }
   }, [loading]);
+
   const handleSendMessage = async () => {
     setPending(true);
     const isSuccess = await dispatch(
@@ -65,7 +68,7 @@ export default ({ data, loading, selected }) => {
   return (
     <Card
       title={<h2>{selected && selected.firstName}</h2>}
-      loading={loading}
+      // loading={loading}
       bodyStyle={{ padding: 0 }}
     >
       <Row>

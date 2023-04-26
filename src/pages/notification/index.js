@@ -11,15 +11,15 @@ import { useAuth } from 'src/store/auth/actions';
 
 const data = [
   { key: 'isNewJob', title: 'New Job Posted' },
-  { key: 'isSelecJob', title: 'isSelecJob' },
+  { key: 'isSelecJob', title: 'Selected For Job' },
   { key: 'isMessageReceive', title: 'Message Received' },
-  { key: 'isPaymentReceive', title: 'Payment Charged' },
+  { key: 'isPaymentReceive', title: 'Payment Recevied' },
+  { key: 'isCompleteJob', title: 'Job Completed', status: true },
   {
     key: 'isAppUpdatePermission',
     title: 'App Updated & Permission',
     status: true,
   },
-  { key: 'isCompleteJob', title: 'Job Completed', status: true },
   { key: 'isJobBidReceivedByEmail', title: 'Job Bids Received', status: false },
   { key: 'isReviewReceivedByEmail', title: 'Review Received', status: false },
 ];

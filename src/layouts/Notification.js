@@ -10,7 +10,11 @@ import {
   Button,
   Spin,
 } from 'antd';
-import { CloseOutlined, DownOutlined } from '@ant-design/icons';
+import {
+  CloseOutlined,
+  DownOutlined,
+  CalendarOutlined,
+} from '@ant-design/icons';
 import { setNotificationDrawer } from 'src/store/setting/actions';
 import { setData as setAuthData } from 'src/store/auth/actions';
 import {
@@ -48,50 +52,43 @@ export default () => {
       title="Notifications"
       open={notification_drawer}
       onClose={() => dispatch(setNotificationDrawer(false))}
-      width={300}
+      width={350}
+      bodyStyle={{ padding: '8px 0px' }}
     >
       <Space direction="vertical" className="w-full">
         <Spin spinning={loading}>
           {data && data.notifications && data.notifications.length ? (
             data.notifications.map(
               ({ title, notificationTime, isRead, id }, index) => (
-                <div key={index}>
-                  <div className="flex items-center w-full gap-4">
-                    <Avatar
-                      src={data.profileImage}
-                      width={20}
-                      height={20}
-                      className="rounded"
-                      alt="noti"
-                    />
-                    <div className="flex justify-between items-center w-full">
-                      <Space direction="vertical" size={1}>
-                        <div
-                          dangerouslySetInnerHTML={{
-                            __html: title,
-                          }}
-                        />
+                <div key={index} className="mb-4">
+                  <div className="flex justify-between items-center px-4">
+                    <Space direction="vertical" size={1}>
+                      <div
+                        dangerouslySetInnerHTML={{
+                          __html: title,
+                        }}
+                      />
+                      <div className="flex gap-2">
+                        <CalendarOutlined className="text-gray text-xs" />
                         <span className="text-gray text-xs">
                           {notificationTime}
                         </span>
-                      </Space>
-                      <div className="flex items-center">
-                        {!isRead ? (
-                          <Badge dot={true} status="processing" />
-                        ) : (
-                          <></>
-                        )}
-                        <Button
-                          icon={<CloseOutlined />}
-                          shape="circle"
-                          size="small"
-                          type="text"
-                          loading={
-                            pending && pending[`removeNotification${id}`]
-                          }
-                          onClick={() => dispatch(removeNotification(id))}
-                        />
                       </div>
+                    </Space>
+                    <div className="flex items-center">
+                      {!isRead ? (
+                        <Badge dot={true} status="processing" />
+                      ) : (
+                        <></>
+                      )}
+                      <Button
+                        icon={<CloseOutlined />}
+                        shape="circle"
+                        size="small"
+                        type="text"
+                        loading={pending && pending[`removeNotification${id}`]}
+                        onClick={() => dispatch(removeNotification(id))}
+                      />
                     </div>
                   </div>
                   <Divider className="my-1" />

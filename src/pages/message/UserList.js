@@ -1,9 +1,10 @@
 import { useMemo, useState } from 'react';
-import { Avatar, List, Input, Card, Badge, Divider, theme } from 'antd';
+import { Avatar, List, Input, Card, Badge, Divider, theme, Spin } from 'antd';
 import { findStrInObj } from 'src/utils/common';
 import { format } from 'timeago.js';
+import { MESSAGE_TYPE_MESSAGE } from 'src/utils/constants';
 
-export default ({ data, loading, selected, setSelected }) => {
+export default ({ data, loading, chatLoading, selected, setSelected }) => {
   const { token } = theme.useToken();
   const [search, setSearch] = useState('');
   const filteredData = useMemo(
@@ -53,18 +54,24 @@ export default ({ data, loading, selected, setSelected }) => {
                       overflow: 'hidden',
                     }}
                   >
-                    {item.message}
+                    {item.messageType === MESSAGE_TYPE_MESSAGE
+                      ? item.message
+                      : 'Photo'}
                   </div>
-                  {item.unReadCount ? (
-                    <Badge
-                      count={item.unReadCount}
-                      color={token.colorPrimary}
-                    />
-                  ) : item.isallowSendSms ? (
-                    <Badge dot color="blue" />
-                  ) : (
-                    <></>
+                  {selected && selected.id === item.id && chatLoading && (
+                    <Spin spinning={true} size="small" />
                   )}
+                  {((selected && selected.id !== item.id) || !chatLoading) &&
+                    (item.unReadCount ? (
+                      <Badge
+                        count={item.unReadCount}
+                        color={token.colorPrimary}
+                      />
+                    ) : item.isallowSendSms ? (
+                      <Badge dot color="blue" />
+                    ) : (
+                      <></>
+                    ))}
                 </div>
               </div>
             </div>

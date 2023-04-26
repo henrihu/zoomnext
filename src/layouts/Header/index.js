@@ -273,14 +273,6 @@ export default () => {
             </div>
           </Dropdown>
         )}
-        <Badge count={notificationCount} overflowCount={100}>
-          <Button
-            shape="circle"
-            loading={notification_list.loading}
-            icon={<BellOutlined />}
-            onClick={() => dispatch(setNotificationDrawer(true))}
-          />
-        </Badge>
         <Badge count={messageCount} overflowCount={100}>
           <Button
             shape="circle"
@@ -288,6 +280,14 @@ export default () => {
             onClick={() => {
               router.push('/message');
             }}
+          />
+        </Badge>
+        <Badge count={notificationCount} overflowCount={100}>
+          <Button
+            shape="circle"
+            loading={notification_list.loading}
+            icon={<BellOutlined />}
+            onClick={() => dispatch(setNotificationDrawer(true))}
           />
         </Badge>
       </div>

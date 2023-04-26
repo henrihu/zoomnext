@@ -10,7 +10,7 @@ const Meta = ({ author, description, keywords, noIndex, title, label }) => {
   useEffect(() => {
     setUrl(window.location.origin);
     dispatch(setTitle(label));
-  }, []);
+  }, [label]);
 
   return (
     <Head>

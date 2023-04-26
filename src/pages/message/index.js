@@ -24,6 +24,7 @@ export default () => {
   useEffect(() => {
     dispatch(getConversations());
     dispatch(setAuthData({ messageCount: 0 }));
+
     return () => {
       dispatch(initStore('conversations'));
       dispatch(initStore('chats'));
@@ -31,10 +32,19 @@ export default () => {
   }, []);
 
   useEffect(() => {
+    let id;
     if (selected && selected.id) {
+      id = setInterval(() => {
+        if (selected && selected.id) {
+          dispatch(getChats(selected, false));
+        }
+      }, 5000);
       dispatch(getChats(selected));
       setLabel(selected.firstName);
     }
+    return () => {
+      clearInterval(id);
+    };
   }, [selected]);
 
   return (
@@ -49,6 +59,7 @@ export default () => {
           <Col xs={24} sm={24} md={8}>
             <UserList
               data={converstations.data}
+              chatLoading={chats.loading}
               loading={converstations.loading}
               selected={selected}
               setSelected={setSelected}
