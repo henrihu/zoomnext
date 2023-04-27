@@ -1,7 +1,16 @@
 import { useMemo, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useRouter } from 'next/router';
-import { Layout, Menu, Dropdown, Avatar, Button, Badge, theme } from 'antd';
+import {
+  Layout,
+  Menu,
+  Dropdown,
+  Avatar,
+  Button,
+  Badge,
+  theme,
+  Modal,
+} from 'antd';
 import Link from 'next/link';
 import {
   ShopOutlined,
@@ -18,7 +27,12 @@ import {
 import MenuDrawer from '../MenuDrawer';
 
 // Actions
-import { logOut, setType, useAuth } from 'src/store/auth/actions';
+import {
+  becomeProviderCustomer,
+  logOut,
+  setType,
+  useAuth,
+} from 'src/store/auth/actions';
 import {
   setMenuDrawer,
   setNotificationDrawer,
@@ -39,6 +53,19 @@ export default () => {
   const { notification_list } = useSelector(({ common }) => common);
   const { title } = useSelector(({ setting }) => setting);
   const { userDetail, notificationCount, messageCount, type } = useAuth();
+
+  const handleBecomeProviderCustomer = async () => {
+    const isSuccess = await dispatch(
+      becomeProviderCustomer(
+        type === TYPE_CUSTOMER ? TYPE_HELPER : TYPE_CUSTOMER
+      )
+    );
+    if (isSuccess) {
+      router.push('/services');
+      dispatch(setType(type === TYPE_CUSTOMER ? TYPE_HELPER : TYPE_CUSTOMER));
+    }
+  };
+
   const ITEM_LIST = useMemo(
     () =>
       type === TYPE_CUSTOMER
@@ -185,11 +212,36 @@ export default () => {
         icon: <ArrowsAltOutlined />,
         type: 'link',
         onClick: () => {
-          router.push('/services');
-          dispatch(
-            setType(type === TYPE_CUSTOMER ? TYPE_HELPER : TYPE_CUSTOMER)
-          );
+          Modal.confirm({
+            content: 'Are you sure you want to continue?',
+            okText: 'Yes',
+            cancelText: 'No',
+            onOk: () => {
+              router.push('/services');
+              dispatch(
+                setType(type === TYPE_CUSTOMER ? TYPE_HELPER : TYPE_CUSTOMER)
+              );
+            },
+          });
         },
+        hide: !userDetail.isProvider || !userDetail.isCustomer,
+      },
+      {
+        key: 'become',
+        label: `Become a ${
+          type === TYPE_CUSTOMER ? HELPER.label : CUSTOMER.label
+        }`,
+        icon: <ArrowsAltOutlined />,
+        type: 'link',
+        onClick: () => {
+          Modal.confirm({
+            content: 'Are you sure you want to continue?',
+            okText: 'Yes',
+            cancelText: 'No',
+            onOk: handleBecomeProviderCustomer,
+          });
+        },
+        hide: userDetail.isProvider && userDetail.isCustomer,
       },
       { type: 'divider' },
       {
@@ -197,7 +249,12 @@ export default () => {
         label: 'LOGOUT',
         icon: <LoginOutlined />,
         onClick: () => {
-          dispatch(logOut(router));
+          Modal.confirm({
+            content: 'Are you sure you want to log out?',
+            okText: 'Yes',
+            cancelText: 'No',
+            onOk: () => dispatch(logOut(router)),
+          });
         },
       },
     ],
@@ -259,7 +316,7 @@ export default () => {
         {!isXsSm && (
           <Dropdown
             menu={{
-              items,
+              items: items.filter(({ hide }) => !hide),
               onClick: ({ item }) => {
                 item.props.href && router.push(item.props.href);
               },

@@ -6,6 +6,7 @@ const initialState = {
   menu_drawer: false,
   title: '',
   otp_modal: { open: false },
+  profile_modal: { open: false },
 };
 
 export default (state = initialState, action) => {

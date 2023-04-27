@@ -2,8 +2,9 @@ import API from 'src/api/jobs';
 import moment from 'moment';
 import { showError, showSuccess } from 'src/utils/messages';
 import { TYPE_HELPER } from 'src/utils/constants';
+import { useSelector } from 'react-redux';
 
-export const SET_DATA = '[HELPER JOBS] SET DATA]';
+export const SET_DATA = '[HELPER JOBS] SET DATA';
 export const SET_LOADING = '[HELPER JOBS] SET LOADING';
 export const SET_FILTER = '[HELPER JOBS] SET FILTER';
 
@@ -186,3 +187,7 @@ export const setFilter = (key, filter) => ({
   key,
   filter,
 });
+
+export const useHelperJobs = () => {
+  return useSelector(({ h_jobs }) => h_jobs);
+};

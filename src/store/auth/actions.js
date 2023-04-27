@@ -22,6 +22,34 @@ export const setType = (type) => (dispatch) => {
   dispatch({ type: SET_DATA, payload: { type: type ? type : TYPE_CUSTOMER } });
 };
 
+export const setUserDetail = (userDetail) => (dispatch) => {
+  dispatch({ type: SET_DATA, payload: { userDetail } });
+};
+
+export const getUserDetail = () => {
+  return async (dispatch, getState) => {
+    try {
+      const { data } = await API.getUserDetail();
+      if (data.status === 1) {
+        dispatch({
+          type: SET_DATA,
+          payload: {
+            ...getState().auth,
+            authenticated: true,
+            userDetail: data.result.userDetail,
+          },
+        });
+        showSuccess(data.message);
+      } else {
+        showError(data.message);
+      }
+    } catch (err) {
+      console.error(err);
+      return false;
+    }
+  };
+};
+
 export const signInWithEmail = (signData, router) => {
   return async (dispatch) => {
     try {
@@ -36,21 +64,11 @@ export const signInWithEmail = (signData, router) => {
         ) {
           const token = data.result.accessToken;
           await setAuthorization(token);
-          const {
-            data: { result },
-          } = await API.getUserDetail();
-          await router.push('/services');
-          dispatch({
-            type: SET_DATA,
-            payload: {
-              authenticated: true,
-              type: signData.type,
-              ...result,
-            },
-          });
-          showSuccess(data.message);
           setStorageItem('user_type', signData.type);
           setStorageItem('access_token', token);
+          await dispatch(getUserDetail());
+          await router.push('/services');
+          showSuccess(data.message);
         } else {
           await dispatch({
             type: SET_DATA,
@@ -81,6 +99,7 @@ export const signInWithToken = (router) => {
   return async (dispatch) => {
     try {
       if (!getStorageItem('access_token')) {
+        router.push('/');
         return;
       }
       await setAuthorization(getStorageItem('access_token'));
@@ -127,11 +146,11 @@ export const signUp = (info) => {
 export const logOut = (router) => {
   return async (dispatch) => {
     try {
-      await dispatch({
+      await router.push('/');
+      dispatch({
         type: SET_DATA,
         payload: { authenticated: false },
       });
-      await router.push('/');
       removeStorageItem('user_type');
       removeStorageItem('access_token');
     } catch (err) {
@@ -158,6 +177,7 @@ export const verifyOtp = (info) => {
         deviceToken: userDetail && userDetail.deviceToken,
         ...info,
       });
+      dispatch(setPending(key, false));
       if (data.status === 1) {
         await setAuthorization(data.result.accessToken);
         dispatch({
@@ -174,9 +194,9 @@ export const verifyOtp = (info) => {
       }
     } catch (err) {
       console.error(err);
+      dispatch(setPending(key, false));
       return false;
     }
-    dispatch(setPending(key, false));
   };
 };
 
@@ -191,6 +211,7 @@ export const resetVerifyOtp = (info) => {
         platform: PLATFORM,
         ...info,
       });
+      dispatch(setPending(key, false));
       if (data.status === 1) {
         return true;
       } else {
@@ -199,9 +220,9 @@ export const resetVerifyOtp = (info) => {
       }
     } catch (err) {
       console.error(err);
+      dispatch(setPending(key, false));
       return false;
     }
-    dispatch(setPending(key, false));
   };
 };
 
@@ -279,3 +300,70 @@ export const setPending = (key, pending) => ({
   key,
   pending,
 });
+
+export const providerUpdateProfile = (info) => {
+  return async (dispatch, getState) => {
+    try {
+      const { data } = await API.providerUpdateProfile(info);
+      if (data.status !== 1) {
+        showError(data.message);
+        return;
+      }
+      dispatch({
+        type: SET_DATA,
+        payload: {
+          ...getState().auth,
+          userDetail: data.result.user,
+        },
+      });
+    } catch (err) {
+      console.error(err);
+    }
+  };
+};
+
+export const payNowFree = (info) => {
+  return async (dispatch, getState) => {
+    const key = 'payNow';
+    try {
+      dispatch(setPending(key, true));
+      const { data } = await API.payNowFree(info);
+      dispatch(setPending(key, false));
+      if (data.status !== 1) {
+        showError(data.message);
+        return false;
+      }
+      dispatch({
+        type: SET_DATA,
+        payload: {
+          ...getState().auth,
+          userDetail: data.result.user,
+        },
+      });
+      return true;
+    } catch (err) {
+      console.error(err);
+      return false;
+    }
+  };
+};
+
+export const becomeProviderCustomer = (becomeType) => {
+  return async (dispatch, getState) => {
+    const key = 'become';
+    try {
+      dispatch(setPending(key, true));
+      const { data } = await API.becomeProviderCustomer({ becomeType });
+      dispatch(setPending(key, false));
+      if (data.status !== 1) {
+        showError(data.message);
+        return false;
+      }
+      dispatch(setUserDetail(data.result.user));
+      return true;
+    } catch (err) {
+      console.error(err);
+      return false;
+    }
+  };
+};

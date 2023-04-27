@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import { useRouter } from 'next/router';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 import { Layout } from 'antd';
 import Header from '../Header';
@@ -8,10 +8,14 @@ import Footer from '../Footer';
 import Notification from '../Notification';
 import { useAuth } from 'src/store/auth/actions';
 import { useScreen } from 'src/utils/common';
+import { TYPE_HELPER } from 'src/utils/constants';
+import ProviderProfile from '@/components/ProviderProfile';
+import { setProfileModal } from 'src/store/setting/actions';
 
 export default ({ children }) => {
+  const dispatch = useDispatch();
   const router = useRouter();
-  const { authenticated } = useAuth();
+  const { authenticated, type, userDetail } = useAuth();
   const isXsSm = useScreen();
 
   useEffect(() => {
@@ -19,6 +23,12 @@ export default ({ children }) => {
       router.push('/auth/login/');
     }
   }, [router]);
+
+  useEffect(() => {
+    if (userDetail && !userDetail.isProviderprofileCompleted) {
+      dispatch(setProfileModal({ open: true }));
+    }
+  }, []);
 
   return (
     <Layout>
@@ -33,6 +43,7 @@ export default ({ children }) => {
       </Layout.Content>
       <Footer />
       <Notification />
+      {type === TYPE_HELPER && <ProviderProfile />}
     </Layout>
   );
 };

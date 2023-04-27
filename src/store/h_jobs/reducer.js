@@ -23,7 +23,7 @@ const initialState = {
   review_list: { data: { hasMore: 0, data: [] }, loading: false },
   review_filter: { page: 1 },
   job_detail: { data: {}, loading: false },
-  provider_categories: [],
+  provider_categories: { data: [], loading: false },
 };
 
 export default (state = initialState, action) => {

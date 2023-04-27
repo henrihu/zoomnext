@@ -1,18 +1,11 @@
-import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useRouter } from 'next/router';
 
 // Components
 import Meta from '@/components/Meta/index';
 import { Button, Input, Form, Row, Col, Card, Select } from 'antd';
-import {
-  ProfileOutlined,
-  KeyOutlined,
-  PlusOutlined,
-  LoadingOutlined,
-} from '@ant-design/icons';
+import { ProfileOutlined, KeyOutlined } from '@ant-design/icons';
 import AvatarUpload from 'src/components/AvatarUpload/index';
-import StartJob from './StartJob';
+
 // Actions
 import {
   updateProfile,
@@ -29,7 +22,6 @@ const layout = {
 
 export default () => {
   const dispatch = useDispatch();
-  const router = useRouter();
   const { pending } = useSelector(({ common }) => common);
   const { type, userDetail } = useAuth();
 
@@ -57,7 +49,7 @@ export default () => {
         label="Profile"
       />
       <Row align="center" justify="center" gutter={[16, 16]}>
-        <Col xs={24} sm={24} md={8}>
+        <Col xs={24} sm={24} md={16}>
           <Card
             title={
               <h3>
@@ -244,9 +236,6 @@ export default () => {
               </Form.Item>
             </Form>
           </Card>
-        </Col>
-        <Col xs={24} sm={24} md={8}>
-          <StartJob />
         </Col>
       </Row>
     </>

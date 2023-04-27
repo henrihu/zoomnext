@@ -26,6 +26,12 @@ export const setOtpModal = (otp_modal) => {
   };
 };
 
+export const setProfileModal = (profile_modal) => {
+  return (dispatch) => {
+    dispatch({ type: SET_DATA, payload: { profile_modal } });
+  };
+};
+
 export const useSetting = () => {
   const setting = useSelector(({ setting }) => setting);
   return setting;

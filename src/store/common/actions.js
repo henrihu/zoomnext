@@ -29,8 +29,8 @@ export const uploadImage = (info) => {
 
 export const getServiceList = () => {
   return async (dispatch) => {
+    const key = 'service_list';
     try {
-      const key = 'service_list';
       dispatch(setLoading(key, true));
       const { data } = await API.getServiceList();
       dispatch(setLoading(key, false));
@@ -41,6 +41,7 @@ export const getServiceList = () => {
       dispatch(setData(key, data.result.serviceList));
     } catch (err) {
       console.error(err);
+      dispatch(setLoading(key, false));
     }
   };
 };
