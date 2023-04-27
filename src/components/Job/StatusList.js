@@ -4,6 +4,7 @@ import { ClockCircleOutlined, CalendarOutlined } from '@ant-design/icons';
 
 import ReviewModal from './ReviewModal';
 import {
+  CATEGORY_TYPE_DELIVERY,
   JOB_STATUS_COMPLETE,
   JOB_STATUS_HISTORY_LABEL,
 } from 'src/utils/constants';
@@ -24,7 +25,10 @@ const renderItem = (item) => (
   </Row>
 );
 
-export default ({ id, status, jobStatusHistory = [], completeJob }) => {
+export default ({
+  data: { id, status, type, jobStatusHistory = [] },
+  completeJob,
+}) => {
   const [modal, setModal] = useState({ open: false });
   return (
     <Row gutter={[16, 16]}>
@@ -57,9 +61,11 @@ export default ({ id, status, jobStatusHistory = [], completeJob }) => {
             >
               Complete Job
             </Button>
-            <Button type="primary" size="large" shape="round">
-              Location on Map
-            </Button>
+            {type === CATEGORY_TYPE_DELIVERY && (
+              <Button type="primary" size="large" shape="round">
+                Location on Map
+              </Button>
+            )}
           </Col>
           <ReviewModal
             {...modal}

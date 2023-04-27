@@ -16,13 +16,20 @@ import {
   approveBid,
   getJobDetail,
   customerCompleteJob,
+  createJobMilestones,
 } from 'src/store/c_jobs/actions';
-import { JOB_STATUS_ASSIGNED, JOB_STATUS_PENDING } from 'src/utils/constants';
+import {
+  JOB_STATUS_ASSIGNED,
+  JOB_STATUS_CANCEL,
+  JOB_STATUS_PENDING,
+} from 'src/utils/constants';
+import { useAuth } from 'src/store/auth/actions';
 
 export default () => {
   const dispatch = useDispatch();
   const router = useRouter();
   const jobSlug = router.query.jobSlug;
+  const { type } = useAuth();
   const {
     job_detail: { data, loading },
   } = useSelector(({ c_jobs }) => c_jobs);
@@ -52,8 +59,15 @@ export default () => {
         </Col>
         <Col sm={24} md={8} className="flex flex-col gap-2">
           <DetailCard data={data} loading={loading} />
-          {/* {data.status === JOB_STATUS_ASSIGNED && <MoreWork />} */}
-          <MoreWork />
+          {data.status !== JOB_STATUS_PENDING && (
+            <MoreWork
+              jobId={data.id}
+              data={data.jobMilestones}
+              type={type}
+              status={data.status}
+              onCreate={(params) => dispatch(createJobMilestones(params))}
+            />
+          )}
         </Col>
         <Col sm={24} md={16}>
           {data.status == JOB_STATUS_PENDING ? (
@@ -63,9 +77,7 @@ export default () => {
             />
           ) : (
             <StatusList
-              id={data.id}
-              status={data.status}
-              jobStatusHistory={data.jobStatusHistory}
+              data={data}
               completeJob={(data) => dispatch(customerCompleteJob(data))}
             />
           )}

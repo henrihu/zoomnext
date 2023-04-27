@@ -19,6 +19,7 @@ import {
   TYPE_HELPER,
 } from 'src/utils/constants';
 import MoreWork from '@/components/Job/MoreWork';
+import { useAuth } from 'src/store/auth/actions';
 
 export default () => {
   const dispatch = useDispatch();
@@ -27,6 +28,7 @@ export default () => {
   const {
     job_detail: { data, loading },
   } = useSelector(({ h_jobs }) => h_jobs);
+  const { type } = useAuth();
   const [modal, setModal] = useState({ open: false });
 
   useEffect(() => {
@@ -105,7 +107,7 @@ export default () => {
         </Col>
         <Col sm={24} md={16}>
           <Card hoverable loading={loading}>
-            <JobDetail data={data} type={TYPE_HELPER} />
+            <JobDetail data={data} type={type} />
           </Card>
         </Col>
         <Col sm={24} md={8}>
@@ -116,7 +118,11 @@ export default () => {
                 renderStatusButton()}
             </Col>
             <Col span={24}>
-              <MoreWork data={data.jobMilestones} />
+              <MoreWork
+                data={data.jobMilestones}
+                type={type}
+                status={data.status}
+              />
             </Col>
           </Row>
         </Col>

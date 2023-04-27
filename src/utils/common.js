@@ -1,5 +1,6 @@
 import { Grid } from 'antd';
 import { useMemo } from 'react';
+import { BUDGET_OPTION_TOTAL_JOB, FEE_RATE } from './constants';
 
 export const setStorageItem = (key, value) => {
   window.localStorage.setItem(key, value);
@@ -32,15 +33,20 @@ export const MergeDateTime = (date, time) => {
   return date.format('YYYY-MM-DD') + ' ' + time.format('HH:mm:ss');
 };
 
+export const calcBudget = (option, price, hour) => {
+  if (option === BUDGET_OPTION_TOTAL_JOB)
+    return price ? price * (1 + FEE_RATE / 100) : 0;
+  return price && hour ? price * hour * (1 + FEE_RATE / 100) : 0;
+};
+
 export const findStrInObj = (obj, str) =>
   JSON.stringify(obj).toLowerCase().includes(str.toLowerCase());
 
 export const useScreen = () => {
   const { useBreakpoint } = Grid;
   const screens = useBreakpoint();
-  const isXsSm = useMemo(
-    () => screens.xs || (screens.sm && !screens.md),
-    [screens]
-  );
+  const isXsSm = useMemo(() => screens.xs || (screens.sm && !screens.md), [
+    screens,
+  ]);
   return isXsSm;
 };

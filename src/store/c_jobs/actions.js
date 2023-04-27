@@ -147,6 +147,27 @@ export const customerCompleteJob = (params) => {
   };
 };
 
+export const createJobMilestones = (params) => {
+  return async (dispatch) => {
+    const key = 'create_job_milestones';
+    try {
+      dispatch(setLoading(key, true));
+      const { data } = await API.createJobMilestones(params);
+      dispatch(setLoading(key, false));
+      if (data.status !== 1) {
+        showError(data.message);
+        return false;
+      }
+      showSuccess(data.message);
+      return data.result;
+    } catch (err) {
+      console.error(err);
+      dispatch(setLoading(key, false));
+      return false;
+    }
+  };
+};
+
 export const setData = (key, data) => ({ type: SET_DATA, key, data });
 export const setLoading = (key, loading) => ({
   type: SET_LOADING,
