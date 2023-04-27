@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { useDispatch, useSelector } from 'react-redux';
 import { useRouter } from 'next/router';
@@ -9,12 +9,14 @@ import { AuthLayout } from '@/layouts/index';
 import { Button, Radio, Input, Form, Row, Col } from 'antd';
 import { GoogleOutlined, FacebookOutlined } from '@ant-design/icons';
 import ForgotPassword from './ForgotPassword';
-import Verification from './Verification';
 import Terms from './Terms';
 // Constants
 import { TYPE_CUSTOMER, TYPE_HELPER } from 'src/utils/constants';
 // Actions
 import { setType, signInWithEmail } from 'src/store/auth/actions';
+import OtpVerification from '@/components/OtpVerification';
+import { setOtpModal } from 'src/store/setting/actions';
+import ResetPassword from './ResetPassword';
 
 const socialProviders = [
   {
@@ -38,8 +40,12 @@ const Login = () => {
   const { type } = useSelector(({ auth }) => auth);
   const [pending, setPending] = useState(false);
   const [forgotModal, setForgotModal] = useState({ open: false });
-  const [vertificationModal, setVerificationModal] = useState({ open: false });
+  const [resetModal, setResetModal] = useState({ open: false });
   const [termModal, setTermModal] = useState({ open: false });
+
+  useEffect(() => {
+    dispatch(setOtpModal({ open: false }));
+  }, []);
 
   const handleSignInWithEmail = async (values) => {
     setPending(true);
@@ -154,16 +160,20 @@ const Login = () => {
           </div>
         </Col>
       </Row>
-      <ForgotPassword
-        {...forgotModal}
-        onOk={() => setForgotModal({ open: false })}
-        onCancel={() => setForgotModal({ open: false })}
-      />
-      <Verification
-        {...vertificationModal}
-        onOk={() => setVerificationModal({ open: false })}
-        onCancel={() => setVerificationModal({ open: false })}
-      />
+      <OtpVerification />
+      {forgotModal.open && (
+        <ForgotPassword
+          {...forgotModal}
+          onOpenResetModal={(info) => setResetModal(info)}
+          onCancel={() => setForgotModal({ open: false })}
+        />
+      )}
+      {resetModal.open && (
+        <ResetPassword
+          {...resetModal}
+          onCancel={() => setResetModal({ open: false })}
+        />
+      )}
       <Terms
         {...termModal}
         onOk={() => setTermModal({ open: false })}

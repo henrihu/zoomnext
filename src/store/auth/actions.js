@@ -8,6 +8,7 @@ import {
 } from 'src/utils/common';
 import { PLATFORM, TYPE_CUSTOMER } from 'src/utils/constants';
 import { showError, showSuccess } from 'src/utils/messages';
+import { setOtpModal } from '../setting/actions';
 
 export const SET_DATA = '[AUTH] SET DATA';
 export const SET_PENDING = '[AUTH] SET PENDING';
@@ -59,7 +60,9 @@ export const signInWithEmail = (signData, router) => {
               ...data.result,
             },
           });
-          await router.push('/auth/otp_verify');
+          await dispatch(
+            setOtpModal({ open: true, onOk: () => router.push('/services') })
+          );
         }
 
         return true;
@@ -142,12 +145,21 @@ export const useAuth = () => {
 };
 
 export const verifyOtp = (info) => {
-  return async (dispatch) => {
+  return async (dispatch, getState) => {
     const key = 'verify_otp';
     try {
       dispatch(setPending(key, true));
-      const { data } = await API.verifyOtp(info);
+      const { userDetail, type } = getState().auth;
+      const { data } = await API.verifyOtp({
+        type,
+        email: userDetail && userDetail.email,
+        platform: PLATFORM,
+        fcmToken: userDetail && userDetail.fcmToken,
+        deviceToken: userDetail && userDetail.deviceToken,
+        ...info,
+      });
       if (data.status === 1) {
+        await setAuthorization(data.result.accessToken);
         dispatch({
           type: SET_DATA,
           payload: {
@@ -168,12 +180,83 @@ export const verifyOtp = (info) => {
   };
 };
 
+export const resetVerifyOtp = (info) => {
+  return async (dispatch, getState) => {
+    const key = 'verify_otp';
+    try {
+      dispatch(setPending(key, true));
+      const { type } = getState().auth;
+      const { data } = await API.verifyOtp({
+        type,
+        platform: PLATFORM,
+        ...info,
+      });
+      if (data.status === 1) {
+        return true;
+      } else {
+        showError(data.message);
+        return false;
+      }
+    } catch (err) {
+      console.error(err);
+      return false;
+    }
+    dispatch(setPending(key, false));
+  };
+};
+
 export const resendOtp = (info) => {
   return async (dispatch) => {
     const key = 'resendOtp';
     try {
       dispatch(setPending(key, true));
       const { data } = await API.resendOtp(info);
+      if (data.status === 1) {
+        dispatch(setPending(key, false));
+        showSuccess(data.message);
+        return true;
+      } else {
+        showError(data.message);
+        dispatch(setPending(key, false));
+        return false;
+      }
+    } catch (err) {
+      console.error(err);
+      dispatch(setPending(key, false));
+      return false;
+    }
+  };
+};
+
+export const forgotPassword = (info) => {
+  return async (dispatch) => {
+    const key = 'forgotPassword';
+    try {
+      dispatch(setPending(key, true));
+      const { data } = await API.forgotPassword(info);
+      if (data.status === 1) {
+        dispatch(setPending(key, false));
+        showSuccess(data.message);
+        return true;
+      } else {
+        showError(data.message);
+        dispatch(setPending(key, false));
+        return false;
+      }
+    } catch (err) {
+      console.error(err);
+      dispatch(setPending(key, false));
+      return false;
+    }
+  };
+};
+
+export const resetPassword = (info) => {
+  return async (dispatch) => {
+    const key = 'resetPassword';
+    try {
+      dispatch(setPending(key, true));
+      const { data } = await API.resetPassword(info);
       if (data.status === 1) {
         dispatch(setPending(key, false));
         showSuccess(data.message);

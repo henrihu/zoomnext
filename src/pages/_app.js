@@ -10,7 +10,6 @@ import '@/styles/globals.css';
 import { CUSTOMER, HELPER, TYPE_CUSTOMER } from 'src/utils/constants';
 import { Layout, Authorization } from '../layouts';
 import { setProgress } from 'src/store/setting/actions';
-import { getStorageItem } from 'src/utils/common';
 
 export default wrapper.withRedux(({ Component, pageProps }) => {
   const router = useRouter();

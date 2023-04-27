@@ -1,4 +1,3 @@
-import { TYPE_CUSTOMER, TYPE_HELPER } from 'src/utils/constants';
 import { SET_DATA } from './actions';
 
 const initialState = {
@@ -6,6 +5,7 @@ const initialState = {
   notification_drawer: false,
   menu_drawer: false,
   title: '',
+  otp_modal: { open: false },
 };
 
 export default (state = initialState, action) => {

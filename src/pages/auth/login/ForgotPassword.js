@@ -1,8 +1,14 @@
 import { useState } from 'react';
 import { Modal, Input, Button, Space } from 'antd';
+import { useDispatch, useSelector } from 'react-redux';
+import { setOtpModal } from 'src/store/setting/actions';
+import { forgotPassword } from 'src/store/auth/actions';
+import { OTP_TYPE_PASSWORD_RESET } from 'src/utils/constants';
 
-export default ({ open, onOk, onCancel }) => {
+export default ({ open, onCancel, onOpenResetModal }) => {
+  const dispatch = useDispatch();
   const [email, setEmail] = useState('');
+  const { pending } = useSelector(({ auth }) => auth);
   const modal_props = {
     open,
     onCancel,
@@ -12,8 +18,26 @@ export default ({ open, onOk, onCancel }) => {
     centered: true,
     bodyStyle: { padding: '32px 0px' },
   };
+
+  const handleSend = async () => {
+    const isSuccess = await dispatch(forgotPassword({ email }));
+    if (isSuccess) {
+      onCancel();
+      dispatch(
+        setOtpModal({
+          open: true,
+          data: { email },
+          type: OTP_TYPE_PASSWORD_RESET,
+          onOk: () => {
+            onOpenResetModal({ open: true, data: { email } });
+          },
+        })
+      );
+    }
+  };
+
   return (
-    <Modal {...modal_props}>
+    <Modal {...modal_props} destroyOnClose={true}>
       <Space
         direction="vertical"
         size="large"
@@ -30,8 +54,14 @@ export default ({ open, onOk, onCancel }) => {
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           placeholder="Enter your registed email"
+          autoFocus
         />
-        <Button type="primary" shape="round" onClick={() => onOk()}>
+        <Button
+          type="primary"
+          shape="round"
+          onClick={handleSend}
+          loading={pending.forgotPassword}
+        >
           Send
         </Button>
       </Space>

@@ -268,7 +268,7 @@ export default () => {
             <div className="flex justify-center items-center cursor-pointer">
               <Avatar className="mr-2" size={40} src={userDetail.avatarImage} />
               <h2 className="font-bold" style={{ fontSize: 18 }}>
-                {userDetail.firstName}
+                {userDetail.firstName} {userDetail.lastName}
               </h2>
             </div>
           </Dropdown>

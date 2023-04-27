@@ -114,3 +114,6 @@ export const LENGTH = {
 // Media Type
 export const MEDIA_TYPE_IMAGE = 'Image';
 export const MEDIA_TYPE_VIDEO = 'Video';
+
+// Otp Type
+export const OTP_TYPE_PASSWORD_RESET = 'OTP_PASSWORD_REST';

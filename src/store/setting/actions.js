@@ -1,3 +1,4 @@
+import { useSelector } from 'react-redux';
 import { getNotificationList } from '../common/actions';
 
 export const SET_DATA = '[SETTING] SET DATA';
@@ -17,4 +18,15 @@ export const setProgress = (progress) => (dispatch) => {
 };
 export const setTitle = (title) => (dispatch) => {
   dispatch({ type: SET_DATA, payload: { title } });
+};
+
+export const setOtpModal = (otp_modal) => {
+  return (dispatch) => {
+    dispatch({ type: SET_DATA, payload: { otp_modal } });
+  };
+};
+
+export const useSetting = () => {
+  const setting = useSelector(({ setting }) => setting);
+  return setting;
 };

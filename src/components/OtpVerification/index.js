@@ -6,25 +6,37 @@ import { useRouter } from 'next/router';
 // Components
 import Meta from '@/components/Meta/index';
 import { AuthLayout } from '@/layouts/index';
-import { Button, Row, Col, theme } from 'antd';
+import { Button, Row, Col, theme, Modal } from 'antd';
 import PinInput from 'react-pin-input';
 import { CountdownCircleTimer } from 'react-countdown-circle-timer';
 
 // Constants
-import { PLATFORM, TYPE_CUSTOMER, TYPE_HELPER } from 'src/utils/constants';
+import {
+  OTP_TYPE_PASSWORD_RESET,
+  PLATFORM,
+  TYPE_CUSTOMER,
+  TYPE_HELPER,
+} from 'src/utils/constants';
 // Actions
-import { resendOtp, useAuth, verifyOtp } from 'src/store/auth/actions';
+import {
+  resendOtp,
+  resetVerifyOtp,
+  useAuth,
+  verifyOtp,
+} from 'src/store/auth/actions';
+import { setOtpModal, useSetting } from 'src/store/setting/actions';
+import { useThemeToken } from 'src/utils/common';
 
 export default () => {
   const dispatch = useDispatch();
   const router = useRouter();
-  const { token } = theme.useToken();
   const { type, userDetail } = useAuth();
+  const { otp_modal } = useSetting();
   const [otp, setOtp] = useState('');
   const [pending, setPending] = useState(false);
 
   const [timerKey, setTimerKey] = useState(0);
-  const [isPlaying, setPlaying] = useState(true);
+  const [isPlaying, setPlaying] = useState(false);
 
   useEffect(() => {
     if (!userDetail || !userDetail.slug) {
@@ -32,23 +44,27 @@ export default () => {
     }
   }, []);
 
+  useEffect(() => {
+    if (otp_modal.open) {
+      setPlaying(true);
+    }
+  }, [otp_modal.open]);
+
   const handleVerifyOtp = async () => {
     setPending(true);
-    const isSuccess = await dispatch(
-      verifyOtp(
-        {
-          otp,
-          type,
-          email: userDetail && userDetail.email,
-          platform: PLATFORM,
-          fcmToken: userDetail && userDetail.fcmToken,
-          deviceToken: userDetail && userDetail.deviceToken,
-        },
-        router
-      )
-    );
+    console.log('handleVerifyOtp');
+    let isSuccess = false;
+    if (otp_modal.type && otp_modal.type === OTP_TYPE_PASSWORD_RESET) {
+      isSuccess = await dispatch(
+        resetVerifyOtp({ otp, email: otp_modal.data.email })
+      );
+    } else {
+      isSuccess = await dispatch(verifyOtp({ otp }));
+    }
+
     if (isSuccess) {
-      router.push('/services');
+      otp_modal && otp_modal.onOk && otp_modal.onOk();
+      dispatch(setOtpModal({ open: false }));
     }
     setPending(false);
   };
@@ -64,13 +80,18 @@ export default () => {
   };
 
   return (
-    <AuthLayout>
-      <Meta title="Login | Zoom Errands" description="Zoom Errands Login" />
-      <Row
-        align="center"
-        justify="center"
-        className="p-5 m-auto space-y-5 rounded shadow-lg md:p-10 md:w-1/3 bg-white"
-      >
+    <Modal
+      open={otp_modal && otp_modal.open}
+      footer={null}
+      title={null}
+      maskStyle={{ backgroundColor: useThemeToken().colorPrimary }}
+      maskClosable={false}
+      centered
+      width={350}
+      closable={false}
+      destroyOnClose={true}
+    >
+      <Row align="center" justify="center" className="py-16 gap-4">
         <Col span={24} className="text-center">
           <h1 className="text-2xl font-bold">Email Verification</h1>
         </Col>
@@ -104,13 +125,9 @@ export default () => {
             isPlaying={isPlaying}
             key={timerKey}
             duration={120}
-            colors={[token.colorPrimary]}
+            colors={[useThemeToken().colorPrimary]}
             size={120}
             strokeWidth={6}
-            onComplete={() => {
-              setPlaying(false);
-              setTimerKey(timerKey + 1);
-            }}
           >
             {({ remainingTime }) => {
               const minutes = Math.floor(remainingTime / 60);
@@ -134,13 +151,12 @@ export default () => {
             Resend Now
           </Button>
         </Col>
-        <Col span={24}>
+        <Col span={24} className="flex justify-center">
           <Button
             type="primary"
             loading={pending}
             shape="round"
             size="large"
-            className="w-full"
             htmlType="submit"
             onClick={handleVerifyOtp}
           >
@@ -148,6 +164,6 @@ export default () => {
           </Button>
         </Col>
       </Row>
-    </AuthLayout>
+    </Modal>
   );
 };

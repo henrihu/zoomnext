@@ -1,4 +1,4 @@
-import { Grid } from 'antd';
+import { Grid, theme } from 'antd';
 import moment from 'moment';
 import { useMemo } from 'react';
 
@@ -39,10 +39,9 @@ export const findStrInObj = (obj, str) =>
 export const useScreen = () => {
   const { useBreakpoint } = Grid;
   const screens = useBreakpoint();
-  const isXsSm = useMemo(
-    () => screens.xs || (screens.sm && !screens.md),
-    [screens]
-  );
+  const isXsSm = useMemo(() => screens.xs || (screens.sm && !screens.md), [
+    screens,
+  ]);
   return isXsSm;
 };
 
@@ -51,4 +50,9 @@ export const getTimeZone = () => {
   return `${offset < 0 ? '-' : ''}${parseInt(Math.abs(offset) / 60)}:${
     Math.abs(offset) % 60
   }`;
+};
+
+export const useThemeToken = () => {
+  const { token } = theme.useToken();
+  return token;
 };
