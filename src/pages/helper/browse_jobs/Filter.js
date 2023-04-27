@@ -24,9 +24,16 @@ const Wrapper = ({ label, children }) => {
   );
 };
 
-export default ({ filter, onSetFilter, onFilter, loading, service_list }) => {
+export default ({
+  filter,
+  onSetFilter,
+  onFilter,
+  loading,
+  category_list = [],
+}) => {
   const [date, setDate] = useState('asc');
   const [totalPrice, setTotalPrice] = useState('asc');
+  const [distance, setDistance] = useState('asc');
   return (
     <Row gutter={[8, 8]}>
       <Col xs={8} sm={8} md={24}>
@@ -39,11 +46,11 @@ export default ({ filter, onSetFilter, onFilter, loading, service_list }) => {
             )
           }
           className="w-full"
-          type={filter.orderKey == 'date' ? 'primary' : 'default'}
+          type={filter.orderKey == 'jobDateAndTime' ? 'primary' : 'default'}
           onClick={() => {
             const orderValue = date === 'asc' ? 'desc' : 'asc';
             setDate(orderValue);
-            onSetFilter({ orderKey: 'date', orderValue });
+            onSetFilter({ orderKey: 'jobDateAndTime', orderValue });
           }}
         >
           Date
@@ -70,7 +77,22 @@ export default ({ filter, onSetFilter, onFilter, loading, service_list }) => {
         </Button>
       </Col>
       <Col xs={8} sm={8} md={24}>
-        <Button icon={<SortAscendingOutlined />} className="w-full">
+        <Button
+          icon={
+            distance === 'asc' ? (
+              <SortAscendingOutlined />
+            ) : (
+              <SortDescendingOutlined />
+            )
+          }
+          className="w-full"
+          type={filter.orderKey == 'distance' ? 'primary' : 'default'}
+          onClick={() => {
+            const orderValue = distance === 'asc' ? 'desc' : 'asc';
+            setDistance(orderValue);
+            onSetFilter({ orderKey: 'distance', orderValue });
+          }}
+        >
           Location
         </Button>
       </Col>
@@ -84,8 +106,8 @@ export default ({ filter, onSetFilter, onFilter, loading, service_list }) => {
               <Col span={24}>
                 <Wrapper label="Select Category">
                   <Space wrap>
-                    {service_list &&
-                      service_list.map(({ id, label }) => (
+                    {category_list &&
+                      category_list.map(({ id, name }) => (
                         <Button
                           type={
                             filter.categoryId.find((_id) => id === _id)
@@ -107,7 +129,7 @@ export default ({ filter, onSetFilter, onFilter, loading, service_list }) => {
                             });
                           }}
                         >
-                          {label}
+                          {name}
                         </Button>
                       ))}
                   </Space>
@@ -159,7 +181,7 @@ export default ({ filter, onSetFilter, onFilter, loading, service_list }) => {
                   <Checkbox
                     checked={filter.isHighestPay}
                     onChange={(e) =>
-                      onSetFilter({ isHighestPay: e.target.checked })
+                      onSetFilter({ isHighestPay: e.target.checked ? 1 : 0 })
                     }
                   >
                     Highest Pay

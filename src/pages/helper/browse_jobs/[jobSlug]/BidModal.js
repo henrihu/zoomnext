@@ -1,16 +1,20 @@
 import { useState } from 'react';
 import { Row, Col, Modal, Input, Divider, InputNumber, Button } from 'antd';
 
-export default ({ open, onOk, onCancel }) => {
+export default ({ open, jobId, onOk, onCancel }) => {
   const [confirm, setConfirm] = useState(false);
   const [amount, setAmount] = useState();
+  const [comment, setComment] = useState();
   const modal_props = {
     title: 'Create Bid',
     open,
     okText: 'Send Bid',
-    onOk: () => {
-      onCancel();
-      setConfirm(true);
+    onOk: async () => {
+      const isSuccess = await onOk({ jobId, price: amount, comment });
+      if (isSuccess) {
+        onCancel();
+        setConfirm(true);
+      }
     },
     onCancel,
     centered: true,
@@ -38,6 +42,8 @@ export default ({ open, onOk, onCancel }) => {
               autoSize={{ minRows: 3, maxRows: 5 }}
               placeholder="Comment"
               size="large"
+              value={comment}
+              onChange={(e) => setComment(e.target.value)}
             />
           </Col>
         </Row>

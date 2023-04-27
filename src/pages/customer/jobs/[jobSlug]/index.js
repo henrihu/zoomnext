@@ -12,7 +12,11 @@ import StatusList from 'src/components/Job/StatusList';
 import MoreWork from 'src/components/Job/MoreWork';
 
 // Actions
-import { getJobDetail } from 'src/store/c_jobs/actions';
+import {
+  approveBid,
+  getJobDetail,
+  customerCompleteJob,
+} from 'src/store/c_jobs/actions';
 import { JOB_STATUS_ASSIGNED, JOB_STATUS_PENDING } from 'src/utils/constants';
 
 export default () => {
@@ -52,13 +56,19 @@ export default () => {
           <MoreWork />
         </Col>
         <Col sm={24} md={16}>
-          {/* {data.status == JOB_STATUS_PENDING ? (
-            <BidList data={data.bids} />
+          {data.status == JOB_STATUS_PENDING ? (
+            <BidList
+              data={data.bids}
+              approveBid={(data) => dispatch(approveBid(data))}
+            />
           ) : (
-            <StatusList />
-          )} */}
-          <BidList data={data.bids} />
-          <StatusList data={data.jobStatusHistory} />
+            <StatusList
+              id={data.id}
+              status={data.status}
+              jobStatusHistory={data.jobStatusHistory}
+              completeJob={(data) => dispatch(customerCompleteJob(data))}
+            />
+          )}
         </Col>
       </Row>
     </>

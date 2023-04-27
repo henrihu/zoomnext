@@ -89,6 +89,10 @@ export const CATEGORY_TYPE_CLEANING = 'Cleaning';
 export const CATEGORY_TYPE_DELIVERY = 'Delivery';
 export const CATEGORY_TYPE_NORMAL = 'Normal';
 
+// Approve Mode
+export const APPROVE_MODE_ACCEPT = 'Approve';
+export const APPROVE_MODE_REJECT = 'Reject';
+
 export const TEMP_ADDRESS_DATE = {
   latitude: '123',
   longitude: '123',

@@ -41,13 +41,13 @@ export default ({ data, loading }) => {
           <h3>
             <CalendarOutlined className="mr-2" />
           </h3>
-          <h3>{moment(data.date).format('YYYY-MM-DD')}</h3>
+          <h3>{moment(data.jobDateAndTime).format('YYYY-MM-DD')}</h3>
         </Col>
         <Col span={24} className="flex items-center">
           <h3>
             <EnvironmentOutlined className="mr-2" />
           </h3>
-          <h3>{data && data.location}</h3>
+          <h3>{data && data.address}</h3>
         </Col>
       </Row>
     </Card>

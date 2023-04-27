@@ -15,10 +15,11 @@ import { findStrInObj } from 'src/utils/common';
 import NewJobModal from '../customer/jobs/NewJobModal';
 import { createJob } from 'src/store/c_jobs/actions';
 import { useAuth } from 'src/store/auth/actions';
+import { TYPE_CUSTOMER } from 'src/utils/constants';
 
 export default () => {
   const dispatch = useDispatch();
-  const { userDetail } = useAuth();
+  const { type } = useAuth();
   const { data, loading } = useSelector(({ common }) => common.service_list);
   const [search, setSearch] = useState('');
   const [modal, setModal] = useState({ open: false });
@@ -62,6 +63,7 @@ export default () => {
                   <ServiceCard
                     data={item}
                     onClick={() =>
+                      type === TYPE_CUSTOMER &&
                       setModal({
                         open: true,
                         data: {
@@ -79,7 +81,7 @@ export default () => {
             )}
           </Col>
         </Row>
-        {userDetail && userDetail.isCustomer && (
+        {type === TYPE_CUSTOMER && modal.open && (
           <NewJobModal
             {...modal}
             onOk={(data) => dispatch(createJob(data))}

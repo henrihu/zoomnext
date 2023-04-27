@@ -67,17 +67,16 @@ export default ({ data, open, onOk, onCancel }) => {
           jobDateAndTime: param.date,
           isHourly: param.budget === BUDGET_OPTION_HOURLY ? 1 : 0,
           noOfHours: param.budget === BUDGET_OPTION_HOURLY ? param.hour : 0,
-          jobDateAndTime: moment().format(DATE_TIME_FORMAT),
         };
         if (categoryType === CATEGORY_TYPE_CLEANING) {
           res = { ...res, ...cleaning };
-          res.jobDateAndTime = MergeDateTime(param.date, param.time);
         }
         if (categoryType === CATEGORY_TYPE_DELIVERY) {
           res.pickUpDateAndTime = MergeDateTime(
             param.pickUpDate,
             param.pickUpTime
           );
+          res.jobDateAndTime = res.pickUpDateAndTime;
           res.pickUpaddress = param.pickUpLocation.address;
           Object.keys(param.pickUpLocation).map(
             (item, ind) =>
@@ -94,6 +93,8 @@ export default ({ data, open, onOk, onCancel }) => {
               (res['dropOff' + item[0].toUpperCase() + item.slice(1)] =
                 param.dropOffLocation[item])
           );
+        } else {
+          res.jobDateAndTime = MergeDateTime(param.date, param.time);
         }
         console.log('res', res);
         setValues(res);

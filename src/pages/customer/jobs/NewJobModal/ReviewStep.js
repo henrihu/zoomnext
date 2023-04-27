@@ -1,6 +1,4 @@
-import moment from 'moment';
-import { Space, Row, Col, Typography, Card } from 'antd';
-import { EnvironmentOutlined } from '@ant-design/icons';
+import { Space, Row, Col, Typography } from 'antd';
 
 // Utils & Constants
 import {

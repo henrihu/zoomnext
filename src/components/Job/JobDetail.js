@@ -1,23 +1,30 @@
-import moment from 'moment';
-import { Space, Row, Col, Typography, Card } from 'antd';
-import { EnvironmentOutlined } from '@ant-design/icons';
+import { Space, Row, Col, Typography } from 'antd';
+import { useMemo } from 'react';
 
 // Utils & Constants
 import {
   BUDGET_OPTION_LIST,
   POST_OPTION_LIST,
-  CUSTOMER,
-  DATE_FORMAT,
-  TIME_FORMAT,
   FEE_RATE,
   CLEANING_OPTION_LIST,
-  TYPE_CUSTOMER,
+  CATEGORY_TYPE_CLEANING,
+  CATEGORY_TYPE_DELIVERY,
+  BUDGET_OPTION_HOURLY,
+  BUDGET_OPTION_TOTAL_JOB,
+  CLEANING_OPTION_HAVE,
+  CLEANING_OPTION_BRING,
+  DATE_FORMAT,
+  TIME_FORMAT,
+  DATE_TIME_FORMAT,
 } from 'src/utils/constants';
 import { formatNumber } from 'src/utils/common';
 
+import AddressDetail from './AddressDetail';
+import moment from 'moment';
+
 const DescItem = ({ children, label }) => {
   return (
-    <Space direction="vertical" size={[4, 0]}>
+    <Space className="w-full" direction="vertical" size={[10, 0]}>
       <div className="text-gray">{label}</div>
       <div className="font-bold">{children}</div>
     </Space>
@@ -25,6 +32,18 @@ const DescItem = ({ children, label }) => {
 };
 
 export default ({ data, type }) => {
+  const budget = useMemo(
+    () =>
+      data && data.isHourly ? BUDGET_OPTION_HOURLY : BUDGET_OPTION_TOTAL_JOB,
+    [data]
+  );
+  const supply = useMemo(
+    () =>
+      data && data.isMyOwnSupplier
+        ? CLEANING_OPTION_HAVE
+        : CLEANING_OPTION_BRING,
+    [data]
+  );
   return (
     <Row justify="center" gutter={[8, 8]}>
       <Col span={24}>
@@ -35,68 +54,66 @@ export default ({ data, type }) => {
           <Typography.Text>{data.description}</Typography.Text>
         </DescItem>
       </Col>
-      <Col span={24}>
-        <Card bodyStyle={{ backgroundColor: CUSTOMER.backgroundColor }}>
-          <Card.Grid
-            style={{
-              width: '100%',
-              padding: 16,
-              color: CUSTOMER.color,
-              fontWeight: 900,
-            }}
-          >
-            <EnvironmentOutlined className="mr-2" />
-            {data.location}
-          </Card.Grid>
-          <Card.Grid
-            style={{ width: '50%', padding: '8px 16px', color: CUSTOMER.color }}
-          >
-            <Space direction="vertical" size={4}>
-              Date
-              <div className="font-bold">
-                {moment(data.date).format(DATE_FORMAT)}
-              </div>
-            </Space>
-          </Card.Grid>
-          <Card.Grid
-            style={{ width: '50%', padding: '8px 16px', color: CUSTOMER.color }}
-          >
-            <Space direction="vertical" size={4}>
-              Time
-              <div className="font-bold">
-                {moment(data.time).format(TIME_FORMAT)}
-              </div>
-            </Space>
-          </Card.Grid>
-        </Card>
-      </Col>
-      <Col span={24}>
-        <DescItem label="Budget">
-          {data.budget && BUDGET_OPTION_LIST[data.budget].label} - $
-          {formatNumber(data.amount)}
-        </DescItem>
-      </Col>
-      {type === TYPE_CUSTOMER && (
+      {data.type !== CATEGORY_TYPE_DELIVERY && (
         <Col span={24}>
-          <DescItem label="Service Charge (5%)">
-            ${formatNumber((data.amount * FEE_RATE) / 100)}
-          </DescItem>
+          <AddressDetail
+            data={{
+              location: data.address,
+              date: data.date,
+              time: data.time,
+            }}
+          />
         </Col>
       )}
+      {data.type === CATEGORY_TYPE_DELIVERY && (
+        <Col span={24}>
+          <Row gutter={[8, 8]}>
+            <Col span={12}>
+              <DescItem label="Pick Up Details">
+                <AddressDetail
+                  data={{
+                    location: data.pickUpaddress,
+                    date: data.pickUpDateAndTime,
+                    time: data.pickUpDateAndTime,
+                  }}
+                />
+              </DescItem>
+            </Col>
+            <Col span={12}>
+              <DescItem label="Drop Off Details">
+                <AddressDetail
+                  data={{
+                    location: data.dropOffAddress,
+                    date: data.dropOffDateAndTime,
+                    time: data.dropOffDateAndTime,
+                  }}
+                />
+              </DescItem>
+            </Col>
+          </Row>
+        </Col>
+      )}
+      {data.type === CATEGORY_TYPE_CLEANING && (
+        <>
+          <Col span={24}>
+            <DescItem label="Cleaning Details">
+              {`${data.numberOfBedRooms} Bedroom `}
+              {`${data.numberOfBathrooms} Bathroom`}
+            </DescItem>
+          </Col>
+          <Col span={24}>
+            <DescItem label="Supply Details">
+              {CLEANING_OPTION_LIST[supply].label}
+            </DescItem>
+          </Col>
+        </>
+      )}
       <Col span={24}>
-        <DescItem label="Cleaning Details">
-          {data.beds && data.beds.checked && `${data.beds.count} Bedroom `}
-          {data.baths && data.baths.checked && `${data.baths.count} Bathroom`}
-        </DescItem>
-      </Col>
-      <Col span={24}>
-        <DescItem label="Supply Details">
-          {data.supply && CLEANING_OPTION_LIST[data.supply].label}
-        </DescItem>
-      </Col>
-      <Col span={24}>
-        <DescItem label="Job Posting Options">
-          {data.post && POST_OPTION_LIST[data.post].label}
+        <DescItem label="Budget">
+          {BUDGET_OPTION_LIST[budget].label} - ${formatNumber(data.totalPrice)}
+          {data && data.isHourly
+            ? `($${data.price} /hr  ${data.noOfHours} hours)`
+            : ''}
         </DescItem>
       </Col>
     </Row>

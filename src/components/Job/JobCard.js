@@ -13,7 +13,7 @@ import {
 } from 'src/utils/constants';
 import { formatNumber } from 'src/utils/common';
 
-export default ({ data, type, onDetail, onCancel }) => {
+export default ({ data, type, onDetail, onCancel, isCancelExist }) => {
   return (
     <Card bodyStyle={{ padding: 0, borderRadius: 8 }} hoverable>
       <Row>
@@ -25,22 +25,21 @@ export default ({ data, type, onDetail, onCancel }) => {
         >
           <div className="flex flex-col justify-center items-center">
             <div className="font-bold mb-1 text-3xl">
-              {moment(data.date).day()}
+              {moment(data.jobDateAndTime).date()}
             </div>
             <span className="text-gray text-center">
               {new Intl.DateTimeFormat('en', { month: 'short' })
-                .format(data.date)
+                .format(moment(data.jobDateAndTime))
                 .toUpperCase()}{' '}
-              {moment(data.date).year()}
+              {moment(data.jobDateAndTime).year()}
             </span>
           </div>
           <Card hoverable bodyStyle={{ padding: 0, cursor: 'default' }}>
             <img
-              src="/images/service.png"
-              alt="job"
+              src={data.avatarImage}
+              alt="avatar"
               width="100%"
               height="100%"
-              className="rounded-lg"
             />
           </Card>
         </Col>
@@ -80,26 +79,28 @@ export default ({ data, type, onDetail, onCancel }) => {
                     className="font-bold"
                     style={{ fontSize: 24, color: '#89CE9D' }}
                   >
-                    ${formatNumber(data.price)}
+                    ${formatNumber(data.totalCustomerPrice)}
                   </div>
                 </Col>
                 <Col span={6}>
                   {type === TYPE_CUSTOMER &&
                     data.status === JOB_STATUS_PENDING && (
-                      <span className="text-gray">Bids: {0}</span>
+                      <span className="text-gray">Bids: {data.bidCount}</span>
                     )}
                 </Col>
-                <Col span={6} className="flex justify-end">
-                  <Button
-                    shape="round"
-                    size="small"
-                    danger
-                    icon={<CloseOutlined />}
-                    onClick={onCancel}
-                  >
-                    {type === TYPE_CUSTOMER ? 'Close' : 'Cancel'}
-                  </Button>
-                </Col>
+                {isCancelExist && (
+                  <Col span={6} className="flex justify-end">
+                    <Button
+                      shape="round"
+                      size="small"
+                      danger
+                      icon={<CloseOutlined />}
+                      onClick={() => onCancel({ jobId: data.id })}
+                    >
+                      {type === TYPE_CUSTOMER ? 'Close' : 'Cancel'}
+                    </Button>
+                  </Col>
+                )}
               </Row>
             </Col>
           </Row>

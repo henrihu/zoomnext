@@ -1,6 +1,7 @@
 import API from 'src/api/jobs';
 import moment from 'moment';
-import { showError } from 'src/utils/messages';
+import { showError, showSuccess } from 'src/utils/messages';
+import { TYPE_HELPER } from 'src/utils/constants';
 
 export const SET_DATA = '[HELPER JOBS] SET DATA]';
 export const SET_LOADING = '[HELPER JOBS] SET LOADING';
@@ -21,6 +22,7 @@ export const getJobList = () => {
       } = await API.getHelperJoblist(filter);
       if (status !== 1) {
         showError(message);
+        dispatch(setLoading(key, false));
         return;
       }
       dispatch(setData(key, { hasMore: hasMore, data: getMyJob }));
@@ -36,23 +38,42 @@ export const getBrowseJobList = () => {
     const key = 'browse_job_list';
     try {
       dispatch(setLoading(key, true));
-      const filter = getState().h_jobs.job_list_filter;
+      const filter = getState().h_jobs.browse_job_list_filter;
       const {
         data: {
           message,
-          result: { getMyJob, hasMore },
+          result: { getMyJob },
           status,
         },
-      } = await API.getHelperJoblist(filter);
+      } = await API.getHelperBrowseJoblist(filter);
       if (status !== 1) {
         showError(message);
+        dispatch(setLoading(key, false));
         return;
       }
-      dispatch(setData(key, { hasMore: hasMore, data: getMyJob }));
+      dispatch(setData(key, { total: getMyJob.length, data: getMyJob }));
     } catch (err) {
       console.error(err);
     }
     dispatch(setLoading(key, false));
+  };
+};
+
+export const getHelperCategories = () => {
+  return async (dispatch) => {
+    try {
+      const key = 'provider_categories';
+      dispatch(setLoading(key, true));
+      const { data } = await API.getHelperCategories();
+      dispatch(setLoading(key, false));
+      if (data.status !== 1) {
+        showError(data.message);
+        return;
+      }
+      dispatch(setData(key, data.result.categories));
+    } catch (err) {
+      console.error(err);
+    }
   };
 };
 
@@ -61,29 +82,67 @@ export const getJobDetail = (params) => {
     const key = 'job_detail';
     try {
       dispatch(setLoading(key, true));
-      // await API.getJobDetail(params);
-      const data = {
-        status: 'pending',
-        location: '#12, Ahmedabad, GJ, Ahmedabad, India, 380006',
-        baths: { checked: true, count: 3 },
-        beds: { checked: true, count: 3 },
-        budget: 'hourly',
-        date: moment(),
-        description: 'Job Details',
-        hour: 21,
-        post: 'first',
-        supply: 'have',
-        time: moment(),
-        title: 'Cleaning',
-        amount: 500,
-        hour: 2,
-      };
-      console.log('action', data);
-      dispatch(setData(key, data));
+      const {
+        data: {
+          status,
+          message,
+          result: { job },
+        },
+      } = await API.getJobDetail(params);
+      if (status !== 1) {
+        showError(message);
+        dispatch(setLoading(key, false));
+        return;
+      }
+      dispatch(setData(key, job));
     } catch (err) {
       console.error(err);
     }
     dispatch(setLoading(key, false));
+  };
+};
+
+export const jobBid = (param) => {
+  return async (dispatch) => {
+    const key = 'send_bid';
+    try {
+      dispatch(setLoading(key, true));
+      const {
+        data: { status, message },
+      } = await API.jobBid(param);
+      dispatch(setLoading(key, false));
+      if (status !== 1) {
+        showError(message);
+        return false;
+      }
+      showSuccess(message);
+      return true;
+    } catch (err) {
+      console.error(err);
+      return false;
+    }
+  };
+};
+
+export const cancelJob = (param) => {
+  return async (dispatch) => {
+    const key = 'cancel_job';
+    try {
+      dispatch(setLoading(key, true));
+      const {
+        data: { status, message },
+      } = await API.cancelJob({ ...param, type: TYPE_HELPER });
+      dispatch(setLoading(key, false));
+      if (status !== 1) {
+        showError(message);
+        return false;
+      }
+      showSuccess(message);
+      return true;
+    } catch (err) {
+      console.error(err);
+      return false;
+    }
   };
 };
 
@@ -103,6 +162,7 @@ export const getReviewList = () => {
       } = await API.getHelperUserReview({ providerId: userDetail.id, page });
       if (status !== 1) {
         showError(message);
+        dispatch(setLoading(key, false));
         return;
       }
       dispatch(
