@@ -14,11 +14,9 @@ import {
   createJob,
   cancelJob,
 } from 'src/store/c_jobs/actions';
-import { useAuth } from 'src/store/auth/actions';
 
 export default () => {
   const dispatch = useDispatch();
-  const { type } = useAuth();
   const {
     job_list: {
       data: { hasMore, data },
@@ -56,7 +54,6 @@ export default () => {
               page={filter.page}
               onSetFilter={handleSetFilter}
               onCancel={(data) => dispatch(cancelJob(data))}
-              type={type}
             />
           </Col>
           <Col

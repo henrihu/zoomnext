@@ -8,30 +8,30 @@ import {
 } from 'src/utils/constants';
 import { formatNumber } from 'src/utils/common';
 
-const data = [
-  {
-    description: 'Test Job Description',
-    budget: BUDGET_OPTION_TOTAL_JOB,
-    status: JOB_STATUS_ASSIGNED,
-    price: 945,
-  },
-  {
-    description: 'Test Job Description',
-    budget: BUDGET_OPTION_TOTAL_JOB,
-    status: JOB_STATUS_ASSIGNED,
-    price: 945,
-  },
-  {
-    description: 'Test Job Description',
-    budget: BUDGET_OPTION_TOTAL_JOB,
-    status: JOB_STATUS_ASSIGNED,
-    price: 945,
-  },
-];
+// const data = [
+//   {
+//     description: 'Test Job Description',
+//     budget: BUDGET_OPTION_TOTAL_JOB,
+//     status: JOB_STATUS_ASSIGNED,
+//     price: 945,
+//   },
+//   {
+//     description: 'Test Job Description',
+//     budget: BUDGET_OPTION_TOTAL_JOB,
+//     status: JOB_STATUS_ASSIGNED,
+//     price: 945,
+//   },
+//   {
+//     description: 'Test Job Description',
+//     budget: BUDGET_OPTION_TOTAL_JOB,
+//     status: JOB_STATUS_ASSIGNED,
+//     price: 945,
+//   },
+// ];
 
-export default () => {
+export default ({ data }) => {
   return (
-    <Collapse>
+    <Collapse className="w-full" defaultActiveKey={['1']}>
       <Collapse.Panel header="Added More Work" key="1">
         <Row gutter={[8, 8]}>
           {data &&
@@ -43,8 +43,11 @@ export default () => {
                       <Space direction="vertical" size={0}>
                         <h3>{item.description}</h3>
                         <span className="text-gray">
-                          {BUDGET_OPTION_LIST[item.budget].label} $
-                          {formatNumber(item.price)}
+                          {item.isHourly
+                            ? `Hourly $${formatNumber(item.price)}  ${
+                                item.noOfHours
+                              } hours`
+                            : `$${formatNumber(item.price)}`}
                         </span>
                       </Space>
                       <Tag
@@ -58,7 +61,7 @@ export default () => {
                           JOB_STATUS[item.status].label}
                       </Tag>
                     </Space>
-                    <h2 style={{ color: '#87CD9B' }}>${item.price}</h2>
+                    <h2 style={{ color: '#87CD9B' }}>${item.totalPrice}</h2>
                   </div>
                 </Card>
               </Col>

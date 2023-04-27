@@ -8,7 +8,6 @@ import {
 export default ({ filter, onSetFilter }) => {
   const [date, setDate] = useState('asc');
   const [totalPrice, setTotalPrice] = useState('asc');
-  const [jobStatus, setJobStatus] = useState('all');
   return (
     <Row gutter={[8, 8]}>
       <Col xs={8} sm={8} md={24}>
@@ -54,9 +53,8 @@ export default ({ filter, onSetFilter }) => {
       <Col xs={8} sm={8} md={24}>
         <Select
           className="w-full text-center"
-          value={jobStatus}
+          value={filter.jobStatus}
           onChange={(val) => {
-            setJobStatus(val);
             onSetFilter({ jobStatus: val });
           }}
         >

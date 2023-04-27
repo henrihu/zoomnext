@@ -8,7 +8,7 @@ import JobCard from 'src/components/Job/JobCard';
 // Constants
 import { TYPE_CUSTOMER, TYPE_HELPER } from 'src/utils/constants';
 
-export default ({ total = 0, data = [], type }) => {
+export default ({ total = 0, data = [] }) => {
   const router = useRouter();
   const [page, setPage] = useState(1);
   const result = useMemo(
@@ -27,7 +27,7 @@ export default ({ total = 0, data = [], type }) => {
             key={index}
             type={TYPE_HELPER}
             onDetail={() => router.push(`/helper/browse_jobs/${item.jobSlug}/`)}
-            isCancelExist={type === TYPE_CUSTOMER}
+            parent={'providerBrowseJobs'}
           />
         </div>
       )}

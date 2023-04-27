@@ -146,6 +146,28 @@ export const cancelJob = (param) => {
   };
 };
 
+export const startJobPickUp = (param) => {
+  return async (dispatch) => {
+    const key = 'start_job_pick_up';
+    try {
+      dispatch(setLoading(key, true));
+      const {
+        data: { status, message },
+      } = await API.startJobPickUp(param);
+      dispatch(setLoading(key, false));
+      if (status !== 1) {
+        showError(message);
+        return false;
+      }
+      showSuccess(message);
+      return true;
+    } catch (err) {
+      console.error(err);
+      return false;
+    }
+  };
+};
+
 export const getReviewList = () => {
   return async (dispatch, getState) => {
     const key = 'review_list';

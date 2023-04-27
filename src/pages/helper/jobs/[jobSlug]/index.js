@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useRouter } from 'next/router';
 
@@ -9,14 +9,16 @@ import { ArrowLeftOutlined } from '@ant-design/icons';
 import JobDetail from '@/components/Job/JobDetail';
 
 // Actions
-import { getJobDetail } from 'src/store/h_jobs/actions';
+import { getJobDetail, startJobPickUp } from 'src/store/h_jobs/actions';
 import {
+  CATEGORY_TYPE_DELIVERY,
   JOB_STATUS_ASSIGNED,
   JOB_STATUS_CANCEL,
   JOB_STATUS_COMPLETE,
   JOB_STATUS_ONGOING,
   TYPE_HELPER,
 } from 'src/utils/constants';
+import MoreWork from '@/components/Job/MoreWork';
 
 export default () => {
   const dispatch = useDispatch();
@@ -27,26 +29,66 @@ export default () => {
   } = useSelector(({ h_jobs }) => h_jobs);
   const [modal, setModal] = useState({ open: false });
 
-  const statusList = {
-    [JOB_STATUS_ASSIGNED]: {
-      label: 'Start',
-      action: () => {
-        console.log('start');
-      },
-    },
-    [JOB_STATUS_ONGOING]: {
-      label: 'Location On Map',
-      action: () => {
-        console.log('Location On Map');
-      },
-    },
-  };
-
   useEffect(() => {
     if (jobSlug) {
       dispatch(getJobDetail({ jobSlug }));
     }
   }, [jobSlug]);
+
+  const renderStatusButton = useCallback(() => {
+    if (data.status === JOB_STATUS_ONGOING) {
+      return (
+        <Button
+          type="primary"
+          size="large"
+          shape="round"
+          onClick={() => {
+            console.log('MyAssignedPage');
+          }}
+        >
+          Location on Map
+        </Button>
+      );
+    }
+    if (
+      data.status === JOB_STATUS_ASSIGNED &&
+      data.type === CATEGORY_TYPE_DELIVERY
+    ) {
+      return (
+        <Button
+          type="primary"
+          size="large"
+          shape="round"
+          onClick={() => {
+            console.log('start');
+            dispatch(
+              startJobPickUp({
+                jobId: data.id,
+                currentProviderLatitude: 0,
+                currentProviderLongitude: 0,
+                isJobStart: data.isJobStart,
+                isAllowBackground: 1,
+              })
+            );
+          }}
+        >
+          Start
+        </Button>
+      );
+    }
+    return (
+      <Button
+        type="primary"
+        size="large"
+        shape="round"
+        onClick={() => {
+          console.log('Send Message');
+        }}
+      >
+        Send Message
+      </Button>
+    );
+  }, [data]);
 
   return (
     <>
@@ -66,21 +108,18 @@ export default () => {
             <JobDetail data={data} type={TYPE_HELPER} />
           </Card>
         </Col>
-        {data.status !== JOB_STATUS_COMPLETE &&
-          data.status !== JOB_STATUS_CANCEL && (
-            <Col sm={24} md={8}>
-              <Button
-                type="primary"
-                size="large"
-                shape="round"
-                onClick={
-                  statusList[data.status] && statusList[data.status].action
-                }
-              >
-                {statusList[data.status] && statusList[data.status].label}
-              </Button>
+        <Col sm={24} md={8}>
+          <Row gutter={[8, 8]}>
+            <Col span={24} className="flex justify-center">
+              {data.status !== JOB_STATUS_COMPLETE &&
+                data.status !== JOB_STATUS_CANCEL &&
+                renderStatusButton()}
             </Col>
-          )}
+            <Col span={24}>
+              <MoreWork data={data.jobMilestones} />
+            </Col>
+          </Row>
+        </Col>
       </Row>
     </>
   );
