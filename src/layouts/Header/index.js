@@ -86,11 +86,11 @@ export default () => {
               icon: <ProfileOutlined />,
               href: '/help',
             },
-            {
-              key: '8',
-              label: 'Refer Friends',
-              icon: <UsergroupAddOutlined />,
-            },
+            // {
+            //   key: '8',
+            //   label: 'Refer Friends',
+            //   icon: <UsergroupAddOutlined />,
+            // },
           ]
         : [
             {
@@ -160,11 +160,11 @@ export default () => {
               icon: <ProfileOutlined />,
               href: '/help',
             },
-            {
-              key: 'referfriends',
-              label: 'Refer Friends',
-              icon: <UsergroupAddOutlined />,
-            },
+            // {
+            //   key: 'referfriends',
+            //   label: 'Refer Friends',
+            //   icon: <UsergroupAddOutlined />,
+            // },
           ],
     [messageCount, type]
   );

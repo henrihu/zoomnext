@@ -44,9 +44,7 @@ export default () => {
   const SelectCountryCode = (
     <Form.Item name="countryCode" noStyle>
       <Select style={{ width: 80 }} size="large">
-        <Select.Option value="+91">+91</Select.Option>
-        <Select.Option value="+86">+86</Select.Option>
-        <Select.Option value="+87">+87</Select.Option>
+        <Select.Option value="+1">+1</Select.Option>
       </Select>
     </Form.Item>
   );
@@ -87,10 +85,25 @@ export default () => {
                   requiredMark={false}
                 >
                   <Form.Item
-                    label="Full Name"
+                    label="First Name"
                     name="firstName"
                     rules={[
-                      { required: true, message: 'Please input your name!' },
+                      {
+                        required: true,
+                        message: 'Please input your first name!',
+                      },
+                    ]}
+                  >
+                    <Input size="large" />
+                  </Form.Item>
+                  <Form.Item
+                    label="Last Name"
+                    name="lastName"
+                    rules={[
+                      {
+                        required: true,
+                        message: 'Please input your last name!',
+                      },
                     ]}
                   >
                     <Input size="large" />

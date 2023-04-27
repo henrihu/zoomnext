@@ -1,9 +1,10 @@
 import { TYPE_CUSTOMER, TYPE_HELPER } from 'src/utils/constants';
-import { SET_DATA } from './actions';
+import { SET_DATA, SET_PENDING } from './actions';
 
 const initialState = {
   authenticated: false,
   type: TYPE_CUSTOMER,
+  pending: {},
 };
 
 export default (state = initialState, action) => {
@@ -12,6 +13,14 @@ export default (state = initialState, action) => {
       return {
         ...state,
         ...action.payload,
+      };
+    case SET_PENDING:
+      return {
+        ...state,
+        pending: {
+          ...state.pending,
+          [action.key]: action.pending,
+        },
       };
     default:
       return { ...state };
