@@ -7,6 +7,7 @@ import {
   JOB_STATUS,
   TYPE_CUSTOMER,
   JOB_STATUS_COMPLETE,
+  FEE_RATE,
 } from 'src/utils/constants';
 import { formatNumber } from 'src/utils/common';
 import MoreWorkModal from './MoreWorkModal';
@@ -35,10 +36,8 @@ export default ({ jobId, data, type, status, onCreate = () => {} }) => {
 
                             <div className="text-gray">
                               {item.isHourly
-                                ? `Hourly $${formatNumber(item.price)}  ${
-                                    item.noOfHours
-                                  } hours`
-                                : `Total Job $${formatNumber(item.price)}`}
+                                ? `Hourly $${item.price}  ${item.noOfHours} hours`
+                                : `Total Job $${item.price}`}
                             </div>
                           </Space>
                           <Tag
@@ -54,7 +53,12 @@ export default ({ jobId, data, type, status, onCreate = () => {} }) => {
                         </Space>
                       </Col>
                     </Row>
-                    <h2 style={{ color: '#87CD9B' }}>${item.totalPrice}</h2>
+                    <h2 style={{ color: '#87CD9B' }}>
+                      $
+                      {type === TYPE_CUSTOMER
+                        ? (item.totalPrice * (100 + FEE_RATE)) / 100
+                        : item.totalPrice}
+                    </h2>
                   </div>
                 </Card>
               </Col>

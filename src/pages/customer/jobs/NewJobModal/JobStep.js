@@ -83,43 +83,45 @@ export default ({ form, budget, type }) => {
             />
           </Form.Item>
 
-          <Form.Item
-            label="Select Location"
-            name="location"
-            rules={[
-              {
-                required: true,
-                message: 'Please input your job description!',
-              },
-            ]}
-          >
-            <SelectLocation name="Location" />
-          </Form.Item>
-
           {type !== CATEGORY_TYPE_DELIVERY && (
-            <Space.Compact block>
+            <>
               <Form.Item
-                label="Date"
-                name="date"
-                className="w-full"
-                rules={[{ required: true, message: 'Please select date!' }]}
+                label="Select Location"
+                name="location"
+                rules={[
+                  {
+                    required: true,
+                    message: 'Please input your job description!',
+                  },
+                ]}
               >
-                <DatePicker className="w-full" />
+                <SelectLocation name="Location" />
               </Form.Item>
 
-              <Form.Item
-                label="Time"
-                name="time"
-                className="w-full"
-                rules={[{ required: true, message: 'Please select time!' }]}
-              >
-                <TimePicker
+              <Space.Compact block>
+                <Form.Item
+                  label="Date"
+                  name="date"
                   className="w-full"
-                  minuteStep={15}
-                  format={TIME_FORMAT}
-                />
-              </Form.Item>
-            </Space.Compact>
+                  rules={[{ required: true, message: 'Please select date!' }]}
+                >
+                  <DatePicker className="w-full" />
+                </Form.Item>
+
+                <Form.Item
+                  label="Time"
+                  name="time"
+                  className="w-full"
+                  rules={[{ required: true, message: 'Please select time!' }]}
+                >
+                  <TimePicker
+                    className="w-full"
+                    minuteStep={15}
+                    format={TIME_FORMAT}
+                  />
+                </Form.Item>
+              </Space.Compact>
+            </>
           )}
 
           {type === CATEGORY_TYPE_CLEANING && (

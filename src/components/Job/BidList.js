@@ -6,7 +6,7 @@ import {
   COLOR_CUSTOMER,
 } from 'src/utils/constants';
 
-export default ({ data, approveBid }) => {
+export default ({ data, approveBid, router }) => {
   return (
     <Row gutter={[16, 16]}>
       <Col span={24}>
@@ -80,7 +80,11 @@ export default ({ data, approveBid }) => {
                 >
                   Reject
                 </Button>
-                <Button size="small" icon={<MessageOutlined />} />
+                <Button
+                  size="small"
+                  icon={<MessageOutlined />}
+                  onClick={() => router.push('/message')}
+                />
               </Space>
             </List.Item>
           )}
