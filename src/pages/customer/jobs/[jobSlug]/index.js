@@ -74,6 +74,7 @@ export default () => {
             {data.status == JOB_STATUS_PENDING ? (
               <BidList
                 data={data.bids}
+                router={router}
                 approveBid={(data) => {
                   dispatch(approveBid(data));
                   setIsReload(!isReload);

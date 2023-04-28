@@ -19,10 +19,9 @@ import { useMemo } from 'react';
 export default ({ data, type, onDetail, onCancel, parent }) => {
   const isCancel = useMemo(
     () =>
-      parent === 'customerJobs' ||
-      (parent === 'providerJobs' &&
-        data.status !== JOB_STATUS_COMPLETE &&
-        data.status !== JOB_STATUS_CANCEL),
+      (parent === 'customerJobs' || parent === 'providerJobs') &&
+      data.status !== JOB_STATUS_COMPLETE &&
+      data.status !== JOB_STATUS_CANCEL,
     [parent, data]
   );
   return (
