@@ -85,7 +85,9 @@ export default ({ data, loading, selected }) => {
   };
   return (
     <Card
-      title={<h2>{selected && selected.firstName}</h2>}
+      title={
+        <h2>{selected && `${selected.firstName} ${selected.lastName}`}</h2>
+      }
       bodyStyle={{ padding: 0 }}
     >
       <Row>

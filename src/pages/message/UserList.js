@@ -42,7 +42,9 @@ export default ({ data, loading, chatLoading, selected, setSelected }) => {
               <Avatar src={item.profileImage} className="mr-2" size={45} />
               <div className="flex flex-1 flex-col justify-center overflow-hidden gap-1">
                 <div className="flex justify-between items-center">
-                  <span className="font-bold">{item.firstName}</span>
+                  <span className="font-bold">
+                    {item.firstName} {item.lastName}
+                  </span>
                   <span className="text-gray">{format(item.mt)}</span>
                 </div>
                 <div className="flex justify-between items-center">

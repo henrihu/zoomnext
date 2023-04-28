@@ -42,7 +42,7 @@ export default () => {
           <Row gutter={[16, 16]}>
             <Col span={24}>
               <Card
-                title="Total Spent"
+                title={<div className="flex justify-center">Total Spent</div>}
                 bodyStyle={{
                   display: 'flex',
                   flexDirection: 'column',

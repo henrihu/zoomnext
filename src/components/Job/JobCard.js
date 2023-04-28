@@ -45,7 +45,15 @@ export default ({ data, type, onDetail, onCancel, parent }) => {
               {moment(data.jobDateAndTime).year()}
             </span>
           </div>
-          <Card hoverable bodyStyle={{ padding: 0, cursor: 'default' }}>
+          <Card
+            hoverable
+            bodyStyle={{
+              padding: 0,
+              cursor: 'default',
+              maxHeight: 100,
+              maxWidth: 100,
+            }}
+          >
             <img
               src={data.avatarImage}
               alt="avatar"

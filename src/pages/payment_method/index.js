@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from 'react-redux';
 
 // Components
 import Meta from '@/components/Meta/index';
-import { Space, Row, Col, Spin, Button } from 'antd';
+import { Space, Row, Col, Spin, Button, Empty } from 'antd';
 import PaymentCard from './Card';
 import NewCardModal from './NewCardModal';
 
@@ -29,16 +29,20 @@ export default () => {
       <Spin spinning={loading}>
         <Row justify="center" gutter={[16, 16]}>
           <Col span={24}>
-            <Space
-              wrap
-              size="large"
-              align="center"
-              className="flex justify-center items-center"
-            >
-              {data &&
-                data.length > 0 &&
-                data.map((item, ind) => <PaymentCard data={item} key={ind} />)}
-            </Space>
+            {data && data.length > 0 ? (
+              <Space
+                wrap
+                size="large"
+                align="center"
+                className="flex justify-center items-center"
+              >
+                {data.map((item, ind) => (
+                  <PaymentCard data={item} key={ind} />
+                ))}
+              </Space>
+            ) : (
+              <Empty description="No Payment Method" />
+            )}
           </Col>
           <Col span={24} className="flex justify-center">
             <Button

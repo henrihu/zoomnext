@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { Drawer, Space, Badge, Divider, Empty, Button, Spin } from 'antd';
+import { Drawer, Space, Badge, Divider, Empty, Button, Spin, Card } from 'antd';
 import { BellOutlined } from '@ant-design/icons';
 import {
   CloseOutlined,
@@ -52,7 +52,7 @@ export default () => {
       onClose={() => dispatch(setNotificationDrawer(false))}
       width={350}
       closable={false}
-      bodyStyle={{ padding: '24px 0px' }}
+      bodyStyle={{ padding: '16px 0px' }}
       headerStyle={{
         backgroundColor: useThemeToken().colorPrimary,
         color: 'white',
@@ -63,38 +63,41 @@ export default () => {
           {data && data.notifications && data.notifications.length ? (
             data.notifications.map(
               ({ title, notificationTime, isRead, id }, index) => (
-                <div key={index} className="mb-4">
-                  <div className="flex justify-between items-center px-4">
-                    <Space direction="vertical" size={1}>
-                      <div
-                        dangerouslySetInnerHTML={{
-                          __html: title,
-                        }}
-                      />
-                      <div className="flex gap-2">
-                        <CalendarOutlined className="text-gray text-xs" />
-                        <span className="text-gray text-xs">
-                          {notificationTime}
-                        </span>
+                <div key={index} className="mb-2">
+                  <Card hoverable size="small">
+                    <div className="flex justify-between">
+                      <Space direction="vertical" size={1}>
+                        <div
+                          dangerouslySetInnerHTML={{
+                            __html: title,
+                          }}
+                        />
+                        <div className="flex gap-2">
+                          <CalendarOutlined className="text-gray text-xs" />
+                          <span className="text-gray text-xs">
+                            {notificationTime}
+                          </span>
+                        </div>
+                      </Space>
+                      <div className="flex items-center">
+                        {!isRead ? (
+                          <Badge dot={true} status="processing" />
+                        ) : (
+                          <></>
+                        )}
+                        <Button
+                          icon={<CloseOutlined className="text-gray text-xs" />}
+                          shape="circle"
+                          size="small"
+                          type="text"
+                          loading={
+                            pending && pending[`removeNotification${id}`]
+                          }
+                          onClick={() => dispatch(removeNotification(id))}
+                        />
                       </div>
-                    </Space>
-                    <div className="flex items-center">
-                      {!isRead ? (
-                        <Badge dot={true} status="processing" />
-                      ) : (
-                        <></>
-                      )}
-                      <Button
-                        icon={<CloseOutlined />}
-                        shape="circle"
-                        size="small"
-                        type="text"
-                        loading={pending && pending[`removeNotification${id}`]}
-                        onClick={() => dispatch(removeNotification(id))}
-                      />
                     </div>
-                  </div>
-                  <Divider className="my-1" />
+                  </Card>
                 </div>
               )
             )
