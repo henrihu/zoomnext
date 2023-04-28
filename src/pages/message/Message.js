@@ -1,4 +1,14 @@
-import { Button, Row, Col, Card, Input, Divider, Space, Avatar } from 'antd';
+import {
+  Button,
+  Row,
+  Col,
+  Card,
+  Input,
+  Divider,
+  Space,
+  Avatar,
+  Image,
+} from 'antd';
 import { SendOutlined, PlusOutlined } from '@ant-design/icons';
 import { MESSAGE_TYPE_MESSAGE } from 'src/utils/constants';
 import { useAuth } from 'src/store/auth/actions';
@@ -20,7 +30,12 @@ const renderMessageBox = (data) => {
       {data.messageType === MESSAGE_TYPE_MESSAGE ? (
         data.message
       ) : (
-        <img src={data.message} width={100} height={100} className="rounded" />
+        <Image
+          src={data.message}
+          width={100}
+          height={100}
+          className="rounded"
+        />
       )}
     </Card>
   );
