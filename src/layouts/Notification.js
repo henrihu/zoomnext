@@ -52,7 +52,7 @@ export default () => {
       onClose={() => dispatch(setNotificationDrawer(false))}
       width={350}
       closable={false}
-      bodyStyle={{ padding: '8px 0px' }}
+      bodyStyle={{ padding: '24px 0px' }}
       headerStyle={{
         backgroundColor: useThemeToken().colorPrimary,
         color: 'white',

@@ -17,6 +17,10 @@ export const setData = (data) => (dispatch) => {
   dispatch({ type: SET_DATA, payload: data });
 };
 
+export const setPageLoading = (pageLoading) => (dispatch) => {
+  dispatch({ type: SET_DATA, payload: { pageLoading } });
+};
+
 export const setType = (type) => (dispatch) => {
   setStorageItem('user_type', type);
   dispatch({ type: SET_DATA, payload: { type: type ? type : TYPE_CUSTOMER } });
@@ -58,6 +62,7 @@ export const signInWithEmail = (signData, router) => {
         platform: PLATFORM,
       });
       if (data.status === 1) {
+        dispatch(setPageLoading(true));
         if (
           data.result.userDetail.isActive &&
           data.result.userDetail.isMobileVerified
@@ -82,14 +87,16 @@ export const signInWithEmail = (signData, router) => {
             setOtpModal({ open: true, onOk: () => router.push('/services') })
           );
         }
-
+        dispatch(setPageLoading(false));
         return true;
       } else {
         showError(data.message);
+        dispatch(setPageLoading(false));
         return false;
       }
     } catch (err) {
       console.error(err);
+      dispatch(setPageLoading(false));
       return false;
     }
   };
@@ -100,14 +107,18 @@ export const signInWithToken = (router) => {
     try {
       if (!getStorageItem('access_token')) {
         router.push('/');
+        dispatch(setPageLoading(false));
         return;
       }
+      dispatch(setPageLoading(true));
       await setAuthorization(getStorageItem('access_token'));
+      console.log('signINwithOtk');
       const {
         data: { status, result, message },
       } = await API.getUserDetail();
+      console.log('signINwithOtk');
       if (status === 1) {
-        dispatch({
+        await dispatch({
           type: SET_DATA,
           payload: {
             authenticated: true,
@@ -119,7 +130,9 @@ export const signInWithToken = (router) => {
         showError(data.message);
         dispatch(logOut(router));
       }
+      dispatch(setPageLoading(false));
     } catch (err) {
+      dispatch(setPageLoading(false));
       dispatch(logOut(router));
     }
   };
@@ -146,6 +159,7 @@ export const signUp = (info) => {
 export const logOut = (router) => {
   return async (dispatch) => {
     try {
+      dispatch(setPageLoading(true));
       await router.push('/');
       dispatch({
         type: SET_DATA,
@@ -156,6 +170,7 @@ export const logOut = (router) => {
     } catch (err) {
       console.error(err);
     }
+    dispatch(setPageLoading(false));
   };
 };
 

@@ -44,14 +44,14 @@ export default ({ data }) => {
       <Row>
         <Col span={24}>
           <div className="flex justify-between items-center">
-            <Space direction="vertical" size={0}>
+            <Space direction="vertical" size={0} className="mb-2">
               <span className="font-bold">Card Number</span>
-              {data.cardNumber}
+              {`**** **** **** ${data.last4}`}
             </Space>
             <Image
-              src="/images/service.png"
-              width={30}
-              height={15}
+              src="/images/cards/visa_icon.png"
+              width={50}
+              height={20}
               alt="card"
             />
           </div>
@@ -59,7 +59,7 @@ export default ({ data }) => {
         <Col span={24}>
           <h2>{data.cardHolderName}</h2>
         </Col>
-        {/* <Col span={24}>{moment(data.expDate).format('YYYY-MM')}</Col> */}
+        <Col span={24}>{data.expDate}</Col>
       </Row>
     </Card>
   );

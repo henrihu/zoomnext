@@ -38,7 +38,7 @@ export const getServiceList = () => {
         showError(data.message);
         return;
       }
-      dispatch(setData(key, data.result.serviceList));
+      dispatch(setData(key, data.result.categories));
     } catch (err) {
       console.error(err);
       dispatch(setLoading(key, false));

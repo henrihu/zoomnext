@@ -34,8 +34,20 @@ export default () => {
   }, []);
 
   useEffect(() => {
-    dispatch(getBrowseJobList());
-  }, [filter.orderKey, filter.orderValue]);
+    if (provider_categories.data && provider_categories.data.length > 0) {
+      handleSetFilter({
+        categoryId: provider_categories.data
+          .filter(({ isSelectCategory }) => isSelectCategory)
+          .map(({ id }) => id),
+      });
+    }
+  }, [provider_categories.data]);
+
+  useEffect(() => {
+    if (filter.categoryId.length > 0) {
+      dispatch(getBrowseJobList());
+    }
+  }, [filter.orderKey, filter.orderValue, filter.categoryId]);
 
   return (
     <>

@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import {
   Button,
   Row,
@@ -18,7 +18,7 @@ import {
 
 const Wrapper = ({ label, children }) => {
   return (
-    <Card title={label} size="small">
+    <Card title={label} size="small" hoverable>
       {children}
     </Card>
   );
@@ -34,6 +34,17 @@ export default ({
   const [date, setDate] = useState('asc');
   const [totalPrice, setTotalPrice] = useState('asc');
   const [distance, setDistance] = useState('asc');
+  const [categoryId, setCategoryId] = useState([]);
+
+  useEffect(() => {
+    setCategoryId(filter.categoryId);
+  }, [filter.categoryId]);
+
+  const handleFilter = async () => {
+    await onSetFilter({ categoryId });
+    onFilter();
+  };
+
   return (
     <Row gutter={[8, 8]}>
       <Col xs={8} sm={8} md={24}>
@@ -110,23 +121,22 @@ export default ({
                       category_list.map(({ id, name }) => (
                         <Button
                           type={
-                            filter.categoryId.find((_id) => id === _id)
+                            categoryId.find((_id) => id === _id)
                               ? 'primary'
                               : 'default'
                           }
                           size="small"
                           shape="round"
                           onClick={() => {
-                            const { categoryId } = filter;
-                            onSetFilter({
-                              categoryId: categoryId.find((_id) => id === _id)
+                            setCategoryId(
+                              categoryId.find((_id) => id === _id)
                                 ? categoryId.reduce(
                                     (res, cur) =>
                                       cur === id ? res : [...res, cur],
                                     []
                                   )
-                                : [...categoryId, id],
-                            });
+                                : [...categoryId, id]
+                            );
                           }}
                         >
                           {name}
@@ -192,7 +202,7 @@ export default ({
                 <Button
                   type="primary"
                   shape="round"
-                  onClick={onFilter}
+                  onClick={handleFilter}
                   loading={loading}
                 >
                   Filter Jobs

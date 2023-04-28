@@ -5,6 +5,7 @@ const initialState = {
   authenticated: false,
   type: TYPE_CUSTOMER,
   pending: {},
+  pageLoading: true,
 };
 
 export default (state = initialState, action) => {

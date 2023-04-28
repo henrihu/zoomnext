@@ -14,11 +14,7 @@ export default ({ data, onClick }) => {
       }}
       onClick={onClick}
     >
-      <img
-        src={`/images/category_image/${data.image}`}
-        className="rounded-lg w-full h-full"
-        alt="job"
-      />
+      <img src={data.image} className="rounded-lg w-full h-full" />
       <div
         className="w-full h-full rounded-lg absolute top-0 left-0"
         style={{

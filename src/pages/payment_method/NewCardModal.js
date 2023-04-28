@@ -1,6 +1,8 @@
 import { useState, useMemo } from 'react';
-import { Modal, Input, Divider, Space, Form } from 'antd';
-import { StarFilled } from '@ant-design/icons';
+import { Modal, Input, Divider, Space, Form, Button, Tooltip } from 'antd';
+import { InfoCircleOutlined } from '@ant-design/icons';
+import Image from 'next/image';
+import { setNotificationDrawer } from 'src/store/setting/actions';
 
 const helper = {
   avatar: '/images/service.png',
@@ -11,6 +13,8 @@ const helper = {
 
 export default ({ open, onOk, onCancel }) => {
   const [form] = Form.useForm();
+  const [pending, setPending] = useState(false);
+  const [info, setInfo] = useState(false);
   const modal_props = {
     title: 'Payment Detail',
     open,
@@ -22,11 +26,13 @@ export default ({ open, onOk, onCancel }) => {
       form
         .validateFields()
         .then(async (values) => {
+          setPending(true);
           const isSuccess = await onOk(values);
           if (isSuccess) {
             onCancel();
             form.resetFields();
           }
+          setPending(false);
         })
         .catch((info) => {
           console.log('Validate Failed:', info);
@@ -38,7 +44,7 @@ export default ({ open, onOk, onCancel }) => {
     },
   };
   return (
-    <Modal {...modal_props}>
+    <Modal {...modal_props} confirmLoading={pending} zIndex={999}>
       <Divider />
       <Form name="newCard" layout="vertical" requiredMark={false} form={form}>
         <Form.Item
@@ -58,13 +64,37 @@ export default ({ open, onOk, onCancel }) => {
         <Form.Item label="Expiration Date">
           <Space>
             <Form.Item name="month" rules={[{ required: true }]}>
-              <Input placeholder="Month" />
+              <Input placeholder="Month(MM)" />
             </Form.Item>
             <Form.Item name="year" rules={[{ required: true }]}>
-              <Input placeholder="Year" />
+              <Input placeholder="Year(YYYY)" />
             </Form.Item>
             <Form.Item name="cvc" rules={[{ required: true }]}>
-              <Input placeholder="CVC" />
+              <Input
+                placeholder="CVV"
+                suffix={
+                  <Tooltip
+                    title={
+                      <Image
+                        src="/images/cards/visa_sample.png"
+                        width={200}
+                        height={100}
+                        alt="card"
+                      />
+                    }
+                    arrow={false}
+                    className="bg-white"
+                  >
+                    <Button
+                      icon={<InfoCircleOutlined />}
+                      className="text-gray"
+                      type="text"
+                      size="small"
+                      onClick={() => () => setInfo(true)}
+                    />
+                  </Tooltip>
+                }
+              />
             </Form.Item>
           </Space>
         </Form.Item>

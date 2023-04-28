@@ -21,16 +21,14 @@ export default ({ data }) => {
         <Col span={21} className="flex items-center px-4 md:px-8 py-2">
           <Space direction="vertical">
             <Space size={[0, 2]} direction="vertical">
-              <div>
-                <span className="text-lg">{`${data.title} `}</span>
+              <div className="flex items-center gap-2">
+                <h3 className="text-lg font-bold">{`${data.title} `}</h3>
                 <small className="text-gray italic">
                   ({data.RatingDate.replace(data.title, '')})
                 </small>
               </div>
             </Space>
-            <span className="font-bold text-lg disp-text">
-              {data.ratingDesc}
-            </span>
+            <span className="disp-text">{data.ratingDesc}</span>
           </Space>
         </Col>
       </Row>

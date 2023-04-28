@@ -13,7 +13,7 @@ const uploadImage = (data) =>
   });
 
 // Services
-const getServiceList = () => base({ url: '/getServiceList/', method: 'POST' });
+const getServiceList = () => base({ url: '/getCategories/', method: 'POST' });
 
 // Notification
 const getNotificationList = (data) =>

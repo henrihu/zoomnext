@@ -42,7 +42,7 @@ export default ({ data }) => {
           <div className="font-bold mb-1 text-2xl" style={{ color: '#89CE9D' }}>
             ${formatNumber(data.totalPrice)}
           </div>
-          <div className="flex justify-between font-bold text-xl text-gray">
+          <div className="flex justify-between font-bold text-lg text-gray">
             <div>${formatNumber(data.amount)}</div> +{' '}
             <div>${formatNumber(data.commission)}</div>
           </div>

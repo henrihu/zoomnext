@@ -1,6 +1,6 @@
 import moment from 'moment';
 import API from 'src/api/payment';
-import { showError } from 'src/utils/messages';
+import { showError, showSuccess } from 'src/utils/messages';
 
 export const SET_DATA = '[PAYMENT] SET DATA]';
 export const SET_LOADING = '[PAYMENT] SET LOADING';
@@ -33,6 +33,8 @@ export const addCard = (info) => {
         showError(data.message);
         return false;
       }
+      showSuccess(data.message);
+      dispatch(getCardList());
       return true;
     } catch (err) {
       console.error(err);

@@ -41,53 +41,55 @@ export default ({ data, open, onOk, onCancel }) => {
       oktext: 'Next',
       props: { form, budget, type: categoryType },
       onOk: () => {
-        const param = form.getFieldValue();
-        const cleaning = {
-          numberOfBedRooms: param.beds.count,
-          numberOfBathrooms: param.baths.count,
-          isMyOwnSupplier: param.supply === CLEANING_OPTION_HAVE ? 1 : 0,
-          isBringYourSupplier: param.supply === CLEANING_OPTION_BRING ? 1 : 0,
-        };
-        let res = {
-          ...data,
-          ...param.location,
-          ...param,
-          isAllowBids: param.post === POST_OPTION_BID ? 1 : 0,
-          jobDateAndTime: param.date,
-          isHourly: param.budget === BUDGET_OPTION_HOURLY ? 1 : 0,
-          noOfHours: param.budget === BUDGET_OPTION_HOURLY ? param.hour : 0,
-        };
-        if (categoryType === CATEGORY_TYPE_CLEANING) {
-          res = { ...res, ...cleaning };
-        }
-        if (categoryType === CATEGORY_TYPE_DELIVERY) {
-          res.pickUpDateAndTime = MergeDateTime(
-            param.pickUpDate,
-            param.pickUpTime
-          );
-          res.jobDateAndTime = res.pickUpDateAndTime;
-          res.pickUpaddress = param.pickUpLocation.address;
-          Object.keys(param.pickUpLocation).map(
-            (item, ind) =>
-              (res['pickUp' + item[0].toUpperCase() + item.slice(1)] =
-                param.pickUpLocation[item])
-          );
+        form.validateFields().then((values) => {
+          const param = form.getFieldValue();
+          const cleaning = {
+            numberOfBedRooms: param.beds.count,
+            numberOfBathrooms: param.baths.count,
+            isMyOwnSupplier: param.supply === CLEANING_OPTION_HAVE ? 1 : 0,
+            isBringYourSupplier: param.supply === CLEANING_OPTION_BRING ? 1 : 0,
+          };
+          let res = {
+            ...data,
+            ...param.location,
+            ...param,
+            isAllowBids: param.post === POST_OPTION_BID ? 1 : 0,
+            jobDateAndTime: param.date,
+            isHourly: param.budget === BUDGET_OPTION_HOURLY ? 1 : 0,
+            noOfHours: param.budget === BUDGET_OPTION_HOURLY ? param.hour : 0,
+          };
+          if (categoryType === CATEGORY_TYPE_CLEANING) {
+            res = { ...res, ...cleaning };
+          }
+          if (categoryType === CATEGORY_TYPE_DELIVERY) {
+            res.pickUpDateAndTime = MergeDateTime(
+              param.pickUpDate,
+              param.pickUpTime
+            );
+            res.jobDateAndTime = res.pickUpDateAndTime;
+            res.pickUpaddress = param.pickUpLocation.address;
+            Object.keys(param.pickUpLocation).map(
+              (item, ind) =>
+                (res['pickUp' + item[0].toUpperCase() + item.slice(1)] =
+                  param.pickUpLocation[item])
+            );
 
-          res.dropOffDateAndTime = MergeDateTime(
-            param.dropOffDate,
-            param.dropOffTime
-          );
-          Object.keys(param.dropOffLocation).map(
-            (item, ind) =>
-              (res['dropOff' + item[0].toUpperCase() + item.slice(1)] =
-                param.dropOffLocation[item])
-          );
-        } else {
-          res.jobDateAndTime = MergeDateTime(param.date, param.time);
-        }
-        console.log('res', res);
-        setValues(res);
-        setStep(1);
+            res.dropOffDateAndTime = MergeDateTime(
+              param.dropOffDate,
+              param.dropOffTime
+            );
+            Object.keys(param.dropOffLocation).map(
+              (item, ind) =>
+                (res['dropOff' + item[0].toUpperCase() + item.slice(1)] =
+                  param.dropOffLocation[item])
+            );
+          } else {
+            res.jobDateAndTime = MergeDateTime(param.date, param.time);
+          }
+          console.log('res', res);
+          setValues(res);
+          setStep(1);
+        });
       },
       // rendercomponent: (props) => <JobStep {...props} />,
     },
