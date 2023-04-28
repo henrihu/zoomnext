@@ -29,13 +29,6 @@ export default ({ jobId, data, type, status, onCreate = () => {} }) => {
                           <Space
                             className="w-full"
                             direction="vertical"
-                            size={[10, 0]}
-                          >
-                            <div className="font-bold">{item.description}</div>
-                          </Space>
-                          <Space
-                            className="w-full"
-                            direction="vertical"
                             size={[2, 0]}
                           >
                             <div className="font-bold">{item.description}</div>

@@ -20,6 +20,7 @@ import {
 } from 'src/utils/constants';
 import MoreWork from '@/components/Job/MoreWork';
 import { useAuth } from 'src/store/auth/actions';
+import LocationModal from '@/components/Job/LocationModal';
 
 export default () => {
   const dispatch = useDispatch();
@@ -44,9 +45,7 @@ export default () => {
           type="primary"
           size="large"
           shape="round"
-          onClick={() => {
-            console.log('MyAssignedPage');
-          }}
+          onClick={() => setModal({ open: true })}
         >
           Location on Map
         </Button>
@@ -125,6 +124,10 @@ export default () => {
               />
             </Col>
           </Row>
+          <LocationModal
+            {...modal}
+            onCancel={() => setModal({ open: false })}
+          />
         </Col>
       </Row>
     </>
