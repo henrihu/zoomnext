@@ -99,7 +99,7 @@ export default () => {
               key: '5',
               label: 'Payment History',
               icon: <ShopOutlined />,
-              href: '/customer/payment_history',
+              href: '/payment_history',
             },
             {
               key: 'notifications',
@@ -167,7 +167,7 @@ export default () => {
               key: 'paymenthistory',
               label: 'Payment History',
               icon: <ShopOutlined />,
-              href: '/helper/payment_history',
+              href: '/payment_history',
             },
             {
               key: 'paymentsettings',

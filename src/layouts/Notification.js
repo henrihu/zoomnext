@@ -1,15 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import {
-  Drawer,
-  Space,
-  Badge,
-  Divider,
-  Empty,
-  Avatar,
-  Button,
-  Spin,
-} from 'antd';
+import { Drawer, Space, Badge, Divider, Empty, Button, Spin } from 'antd';
+import { BellOutlined } from '@ant-design/icons';
 import {
   CloseOutlined,
   DownOutlined,
@@ -22,6 +14,7 @@ import {
   initStore,
   removeNotification,
 } from 'src/store/common/actions';
+import { useThemeToken } from 'src/utils/common';
 
 export default () => {
   const dispatch = useDispatch();
@@ -49,11 +42,21 @@ export default () => {
   }, [notification_drawer, pagination]);
   return (
     <Drawer
-      title="Notifications"
+      title={
+        <h3 className="font-bold text-white flex items-center gap-2">
+          <BellOutlined />
+          Notifications
+        </h3>
+      }
       open={notification_drawer}
       onClose={() => dispatch(setNotificationDrawer(false))}
       width={350}
+      closable={false}
       bodyStyle={{ padding: '8px 0px' }}
+      headerStyle={{
+        backgroundColor: useThemeToken().colorPrimary,
+        color: 'white',
+      }}
     >
       <Space direction="vertical" className="w-full">
         <Spin spinning={loading}>

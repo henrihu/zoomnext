@@ -4,11 +4,13 @@ import { useAuth } from 'src/store/auth/actions';
 import { contactUs, uploadImage } from 'src/store/common/actions';
 import { useDispatch } from 'react-redux';
 import { MEDIA_TYPE_IMAGE } from 'src/utils/constants';
+import { useState } from 'react';
 
-export default ({ open, onOk, onCancel, pending }) => {
+export default ({ open, onOk, onCancel }) => {
   const [form] = Form.useForm();
   const dispatch = useDispatch();
   const { userDetail } = useAuth();
+  const [pending, setPending] = useState(false);
   const modal_props = {
     title: 'Contact Us',
     open,
@@ -16,15 +18,18 @@ export default ({ open, onOk, onCancel, pending }) => {
     cancelButtonProps: {
       style: { display: 'none' },
     },
+
     onOk: () => {
       form
         .validateFields()
         .then(async (values) => {
+          setPending(true);
           const isSuccess = await onOk(values);
           if (isSuccess) {
             onCancel();
             form.resetFields();
           }
+          setPending(false);
         })
         .catch((info) => {
           console.error('Validate Failed:', info);
@@ -45,7 +50,6 @@ export default ({ open, onOk, onCancel, pending }) => {
     if (!isLt2M) {
       showError('Image must smaller than 2MB!');
     }
-    console.log('uploadimage');
     const image = await dispatch(
       uploadImage({
         mediaType: MEDIA_TYPE_IMAGE,
@@ -53,6 +57,7 @@ export default ({ open, onOk, onCancel, pending }) => {
         media: file,
       })
     );
+    setPending(true);
     const isSuccess = await dispatch(
       contactUs({
         accountName: form.getFieldValue('accountName'),
@@ -64,10 +69,11 @@ export default ({ open, onOk, onCancel, pending }) => {
       onCancel();
       form.resetFields();
     }
+    setPending(false);
     return false;
   };
   return (
-    <Modal {...modal_props}>
+    <Modal {...modal_props} confirmLoading={pending}>
       <Divider />
       <Form
         name="contactUs"
@@ -75,7 +81,8 @@ export default ({ open, onOk, onCancel, pending }) => {
         requiredMark={false}
         form={form}
         initialValues={{
-          accountName: userDetail && userDetail.firstName,
+          accountName:
+            userDetail && `${userDetail.firstName} ${userDetail.lastName}`,
           email: userDetail && userDetail.email,
         }}
       >
@@ -105,15 +112,20 @@ export default ({ open, onOk, onCancel, pending }) => {
             placeholder="Write here..."
             autoSize={{ minRows: 3, maxRows: 5 }}
           />
+          <Upload
+            accept="image/jpeg"
+            showUploadList={false}
+            beforeUpload={beforeUpload}
+          >
+            <Button
+              icon={<PlusOutlined />}
+              size="small"
+              type="text"
+              className="absolute bottom-1 right-1"
+            />
+          </Upload>
         </Form.Item>
       </Form>
-      <Upload
-        accept="image/jpeg"
-        showUploadList={false}
-        beforeUpload={beforeUpload}
-      >
-        <Button icon={<PlusOutlined />} />
-      </Upload>
     </Modal>
   );
 };

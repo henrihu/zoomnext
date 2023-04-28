@@ -21,7 +21,7 @@ export default () => {
         media: file,
       })
     );
-    dispatch(providerUpdateProfile({ legalInformation: data.imageName }));
+    await dispatch(providerUpdateProfile({ legalInformation: data.imageName }));
   };
   return (
     <Row gutter={[16, 16]}>

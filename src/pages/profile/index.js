@@ -2,7 +2,17 @@ import { useDispatch, useSelector } from 'react-redux';
 
 // Components
 import Meta from '@/components/Meta/index';
-import { Button, Input, Form, Row, Col, Card, Select } from 'antd';
+import {
+  Button,
+  Input,
+  Form,
+  Row,
+  Col,
+  Card,
+  Select,
+  Checkbox,
+  Space,
+} from 'antd';
 import { ProfileOutlined, KeyOutlined } from '@ant-design/icons';
 import AvatarUpload from 'src/components/AvatarUpload/index';
 
@@ -11,9 +21,11 @@ import {
   updateProfile,
   uploadProfileImage,
   changePassword,
+  uploadImage,
 } from 'src/store/common/actions';
-import { useAuth } from 'src/store/auth/actions';
-import { LENGTH } from 'src/utils/constants';
+import { providerUpdateProfile, useAuth } from 'src/store/auth/actions';
+import { LENGTH, MEDIA_TYPE_IMAGE, TYPE_HELPER } from 'src/utils/constants';
+import IdentificationUpload from '@/components/IdentificationUpload';
 
 const layout = {
   labelCol: { span: 8 },
@@ -31,6 +43,17 @@ export default () => {
 
   const handleChangePassword = (values) => {
     dispatch(changePassword(values));
+  };
+
+  const handleUploadIdentification = async (file) => {
+    const data = await dispatch(
+      uploadImage({
+        mediaType: MEDIA_TYPE_IMAGE,
+        module: 'legal-information',
+        media: file,
+      })
+    );
+    await dispatch(providerUpdateProfile({ legalInformation: data.imageName }));
   };
 
   const SelectCountryCode = (
@@ -136,6 +159,21 @@ export default () => {
                   >
                     <Input size="large" />
                   </Form.Item>
+                  {type === TYPE_HELPER && (
+                    <Space
+                      direction="vertical"
+                      className="flex flex-col items-center mb-4"
+                    >
+                      <span className="font-bold">Legal Identification</span>
+                      <span className="text-gray">
+                        Acceptable: Driver's License, Passport or Government ID
+                      </span>
+                      <IdentificationUpload
+                        onUpload={handleUploadIdentification}
+                        url={userDetail && userDetail.legalInformation}
+                      />
+                    </Space>
+                  )}
                   <Form.Item className="flex justify-center">
                     <Button
                       type="primary"
