@@ -6,7 +6,7 @@ const initialState = {
     page: 1,
     orderKey: 'jobDateAndTime',
     orderValue: 'asc',
-    jobStatus: '',
+    jobStatus: 'open',
   },
   job_detail: { data: {}, loading: false },
 };

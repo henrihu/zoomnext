@@ -4,9 +4,12 @@ import { ClockCircleOutlined, CalendarOutlined } from '@ant-design/icons';
 
 import ReviewModal from './ReviewModal';
 import {
+  CATEGORY_TYPE_DELIVERY,
   JOB_STATUS_COMPLETE,
   JOB_STATUS_HISTORY_LABEL,
 } from 'src/utils/constants';
+import LocationModal from './LocationModal';
+import { useRouter } from 'next/router';
 
 const renderItem = (item) => (
   <Row>
@@ -24,8 +27,14 @@ const renderItem = (item) => (
   </Row>
 );
 
-export default ({ id, status, jobStatusHistory = [], completeJob }) => {
-  const [modal, setModal] = useState({ open: false });
+export default ({
+  data: { id, status, type, jobStatusHistory = [] },
+  completeJob,
+}) => {
+  const [reviewModal, setReviewModal] = useState({ open: false });
+  const [locationModal, setLocationModal] = useState({ open: false });
+  const router = useRouter();
+
   return (
     <Row gutter={[16, 16]}>
       <Col span={24}>
@@ -53,18 +62,29 @@ export default ({ id, status, jobStatusHistory = [], completeJob }) => {
               size="large"
               shape="round"
               className="mr-4"
-              onClick={() => setModal({ open: true, id: id })}
+              onClick={() => setReviewModal({ open: true, id: id })}
             >
               Complete Job
             </Button>
-            <Button type="primary" size="large" shape="round">
-              Location on Map
-            </Button>
+            {type === CATEGORY_TYPE_DELIVERY && (
+              <Button
+                type="primary"
+                size="large"
+                shape="round"
+                onClick={() => setLocationModal({ open: true })}
+              >
+                Location on Map
+              </Button>
+            )}
           </Col>
           <ReviewModal
-            {...modal}
+            {...reviewModal}
             onOk={completeJob}
-            onCancel={() => setModal({ open: false })}
+            onCancel={() => setReviewModal({ open: false })}
+          />
+          <LocationModal
+            onCancel={() => setLocationModal({ open: false })}
+            {...locationModal}
           />
         </>
       )}

@@ -13,7 +13,6 @@ import {
   getHelperCategories,
   setFilter,
 } from 'src/store/h_jobs/actions';
-import { useAuth } from 'src/store/auth/actions';
 
 export default () => {
   const dispatch = useDispatch();
@@ -25,7 +24,6 @@ export default () => {
     browse_job_list_filter: filter,
     provider_categories,
   } = useSelector(({ h_jobs }) => h_jobs);
-  const { type } = useAuth();
 
   const handleSetFilter = (d) => {
     dispatch(setFilter('browse_job_list_filter', d));
@@ -53,7 +51,7 @@ export default () => {
             sm={{ span: 24, order: 2 }}
             md={{ span: 18, order: 1 }}
           >
-            <List total={total} data={data} type={type} />
+            <List total={total} data={data} />
           </Col>
           <Col
             xs={{ span: 24, order: 1 }}

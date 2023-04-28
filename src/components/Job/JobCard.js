@@ -8,12 +8,23 @@ import { DoubleRightOutlined, CloseOutlined } from '@ant-design/icons';
 import {
   JOB_STATUS,
   JOB_STATUS_ASSIGNED,
+  JOB_STATUS_CANCEL,
+  JOB_STATUS_COMPLETE,
   JOB_STATUS_PENDING,
   TYPE_CUSTOMER,
 } from 'src/utils/constants';
 import { formatNumber } from 'src/utils/common';
+import { useMemo } from 'react';
 
-export default ({ data, type, onDetail, onCancel, isCancelExist }) => {
+export default ({ data, type, onDetail, onCancel, parent }) => {
+  const isCancel = useMemo(
+    () =>
+      parent === 'customerJobs' ||
+      (parent === 'providerJobs' &&
+        data.status !== JOB_STATUS_COMPLETE &&
+        data.status !== JOB_STATUS_CANCEL),
+    [parent, data]
+  );
   return (
     <Card bodyStyle={{ padding: 0, borderRadius: 8 }} hoverable>
       <Row>
@@ -79,7 +90,12 @@ export default ({ data, type, onDetail, onCancel, isCancelExist }) => {
                     className="font-bold"
                     style={{ fontSize: 24, color: '#89CE9D' }}
                   >
-                    ${formatNumber(data.totalCustomerPrice)}
+                    $
+                    {formatNumber(
+                      type === TYPE_CUSTOMER
+                        ? data.totalCustomerPrice
+                        : data.totalPrice
+                    )}
                   </div>
                 </Col>
                 <Col span={6}>
@@ -88,7 +104,7 @@ export default ({ data, type, onDetail, onCancel, isCancelExist }) => {
                       <span className="text-gray">Bids: {data.bidCount}</span>
                     )}
                 </Col>
-                {isCancelExist && (
+                {isCancel && (
                   <Col span={6} className="flex justify-end">
                     <Button
                       shape="round"

@@ -6,7 +6,7 @@ const initialState = {
     page: 1,
     orderKey: 'jobDateAndTime',
     orderValue: 'asc',
-    jobStatus: '',
+    jobStatus: 'open',
   },
   browse_job_list: { data: { total: 0, data: [] }, loading: false },
   browse_job_list_filter: {

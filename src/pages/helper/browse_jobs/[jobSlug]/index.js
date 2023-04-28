@@ -69,15 +69,18 @@ export default () => {
             type="primary"
             size="large"
             shape="round"
+            disabled={!myBid}
             onClick={() => setModal({ open: true, jobId: data.id })}
           >
-            Send Bid
+            {myBid ? 'Send Bid' : 'Already Sent Bid'}
           </Button>
         </Col>
       </Row>
       <BidModal
         {...modal}
-        onOk={(data) => dispatch(jobBid(data))}
+        onOk={(data) => {
+          dispatch(jobBid(data));
+        }}
         onCancel={() => setModal({ open: false })}
       />
     </>

@@ -7,26 +7,15 @@ import JobStep from './JobStep';
 import ReviewStep from './ReviewStep';
 
 // Utils & Constants
-import { formatNumber, MergeDateTime } from 'src/utils/common';
+import { calcBudget, MergeDateTime } from 'src/utils/common';
 import {
   POST_OPTION_BID,
-  BUDGET_OPTION_TOTAL_JOB,
-  FEE_RATE,
   CLEANING_OPTION_BRING,
   BUDGET_OPTION_HOURLY,
   CATEGORY_TYPE_CLEANING,
   CLEANING_OPTION_HAVE,
   CATEGORY_TYPE_DELIVERY,
-  DATE_TIME_FORMAT,
-  DATE_FORMAT,
 } from 'src/utils/constants';
-import moment from 'moment';
-
-const calcBudget = (option, price, hour) => {
-  if (option === BUDGET_OPTION_TOTAL_JOB)
-    return price ? price * (1 + FEE_RATE / 100) : 0;
-  return price && hour ? price * hour * (1 + FEE_RATE / 100) : 0;
-};
 
 export default ({ data, open, onOk, onCancel }) => {
   const router = useRouter();

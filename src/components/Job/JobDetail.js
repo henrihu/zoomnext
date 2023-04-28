@@ -1,11 +1,9 @@
-import { Space, Row, Col, Typography } from 'antd';
+import { Space, Row, Col, Typography, Avatar } from 'antd';
 import { useMemo } from 'react';
 
 // Utils & Constants
 import {
   BUDGET_OPTION_LIST,
-  POST_OPTION_LIST,
-  FEE_RATE,
   CLEANING_OPTION_LIST,
   CATEGORY_TYPE_CLEANING,
   CATEGORY_TYPE_DELIVERY,
@@ -13,14 +11,13 @@ import {
   BUDGET_OPTION_TOTAL_JOB,
   CLEANING_OPTION_HAVE,
   CLEANING_OPTION_BRING,
-  DATE_FORMAT,
-  TIME_FORMAT,
-  DATE_TIME_FORMAT,
+  POST_OPTION_BID,
+  POST_OPTION_FIRST_HELPER,
+  POST_OPTION_LIST,
 } from 'src/utils/constants';
 import { formatNumber } from 'src/utils/common';
 
 import AddressDetail from './AddressDetail';
-import moment from 'moment';
 
 const DescItem = ({ children, label }) => {
   return (
@@ -46,6 +43,14 @@ export default ({ data, type }) => {
   );
   return (
     <Row justify="center" gutter={[8, 8]}>
+      <Col span={24}>
+        <div className="flex justify-center items-center cursor-pointer">
+          <Avatar className="mr-2" size={40} src={data.avatarImage} />
+          <h2 className="font-bold" style={{ fontSize: 18 }}>
+            {data.fullName}
+          </h2>
+        </div>
+      </Col>
       <Col span={24}>
         <DescItem label="Job Title">{data.title}</DescItem>
       </Col>
@@ -110,12 +115,22 @@ export default ({ data, type }) => {
       )}
       <Col span={24}>
         <DescItem label="Budget">
-          {BUDGET_OPTION_LIST[budget].label} - ${formatNumber(data.totalPrice)}
+          {/* {BUDGET_OPTION_LIST[budget].label} - ${formatNumber(data.totalPrice)} */}
           {data && data.isHourly
-            ? `($${data.price} /hr  ${data.noOfHours} hours)`
-            : ''}
+            ? `Hourly $${formatNumber(data.price)}  ${data.noOfHours} hours`
+            : `$${formatNumber(data.totalPrice)}`}
         </DescItem>
       </Col>
+      {data.type === CATEGORY_TYPE_CLEANING && (
+        <Col span={24}>
+          <DescItem label="Job Posting Options">
+            {data &&
+              POST_OPTION_LIST[
+                data.isAllowBids ? POST_OPTION_BID : POST_OPTION_FIRST_HELPER
+              ].label}
+          </DescItem>
+        </Col>
+      )}
     </Row>
   );
 };
