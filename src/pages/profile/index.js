@@ -12,6 +12,7 @@ import {
   Select,
   Checkbox,
   Space,
+  Modal,
 } from 'antd';
 import { ProfileOutlined, KeyOutlined } from '@ant-design/icons';
 import AvatarUpload from 'src/components/AvatarUpload/index';
@@ -23,9 +24,14 @@ import {
   changePassword,
   uploadImage,
 } from 'src/store/common/actions';
-import { providerUpdateProfile, useAuth } from 'src/store/auth/actions';
+import {
+  deleteAccount,
+  providerUpdateProfile,
+  useAuth,
+} from 'src/store/auth/actions';
 import { LENGTH, MEDIA_TYPE_IMAGE, TYPE_HELPER } from 'src/utils/constants';
 import IdentificationUpload from '@/components/IdentificationUpload';
+import { useRouter } from 'next/router';
 
 const layout = {
   labelCol: { span: 8 },
@@ -34,8 +40,9 @@ const layout = {
 
 export default () => {
   const dispatch = useDispatch();
+  const router = useRouter();
   const { pending } = useSelector(({ common }) => common);
-  const { type, userDetail } = useAuth();
+  const { type, userDetail, pending: authPending } = useAuth();
 
   const hadleUpdateProfile = (values) => {
     dispatch(updateProfile({ ...values, type }));
@@ -54,6 +61,10 @@ export default () => {
       })
     );
     await dispatch(providerUpdateProfile({ legalInformation: data.imageName }));
+  };
+
+  const handleDeleteAccount = async () => {
+    dispatch(deleteAccount(router));
   };
 
   const SelectCountryCode = (
@@ -174,6 +185,24 @@ export default () => {
                       />
                     </Space>
                   )}
+                  <div className="flex justify-center">
+                    <Button
+                      type="text"
+                      danger
+                      loading={authPending && authPending.deleteAccount}
+                      onClick={() => {
+                        Modal.confirm({
+                          content: 'Are you sure you want to delete account?',
+                          onOk: handleDeleteAccount,
+                          okText: 'Delete',
+                          cancelText: 'No',
+                        });
+                      }}
+                    >
+                      Delete Account?
+                    </Button>
+                  </div>
+
                   <Form.Item className="flex justify-center">
                     <Button
                       type="primary"

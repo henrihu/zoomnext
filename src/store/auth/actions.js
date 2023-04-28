@@ -367,3 +367,24 @@ export const becomeProviderCustomer = (becomeType) => {
     }
   };
 };
+
+export const deleteAccount = (router) => {
+  return async (dispatch) => {
+    const key = 'deleteAccount';
+    try {
+      dispatch(setPending(key, true));
+      const { data } = await API.deleteAccount();
+      dispatch(setPending(key, false));
+      if (data.status !== 1) {
+        showError(data.message);
+        return false;
+      }
+      dispatch(logOut(router));
+      return true;
+    } catch (err) {
+      console.error(err);
+      dispatch(setPending(key, false));
+      return false;
+    }
+  };
+};

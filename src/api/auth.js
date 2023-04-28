@@ -20,6 +20,7 @@ const payNowFree = (data) =>
   base({ url: '/payNowFree/', data, method: 'POST' });
 const becomeProviderCustomer = (data) =>
   base({ url: '/becomeProviderCustomer/', data, method: 'POST' });
+const deleteAccount = () => base({ url: '/deleteAccount/', method: 'POST' });
 
 export default {
   signInWithEmail,
@@ -33,4 +34,5 @@ export default {
   verifyOtp,
   payNowFree,
   becomeProviderCustomer,
+  deleteAccount,
 };
