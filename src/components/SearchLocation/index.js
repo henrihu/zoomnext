@@ -1,4 +1,4 @@
-import { Input, Spin } from 'antd';
+import { AutoComplete, Input, Select, Spin } from 'antd';
 import React, { useEffect, useState } from 'react';
 import PlacesAutocomplete, {
   geocodeByAddress,
@@ -6,7 +6,7 @@ import PlacesAutocomplete, {
   geocodeByPlaceId,
 } from 'react-places-autocomplete';
 
-export default ({ value, type = '', onChange, ...props }) => {
+export default ({ value, onChange, ...props }) => {
   const [search, setSearch] = useState('');
 
   useEffect(() => {
@@ -20,13 +20,7 @@ export default ({ value, type = '', onChange, ...props }) => {
     const { lat: latitude = '', lng: longitude = '' } = await getLatLng(place);
     const { long_name: zipcode = '' } =
       place.address_components.find((c) => c.types.includes('postal_code')) ||
-      {};
-    console.log('place', place);
-    /*
-    state
-    city
-    coutnry
-    */
+      '';
     await onChange({
       zipcode,
       latitude,
@@ -53,40 +47,33 @@ export default ({ value, type = '', onChange, ...props }) => {
       onChange={(v) => setSearch(v)}
       onSelect={handleSelect}
     >
-      {({ getInputProps, suggestions, getSuggestionItemProps, loading }) => (
-        <div>
-          <Input
-            {...getInputProps({
-              placeholder: 'Search Places ...',
-              className: 'location-search-input',
-            })}
+      {({ getInputProps, suggestions, getSuggestionItemProps, loading }) => {
+        return (
+          <Select
             {...props}
-            // suffix={loading && <Spin spinning={true} size="small" />}
-          />
-          <div className="autocomplete-dropdown-container">
-            {suggestions &&
+            showSearch
+            loading={loading}
+            onSearch={(v) => getInputProps().onChange({ target: { value: v } })}
+            onChange={(pid) => {
+              const selected = suggestions.find(
+                ({ placeId }) => placeId === pid
+              );
+              if (selected) {
+                getSuggestionItemProps(selected).onClick();
+              }
+            }}
+            options={
+              suggestions &&
               suggestions.length > 0 &&
-              suggestions.map((suggestion) => {
-                const className = suggestion.active
-                  ? 'suggestion-item--active'
-                  : 'suggestion-item';
-                const style = suggestion.active
-                  ? { backgroundColor: '#fafafa', cursor: 'pointer' }
-                  : { backgroundColor: '#ffffff', cursor: 'pointer' };
-                return (
-                  <div
-                    {...getSuggestionItemProps(suggestion, {
-                      className,
-                      style,
-                    })}
-                  >
-                    <span>{suggestion.description}</span>
-                  </div>
-                );
-              })}
-          </div>
-        </div>
-      )}
+              suggestions.map((suggestion) => ({
+                label: suggestion.description,
+                value: suggestion.placeId,
+              }))
+            }
+            filterOption={false}
+          />
+        );
+      }}
     </PlacesAutocomplete>
   );
 };

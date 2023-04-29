@@ -7,9 +7,8 @@ import { uploadImage, uploadProfileImage } from 'src/store/common/actions';
 import { useDispatch } from 'react-redux';
 import { useAuth } from 'src/store/auth/actions';
 import { MEDIA_TYPE_IMAGE } from 'src/utils/constants';
-import { providerUpdateProfile } from 'src/store/auth/actions';
 
-export default () => {
+export default ({ legalInformation, setLegalInformation }) => {
   const dispatch = useDispatch();
   const { userDetail } = useAuth();
 
@@ -21,7 +20,7 @@ export default () => {
         media: file,
       })
     );
-    await dispatch(providerUpdateProfile({ legalInformation: data.imageName }));
+    setLegalInformation(data);
   };
   return (
     <Row gutter={[16, 16]}>
@@ -75,7 +74,7 @@ export default () => {
           </span>
           <IdentificationUpload
             onUpload={handleUploadIdentification}
-            url={userDetail && userDetail.legalInformation}
+            url={legalInformation && legalInformation.fileName}
           />
         </Space>
       </Col>

@@ -18,12 +18,13 @@ export default () => {
   const dispatch = useDispatch();
   const token = useThemeToken();
   const { profile_modal } = useSetting();
-  const { userDetail, pending } = useAuth();
+  const { pending } = useAuth();
   const { provider_categories } = useHelperJobs();
 
   const [step, setStep] = useState(0);
   const [backgroundCheck, setBackgroundCheck] = useState(false);
   const [conditionCheck, setConditionCheck] = useState(false);
+  const [legalInformation, setLegalInformation] = useState({});
 
   useEffect(() => {
     if (profile_modal.open) {
@@ -34,7 +35,7 @@ export default () => {
   const handlePayNowFree = async () => {
     const isSuccess = await dispatch(
       payNowFree({
-        legalInformation: userDetail && userDetail.legalInformation,
+        legalInformation: legalInformation.imageName,
         categoryId: provider_categories.data
           .filter(({ isSelectCategory }) => isSelectCategory)
           .map(({ id }) => id),
@@ -76,7 +77,7 @@ export default () => {
               type="primary"
               shape="round"
               onClick={() => {
-                if (userDetail && userDetail.legalInformation) {
+                if (legalInformation && legalInformation.imageName) {
                   setStep(2);
                 } else {
                   showError('Select Legal Infomation');
@@ -136,7 +137,12 @@ export default () => {
         </Col>
         <Col span={24} className="flex justify-center">
           {step === 0 && <CategoryStep />}
-          {step === 1 && <DetailsStep />}
+          {step === 1 && (
+            <DetailsStep
+              legalInformation={legalInformation}
+              setLegalInformation={setLegalInformation}
+            />
+          )}
           {step === 2 && (
             <TermStep
               backgroundCheck={backgroundCheck}
