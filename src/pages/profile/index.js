@@ -16,6 +16,7 @@ import {
 } from 'antd';
 import { ProfileOutlined, KeyOutlined } from '@ant-design/icons';
 import AvatarUpload from 'src/components/AvatarUpload/index';
+import SearchLocation from '@/components/SearchLocation';
 
 // Actions
 import {
@@ -29,7 +30,12 @@ import {
   providerUpdateProfile,
   useAuth,
 } from 'src/store/auth/actions';
-import { LENGTH, MEDIA_TYPE_IMAGE, TYPE_HELPER } from 'src/utils/constants';
+import {
+  LENGTH,
+  MEDIA_TYPE_IMAGE,
+  TYPE_CUSTOMER,
+  TYPE_HELPER,
+} from 'src/utils/constants';
 import IdentificationUpload from '@/components/IdentificationUpload';
 import { useRouter } from 'next/router';
 
@@ -45,7 +51,22 @@ export default () => {
   const { type, userDetail, pending: authPending } = useAuth();
 
   const hadleUpdateProfile = (values) => {
-    dispatch(updateProfile({ ...values, type }));
+    let info = { ...values, type };
+    if (type === TYPE_HELPER && info.workAddress) {
+      info = {
+        ...info,
+        ...Object.keys(values.workAddress).reduce(
+          (res, key) => ({
+            ...res,
+            [`work${key[0].toUpperCase()}${key.slice(1)}`]: values.workAddress[
+              key
+            ],
+          }),
+          {}
+        ),
+      };
+    }
+    dispatch(updateProfile(info));
   };
 
   const handleChangePassword = (values) => {
@@ -156,20 +177,34 @@ export default () => {
                   >
                     <Input size="large" addonBefore={SelectCountryCode} />
                   </Form.Item>
-                  <Form.Item
-                    label="Location"
-                    name="location"
-                    rules={
-                      [
-                        // {
-                        //   required: true,
-                        //   message: 'Please input your location!',
-                        // },
-                      ]
-                    }
-                  >
-                    <Input size="large" />
-                  </Form.Item>
+                  {type === TYPE_HELPER && (
+                    <Form.Item
+                      label="Location"
+                      name="workAddress"
+                      rules={[
+                        {
+                          required: true,
+                          message: 'Please input your location!',
+                        },
+                      ]}
+                    >
+                      <SearchLocation size="large" placeholder="Location" />
+                    </Form.Item>
+                  )}
+                  {type === TYPE_CUSTOMER && (
+                    <Form.Item
+                      label="Home Address"
+                      name="homeAddress"
+                      rules={[
+                        {
+                          required: true,
+                          message: 'Please input your home address!',
+                        },
+                      ]}
+                    >
+                      <Input size="large" placeholder="Home Address" />
+                    </Form.Item>
+                  )}
                   {type === TYPE_HELPER && (
                     <Space
                       direction="vertical"

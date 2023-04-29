@@ -18,6 +18,7 @@ import {
 } from 'src/utils/constants';
 // Actions
 import { setType, signUp } from 'src/store/auth/actions';
+import SearchLocation from '@/components/SearchLocation';
 
 export default () => {
   const dispatch = useDispatch();
@@ -27,9 +28,20 @@ export default () => {
 
   const handleSignUp = async (values) => {
     setPending(true);
-    const isSuccess = await dispatch(
-      signUp({ ...values, type, platform: PLATFORM })
-    );
+    let info = { ...values, type, platform: PLATFORM };
+    if (type === TYPE_HELPER && info.location) {
+      info = {
+        ...info,
+        ...Object.keys(info.location).reduce(
+          (res, key) => ({
+            ...res,
+            [`work${key[0].toUpperCase()}${key.slice(1)}`]: info.location[key],
+          }),
+          {}
+        ),
+      };
+    }
+    const isSuccess = await dispatch(signUp(info));
     if (isSuccess) {
       router.push('/auth/login');
     }
@@ -38,7 +50,7 @@ export default () => {
 
   const SelectCountryCode = (
     <Form.Item name="countryCode" noStyle>
-      <Select style={{ width: 80 }} size="large">
+      <Select style={{ width: 60 }} size="large">
         <Select.Option value="+91">+1</Select.Option>
       </Select>
     </Form.Item>
@@ -78,7 +90,11 @@ export default () => {
           </Radio.Group>
         </Col>
         <Col span={24}>
-          <Form className="w-full" onFinish={handleSignUp}>
+          <Form
+            className="w-full"
+            onFinish={handleSignUp}
+            initialValues={{ countryCode: '+1' }}
+          >
             <Form.Item
               name="firstName"
               rules={[
@@ -142,7 +158,7 @@ export default () => {
                 }),
               ]}
             >
-              <Input.Password placeholder="Confirm Password" />
+              <Input.Password size="large" placeholder="Confirm Password" />
             </Form.Item>
             <Form.Item
               name="mobileNumber"
@@ -156,14 +172,16 @@ export default () => {
                 addonBefore={SelectCountryCode}
               />
             </Form.Item>
-            <Form.Item
-              name="location"
-              rules={[
-                { required: true, message: 'Please input your location!' },
-              ]}
-            >
-              <Input placeholder="Location" size="large" />
-            </Form.Item>
+            {type === TYPE_HELPER && (
+              <Form.Item
+                name="location"
+                rules={[
+                  { required: true, message: 'Please select your location!' },
+                ]}
+              >
+                <SearchLocation placeholder="Location" size="large" />
+              </Form.Item>
+            )}
             <Form.Item>
               <Button
                 type="primary"

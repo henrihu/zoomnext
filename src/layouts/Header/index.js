@@ -30,6 +30,7 @@ import MenuDrawer from '../MenuDrawer';
 import {
   becomeProviderCustomer,
   logOut,
+  setPageLoading,
   setType,
   useAuth,
 } from 'src/store/auth/actions';
@@ -55,15 +56,19 @@ export default () => {
   const { userDetail, notificationCount, messageCount, type } = useAuth();
 
   const handleBecomeProviderCustomer = async () => {
+    dispatch(setPageLoading(true));
     const isSuccess = await dispatch(
       becomeProviderCustomer(
         type === TYPE_CUSTOMER ? TYPE_HELPER : TYPE_CUSTOMER
       )
     );
     if (isSuccess) {
-      router.push('/services');
-      dispatch(setType(type === TYPE_CUSTOMER ? TYPE_HELPER : TYPE_CUSTOMER));
+      await router.push('/services');
+      await dispatch(
+        setType(type === TYPE_CUSTOMER ? TYPE_HELPER : TYPE_CUSTOMER)
+      );
     }
+    dispatch(setPageLoading(false));
   };
 
   const ITEM_LIST = useMemo(
@@ -216,11 +221,13 @@ export default () => {
             content: 'Are you sure you want to continue?',
             okText: 'Yes',
             cancelText: 'No',
-            onOk: () => {
-              router.push('/services');
-              dispatch(
+            onOk: async () => {
+              dispatch(setPageLoading(true));
+              await router.push('/services');
+              await dispatch(
                 setType(type === TYPE_CUSTOMER ? TYPE_HELPER : TYPE_CUSTOMER)
               );
+              dispatch(setPageLoading(false));
             },
           });
         },

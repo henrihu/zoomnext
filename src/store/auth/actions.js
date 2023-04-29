@@ -62,11 +62,11 @@ export const signInWithEmail = (signData, router) => {
         platform: PLATFORM,
       });
       if (data.status === 1) {
-        dispatch(setPageLoading(true));
         if (
           data.result.userDetail.isActive &&
           data.result.userDetail.isMobileVerified
         ) {
+          dispatch(setPageLoading(true));
           const token = data.result.accessToken;
           await setAuthorization(token);
           setStorageItem('user_type', signData.type);
@@ -74,6 +74,7 @@ export const signInWithEmail = (signData, router) => {
           await dispatch(getUserDetail());
           await router.push('/services');
           showSuccess(data.message);
+          dispatch(setPageLoading(false));
         } else {
           await dispatch({
             type: SET_DATA,
@@ -87,7 +88,6 @@ export const signInWithEmail = (signData, router) => {
             setOtpModal({ open: true, onOk: () => router.push('/services') })
           );
         }
-        dispatch(setPageLoading(false));
         return true;
       } else {
         showError(data.message);
