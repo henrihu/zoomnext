@@ -64,7 +64,7 @@ export default () => {
                 type={type}
                 status={data.status}
                 onCreate={(params) => {
-                  dispatch(createJobMilestones(params));
+                  dispatch(createJobMilestones(params, jobSlug));
                   setIsReload(!isReload);
                 }}
               />
@@ -76,7 +76,7 @@ export default () => {
                 data={data.bids}
                 router={router}
                 approveBid={(data) => {
-                  dispatch(approveBid(data));
+                  dispatch(approveBid(data, jobSlug));
                   setIsReload(!isReload);
                 }}
               />
@@ -84,7 +84,7 @@ export default () => {
               <StatusList
                 data={data}
                 completeJob={(data) => {
-                  dispatch(customerCompleteJob(data));
+                  dispatch(customerCompleteJob(data, jobSlug));
                   setIsReload(!isReload);
                 }}
               />

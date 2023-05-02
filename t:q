@@ -1,0 +1,456 @@
+[33mcommit 873eef90eee16ad2e9c120f1a633d66bb8cec28d[m[33m ([m[1;36mHEAD -> [m[1;32mmain[m[33m)[m
+Merge: 589f0b6 9e4e425
+Author: super <super@123.com>
+Date:   Fri Apr 28 11:23:47 2023 -0700
+
+    Merge branch 'connect-api-2' into main
+
+[33mcommit 589f0b6d8bdb4571bf8a8b7e3cb6274752858fe7[m[33m ([m[1;31mfintech/connect-api-1[m[33m, [m[1;32mconnect-api-1[m[33m)[m
+Author: super <super@123.com>
+Date:   Fri Apr 28 11:19:17 2023 -0700
+
+    delete Account
+
+[33mcommit 4474be099886432c9e1a507d339be6f0c6047dbf[m
+Author: super <super@123.com>
+Date:   Fri Apr 28 10:10:26 2023 -0700
+
+    Message: update image show
+
+[33mcommit 9e4e4254e5262504182ce281c32cba4ac7f8b61a[m[33m ([m[1;31mfintech/connect-api-2[m[33m, [m[1;32mconnect-api-2[m[33m)[m
+Author: kstar <kstart@123.com>
+Date:   Fri Apr 28 11:11:44 2023 +0900
+
+    Reloading,AddedMoreWork Fixed:LocationModal--
+
+[33mcommit 97c347063422b7dd21007cb174c6a0bf673da126[m
+Author: super <super@123.com>
+Date:   Thu Apr 27 18:09:36 2023 -0700
+
+    Provider: payment history, profile
+
+[33mcommit 8b8667dd8a6623ff774f9da674ba4e57a32a708d[m
+Author: super <super@123.com>
+Date:   Thu Apr 27 16:45:03 2023 -0700
+
+    Provider: add onboarding page
+
+[33mcommit 1f62dfbabc9a11a2b70ce0f650cae0e88a0e2e65[m
+Author: super <super@123.com>
+Date:   Thu Apr 27 13:25:49 2023 -0700
+
+    Auth: Forgot Password
+
+[33mcommit d63d2d3891f397f972c0804b4cc66f4abac3797b[m
+Merge: 51668c8 d80908a
+Author: super <super@123.com>
+Date:   Thu Apr 27 10:14:20 2023 -0700
+
+    Merge branch 'connect-api-2' into connect-api-1
+
+[33mcommit 51668c8d2de317bca62c9d9091f158d4851c7203[m
+Author: super <super@123.com>
+Date:   Thu Apr 27 10:11:49 2023 -0700
+
+    working on otp verification
+
+[33mcommit d34daa5f9a4bca55db9d09a0e77babb744b4c9dd[m
+Author: kstar <kstart@123.com>
+Date:   Fri Apr 28 01:00:32 2023 +0900
+
+    Provider:MyJobs Fixed Except LocationonMap
+
+[33mcommit 77dfde303261c1232c68f9bfa3d13850b1ca0cf0[m
+Author: kstar <kstart@123.com>
+Date:   Thu Apr 27 18:51:08 2023 +0900
+
+    Provider:BrowseJobs Fixed, AddedMoreWorkFixing
+
+[33mcommit 1f2936c34739fb514d851ae6a8c4e2b3aa560b03[m
+Author: super <super@123.com>
+Date:   Wed Apr 26 11:22:11 2023 -0700
+
+    Customer: add timezone, upload image on contact us modal
+
+[33mcommit 3a5f35f9b5b1409181d40a5b5f7f4c480bfddca5[m
+Author: super <super@123.com>
+Date:   Wed Apr 26 10:14:00 2023 -0700
+
+    Message: add image upload
+
+[33mcommit 770e2ca833cfaf00ad9750b82504b56a2972d60e[m
+Author: super <super@123.com>
+Date:   Wed Apr 26 09:43:03 2023 -0700
+
+    Message: fix some issue
+
+[33mcommit d80908ace4f2dbde29e11e62337d4be2fbf0ac42[m
+Author: kstar <kstart@123.com>
+Date:   Wed Apr 26 19:25:17 2023 +0900
+
+    JobReview:Fixed JobCard:Fixing
+
+[33mcommit 9cede2f7a750e4d92428039245ecf3adcc8f8b22[m
+Author: super <super@123.com>
+Date:   Mon Apr 24 12:17:18 2023 -0700
+
+    Customer: Payment History - add amount and commission to design
+
+[33mcommit 6d81b0dc743781b6b6fa7025ab541056ffa04288[m
+Author: kstar <kstart@123.com>
+Date:   Tue Apr 25 01:55:31 2023 +0900
+
+    Develop again Fixed Project
+
+[33mcommit adb933b132b4e1c68c4ae7617cf5eba196da6ced[m
+Author: kstar <kstart@123.com>
+Date:   Tue Apr 25 00:51:18 2023 +0900
+
+    Revert "Provider:BrowseJobs,MyJobs,Reviews"
+    
+    This reverts commit 77a1515565b223994afc11427b33aa5edb61edca.
+
+[33mcommit 1ba1eb1208027da579412690beefef0c4eadf351[m[33m ([m[1;31mfintech/main[m[33m, [m[1;31mfintech/HEAD[m[33m)[m
+Author: kstar <kstart@123.com>
+Date:   Mon Apr 24 15:48:58 2023 +0900
+
+    ReviewStep for merge
+
+[33mcommit ec93f21c2ac69f72936081fba5d056ec6ef50281[m
+Author: kstar <kstart@123.com>
+Date:   Mon Apr 24 15:47:05 2023 +0900
+
+    addressDetail
+
+[33mcommit 47222cbd097cf4530093b824442a1d0afdbdce48[m
+Author: kstar <kstart@123.com>
+Date:   Mon Apr 24 12:19:03 2023 +0900
+
+    Review,JobDetail
+
+[33mcommit 818fba65aecedd891f043df2184b8b1f88f25040[m
+Merge: 77a1515 9cede2f
+Author: kstar <kstart@123.com>
+Date:   Mon Apr 24 12:16:39 2023 +0900
+
+    Merge branch 'main' into connect-api-2
+
+[33mcommit 77a1515565b223994afc11427b33aa5edb61edca[m
+Author: kstar <kstart@123.com>
+Date:   Mon Apr 24 12:15:04 2023 +0900
+
+    Provider:BrowseJobs,MyJobs,Reviews
+
+[33mcommit ed5bc1cd77ba5956b074fda02ee29229db8cf6f6[m[33m ([m[1;31morigin/connect-api-1[m[33m)[m
+Author: super <super@fintech.com>
+Date:   Fri Apr 21 17:15:27 2023 -0700
+
+    uninstall react-chat-element module
+
+[33mcommit a99b63e4f6964f5a596521e4576cb087ff421a3a[m
+Author: kstar <kstart@123.com>
+Date:   Fri Apr 21 17:21:55 2023 +0900
+
+    Provider:MyJobs:Details BrowseJobs:list,bid Customer: JobReview
+
+[33mcommit d5c564854bc39fc78ed79ea540ceff79a42a0821[m
+Author: super <super@fintech.com>
+Date:   Fri Apr 21 11:30:55 2023 +0900
+
+    fix some issue: login with token, logout
+
+[33mcommit 74cd52153c91f55e7e2a005a42b30759545b053a[m
+Author: super <super@fintech.com>
+Date:   Thu Apr 20 17:49:10 2023 +0900
+
+    helper: profile
+
+[33mcommit 2155be7182b7f138835a5801b75bad952a3f245f[m[33m ([m[1;31morigin/main[m[33m)[m
+Merge: 2384f2a 107eb79
+Author: kstar <kstart@123.com>
+Date:   Thu Apr 20 15:51:23 2023 +0900
+
+    Merge branch 'main' into connect-api-2
+
+[33mcommit 2384f2a1f351ab08e0ff47bc32e8567452edf573[m
+Author: kstar <kstart@123.com>
+Date:   Thu Apr 20 15:45:02 2023 +0900
+
+    CustomerHelper:JobLists,FIlter fixed
+
+[33mcommit 107eb795b354a5c0b4197ab21ea5ddd9a8d7724e[m
+Merge: 4fd2e6a aeec9fb
+Author: kstar <kstart@123.com>
+Date:   Thu Apr 20 11:37:59 2023 +0900
+
+    q
+    
+    :q
+    Merge branch 'main' of http://10.97.5.48:9100/super/ZoomErrands into main
+
+[33mcommit 4fd2e6a07f8d2b94abfe2a1f72dbfbe51467e2cd[m
+Author: Bin Henry <Bin Henry>
+Date:   Thu Apr 20 11:25:16 2023 +0900
+
+    merging
+
+[33mcommit aeec9fb9a4a04d94ba68976c90f00fd86f3e4449[m
+Author: Bin Henry <Bin Henry>
+Date:   Thu Apr 20 10:59:49 2023 +0900
+
+    remove react-chat-element css
+
+[33mcommit bf3de983c3cb03517c4821392342ed76942ed4c1[m[33m ([m[1;31morigin/connect-api-2[m[33m)[m
+Merge: 4fff742 94d2178
+Author: Bin Henry <Bin Henry>
+Date:   Thu Apr 20 10:57:42 2023 +0900
+
+    :q
+    Merge branch 'main' into connect-api-2
+
+[33mcommit 4fff742231c6271381312aabb2c65ccf130d56bd[m
+Author: Bin Henry <Bin Henry>
+Date:   Thu Apr 20 10:53:03 2023 +0900
+
+    Provider:MyJobs:Filter
+
+[33mcommit 94d2178c420bafa2503f0b30570836ec0587a28a[m
+Author: Bin Henry <Bin Henry>
+Date:   Thu Apr 20 10:49:14 2023 +0900
+
+    messages, profile, signup, notifiation
+
+[33mcommit 2b7b99677685f49dc8232bddb348519c3178f948[m
+Author: Bin Henry <Bin Henry>
+Date:   Thu Apr 20 00:32:46 2023 +0900
+
+    customer: working on message
+
+[33mcommit 38dd9e5a82232e11cf3090154b00011971735eec[m
+Author: Bin Henry <Bin Henry>
+Date:   Thu Apr 20 00:20:48 2023 +0900
+
+    Helper:JobReviews fixing
+
+[33mcommit 8e49b72c6593ec0a8dcd24d9736f5ac67a485409[m
+Author: Bin Henry <Bin Henry>
+Date:   Wed Apr 19 21:52:43 2023 +0900
+
+    Customer:MyJobs:NewPostModal briefly
+
+[33mcommit 9c9783b9abed01d8dd7ed4f1696b08abc91b6bc9[m
+Author: Bin Henry <Bin Henry>
+Date:   Wed Apr 19 16:21:32 2023 +0900
+
+    notification completed
+
+[33mcommit a6ea4214929b7a44551d82560ead197a06a8f494[m
+Merge: f227acf cfa7849
+Author: Bin Henry <Bin Henry>
+Date:   Wed Apr 19 09:42:30 2023 +0900
+
+    Merge branch 'main' into connect-api-2
+
+[33mcommit f227acfd09252c779bcc4da9bf5ac6ac6a1e83a5[m
+Author: Bin Henry <Bin Henry>
+Date:   Wed Apr 19 09:39:49 2023 +0900
+
+    MyJobs:NewJobModal
+
+[33mcommit 58cc97661865913e8ebf9f7d8a6d7b5437f6eb00[m
+Author: Bin Henry <Bin Henry>
+Date:   Tue Apr 18 18:06:55 2023 +0900
+
+    myjobs:detail fixing
+
+[33mcommit cfa7849a511f37a3c8c2d34d86bee1f2be21cc1e[m
+Author: Bin Henry <Bin Henry>
+Date:   Tue Apr 18 18:06:45 2023 +0900
+
+    customer: working
+
+[33mcommit c7dbf0081ad04fa2148175e31a2fd91555a25033[m
+Author: Bin Henry <Bin Henry>
+Date:   Tue Apr 18 01:52:33 2023 +0900
+
+    change job category design
+
+[33mcommit 87355210c0f6f367341fa9b58962a88294598ec9[m
+Author: Bin Henry <Bin Henry>
+Date:   Mon Apr 17 23:25:43 2023 +0900
+
+    modify package.json
+
+[33mcommit 3efc7c207c3164be1ca2c2168777760fe19fac1e[m
+Author: Bin Henry <Bin Henry>
+Date:   Mon Apr 17 18:19:21 2023 +0900
+
+    customer: email notification update
+
+[33mcommit d0a604467e8c8a407222383697df43e5314b4066[m
+Author: Bin Henry <Bin Henry>
+Date:   Mon Apr 17 12:21:20 2023 +0900
+
+    faq list, contactUs completed
+
+[33mcommit 5fa72cb82b87a52ac20ceeafe9d3fbfbb6cce269[m
+Author: Bin Henry <Bin Henry>
+Date:   Mon Apr 17 11:10:21 2023 +0900
+
+    working on client:job
+
+[33mcommit a8753c4fe2216e1c44cb934d02e0c9313d047c2f[m
+Author: Bin Henry <Bin Henry>
+Date:   Fri Apr 14 01:02:35 2023 +0900
+
+    auth: sign in with token
+
+[33mcommit 3a5c3a183cecd7c2b641433b397fc8b1b4122729[m
+Author: Bin Henry <Bin Henry>
+Date:   Fri Apr 14 00:28:14 2023 +0900
+
+    add public images
+
+[33mcommit 5934aaf4a51d27932b568913d99dde0d86054a04[m
+Author: Bin Henry <Bin Henry>
+Date:   Thu Apr 13 00:55:57 2023 +0900
+
+    helper browse jobs: fix some responsive issue
+
+[33mcommit 2358a6ddf3038f6cdcf6491319a056bde610da4a[m
+Author: Bin Henry <Bin Henry>
+Date:   Wed Apr 12 23:56:44 2023 +0900
+
+    add terms modal & fix some issue
+
+[33mcommit 6d6e2b643502143f7421d55d9b3a0bbefb207fc7[m
+Author: Bin Henry <Bin Henry>
+Date:   Wed Apr 12 18:02:34 2023 +0900
+
+    change project structure
+
+[33mcommit c4208dabfd6aab38b71e2069453f1438238d2df9[m
+Author: Bin Henry <Bin Henry>
+Date:   Wed Apr 12 17:37:16 2023 +0900
+
+    auth: add forgot password modal
+
+[33mcommit e40f7a8e9cc6ae729b8b86259c75b739190a6827[m
+Author: Bin Henry <Bin Henry>
+Date:   Wed Apr 12 16:25:52 2023 +0900
+
+    fix message box
+
+[33mcommit 3dd441489abf649a1823ba58491b8586a8b892d3[m
+Author: Bin Henry <Bin Henry>
+Date:   Wed Apr 12 14:31:18 2023 +0900
+
+    add header mobile responsive
+
+[33mcommit 6f8990ba7811e00d54fb626ccd3bc32814752528[m
+Author: Bin Henry <Bin Henry>
+Date:   Tue Apr 11 11:35:54 2023 +0900
+
+    helper profile:add photo and licence component
+
+[33mcommit 1c6eef116b2e4cae7bc9179f90555fb7ab59460b[m
+Author: Bin Henry <Bin Henry>
+Date:   Mon Apr 10 16:07:45 2023 +0900
+
+    working on browse jobs
+
+[33mcommit 9b2c2aedab9796664fc82197be8293b95fa83368[m
+Author: Bin Henry <Bin Henry>
+Date:   Fri Apr 7 00:12:17 2023 +0900
+
+    add browse job filter
+
+[33mcommit e77a6c0ff530bd66fca3cf0bceb7f16a005eea49[m
+Author: Bin Henry <Bin Henry>
+Date:   Thu Apr 6 23:18:11 2023 +0900
+
+    working
+
+[33mcommit a538925108961c59bfdf4c95b6b578ea93c949b1[m
+Author: Bin Henry <Bin Henry>
+Date:   Thu Apr 6 16:19:54 2023 +0900
+
+    working
+
+[33mcommit aab368f72db6e0bd364ee7fc301ccaab2620f00d[m
+Author: Bin Henry <Bin Henry>
+Date:   Wed Apr 5 02:04:02 2023 +0900
+
+    working
+
+[33mcommit 248fbd61af2b6e5a092fbfd170f8b3f4220b0845[m
+Author: Bin Henry <Bin Henry>
+Date:   Tue Apr 4 20:21:07 2023 +0900
+
+    working on layout
+
+[33mcommit 667f24dff523871d3ab0e0f7b10b9bcbebd52a0c[m
+Author: Bin Henry <Bin Henry>
+Date:   Tue Apr 4 18:43:15 2023 +0900
+
+    working on layout
+
+[33mcommit 7ab580ea235f4c9f23adf5fab37eb9df92fdc9e0[m
+Author: Bin Henry <Bin Henry>
+Date:   Sun Apr 2 13:18:13 2023 +0900
+
+    working on payment
+
+[33mcommit 0c14a7373c5445d93aa34dce0d3e4500da880ab8[m
+Author: Bin Henry <Bin Henry>
+Date:   Thu Mar 30 17:26:55 2023 +0900
+
+    working on job detail
+
+[33mcommit 4fc82e01900136f0332078b24456a31049b94a38[m
+Author: Bin Henry <Bin Henry>
+Date:   Tue Mar 28 19:44:42 2023 +0900
+
+    working on my task page
+
+[33mcommit af4c40e12616115463d3523b0a05471368118654[m
+Author: Bin Henry <Bin Henry>
+Date:   Tue Mar 28 19:48:11 2023 -0700
+
+    working on my task page
+
+[33mcommit 884848474ea0c0f84dad12e7e08274b39fdfb187[m
+Author: Bin Henry <Bin Henry>
+Date:   Mon Mar 27 20:10:36 2023 +0900
+
+    working on customer dashboard
+
+[33mcommit ed1e26e5554bbc876d31c948b3cafb373499ebad[m
+Author: Bin Henry <Bin Henry>
+Date:   Mon Mar 27 20:14:26 2023 -0700
+
+    working on customer dashboard
+
+[33mcommit 287317381b8eb3310168dac0ddabf2fc92a4447c[m
+Author: Bin Henry <Bin Henry>
+Date:   Mon Mar 27 14:41:27 2023 -0700
+
+    working on auth pages
+
+[33mcommit ada6a8082d8bf3aef3174b799a483a0c3ef8bf30[m
+Author: Bin Henry <Bin Henry>
+Date:   Fri Mar 24 19:41:27 2023 +0900
+
+    working
+
+[33mcommit dc4dec935cf741a0eedea1222243216eb10c5c63[m
+Author: Bin Henry <Bin Henry>
+Date:   Fri Mar 24 19:15:54 2023 +0900
+
+    first commit
+
+[33mcommit 3158c4bb893264d34252b75d50878727c3d64a26[m
+Author: Ruby Bin <henrihu@users.noreply.github.com>
+Date:   Thu Feb 23 13:23:27 2023 +0900
+
+    Initial commit

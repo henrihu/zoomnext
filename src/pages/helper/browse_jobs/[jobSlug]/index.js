@@ -31,6 +31,8 @@ export default () => {
       data.bids.find((item) => item.providerId === userDetail.id),
     [data]
   );
+  console.log('myBid', myBid);
+  console.log('bids', data.bids);
 
   useEffect(() => {
     if (jobSlug) {
@@ -70,18 +72,20 @@ export default () => {
             size="large"
             shape="round"
             onClick={
-              myBid ? () => setModal({ open: true, jobId: data.id }) : () => {}
+              myBid === undefined || myBid.length === 0
+                ? () => setModal({ open: true, jobId: data.id })
+                : () => {}
             }
           >
-            {myBid ? 'Send Bid' : 'Already Sent Bid'}
+            {myBid === undefined || myBid.length === 0
+              ? 'Send Bid'
+              : 'Already Sent Bid'}
           </Button>
         </Col>
       </Row>
       <BidModal
         {...modal}
-        onOk={(data) => {
-          dispatch(jobBid(data));
-        }}
+        onOk={(data) => dispatch(jobBid(data))}
         onCancel={() => setModal({ open: false })}
       />
     </>

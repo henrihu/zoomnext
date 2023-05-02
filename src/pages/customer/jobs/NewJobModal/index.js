@@ -106,7 +106,7 @@ export default ({ data, open, onOk, onCancel }) => {
             const res = await onOk(values);
             if (res !== false) {
               onCancel();
-              router.push(`/customer/jobs/${res.job.jobSlug}`);
+              router.push(`/customer/jobs`);
             }
           },
         });

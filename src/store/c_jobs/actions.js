@@ -7,63 +7,71 @@ export const SET_DATA = '[CUSTOMER JOBS] SET DATA]';
 export const SET_LOADING = '[CUSTOMER JOBS] SET LOADING';
 export const SET_FILTER = '[CUSTOMER JOBS] SET FILTER]';
 
+export const jobList = async (dispatch, getState) => {
+  const key = 'job_list';
+  try {
+    dispatch(setLoading(key, true));
+    const filter = getState().c_jobs.job_list_filter;
+    const {
+      data: {
+        message,
+        result: { getMyJob, hasMore },
+        status,
+      },
+    } = await API.getMyJobList(filter);
+    if (status !== 1) {
+      showError(message);
+      dispatch(setLoading(key, false));
+      return;
+    }
+    const data = {
+      hasMore: hasMore,
+      data: getMyJob,
+    };
+    dispatch(setData(key, data));
+  } catch (err) {
+    console.error(err);
+  }
+  dispatch(setLoading(key, false));
+};
+
 export const getMyJobList = () => {
   return async (dispatch, getState) => {
-    const key = 'job_list';
-    try {
-      dispatch(setLoading(key, true));
-      const filter = getState().c_jobs.job_list_filter;
-      const {
-        data: {
-          message,
-          result: { getMyJob, hasMore },
-          status,
-        },
-      } = await API.getMyJobList(filter);
-      if (status !== 1) {
-        showError(message);
-        dispatch(setLoading(key, false));
-        return;
-      }
-      const data = {
-        hasMore: hasMore,
-        data: getMyJob,
-      };
-      dispatch(setData(key, data));
-    } catch (err) {
-      console.error(err);
-    }
-    dispatch(setLoading(key, false));
+    await jobList(dispatch, getState);
   };
+};
+
+export const jobDetail = async (dispatch, params) => {
+  const key = 'job_detail';
+  try {
+    dispatch(setLoading(key, true));
+    const {
+      data: {
+        status,
+        message,
+        result: { job },
+      },
+    } = await API.getJobDetail(params);
+    if (status !== 1) {
+      showError(message);
+      dispatch(setLoading(key, false));
+      return;
+    }
+    dispatch(setData(key, job));
+  } catch (err) {
+    console.error(err);
+  }
+  dispatch(setLoading(key, false));
 };
 
 export const getJobDetail = (params) => {
   return async (dispatch) => {
-    const key = 'job_detail';
-    try {
-      dispatch(setLoading(key, true));
-      const {
-        data: {
-          status,
-          message,
-          result: { job },
-        },
-      } = await API.getJobDetail(params);
-      if (status !== 1) {
-        showError(message);
-        dispatch(setLoading(key, false));
-        return;
-      }
-      dispatch(setData(key, job));
-    } catch (err) {
-      console.error(err);
-    }
-    dispatch(setLoading(key, false));
+    await jobDetail(dispatch, params);
   };
 };
 
 export const createJob = (params) => {
-  return async (dispatch) => {
+  return async (dispatch, getState) => {
     const key = 'create_job';
     try {
       dispatch(setLoading(key, true));
@@ -74,7 +82,8 @@ export const createJob = (params) => {
         return false;
       }
       showSuccess(data.message);
-      return data.result;
+      await jobList(dispatch, getState);
+      return true;
     } catch (err) {
       console.error(err);
       dispatch(setLoading(key, false));
@@ -84,7 +93,7 @@ export const createJob = (params) => {
 };
 
 export const cancelJob = (param) => {
-  return async (dispatch) => {
+  return async (dispatch, getState) => {
     const key = 'cancel_job';
     try {
       dispatch(setLoading(key, true));
@@ -97,6 +106,7 @@ export const cancelJob = (param) => {
         return false;
       }
       showSuccess(message);
+      jobList(dispatch, getState);
       return true;
     } catch (err) {
       console.error(err);
@@ -105,7 +115,7 @@ export const cancelJob = (param) => {
   };
 };
 
-export const approveBid = (params) => {
+export const approveBid = (params, jobSlug) => {
   return async (dispatch) => {
     const key = 'approve_bid';
     try {
@@ -117,6 +127,7 @@ export const approveBid = (params) => {
         return false;
       }
       showSuccess(data.message);
+      jobDetail({ jobSlug });
       return data.result;
     } catch (err) {
       console.error(err);
@@ -126,7 +137,7 @@ export const approveBid = (params) => {
   };
 };
 
-export const customerCompleteJob = (params) => {
+export const customerCompleteJob = (params, jobSlug) => {
   return async (dispatch) => {
     const key = 'customer_complete_job';
     try {
@@ -138,6 +149,7 @@ export const customerCompleteJob = (params) => {
         return false;
       }
       showSuccess(data.message);
+      jobDetail({ jobSlug });
       return data.result;
     } catch (err) {
       console.error(err);
@@ -147,7 +159,7 @@ export const customerCompleteJob = (params) => {
   };
 };
 
-export const createJobMilestones = (params) => {
+export const createJobMilestones = (params, jobSlug) => {
   return async (dispatch) => {
     const key = 'create_job_milestones';
     try {
@@ -159,6 +171,7 @@ export const createJobMilestones = (params) => {
         return false;
       }
       showSuccess(data.message);
+      jobDetail({ jobSlug });
       return data.result;
     } catch (err) {
       console.error(err);
