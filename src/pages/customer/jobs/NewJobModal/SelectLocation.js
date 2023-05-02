@@ -7,6 +7,9 @@ import SearchLocation from '@/components/SearchLocation';
 export default ({ name = 'Location', value, onChange }) => {
   const [location, setLocation] = useState({});
   const [apt, setApt] = useState('');
+
+  const handleChange = () => {};
+
   return (
     <Card
       size="small"
@@ -21,14 +24,22 @@ export default ({ name = 'Location', value, onChange }) => {
           className="mr-2"
           shape="circle"
         />
-        <Space.Compact block>
-          <SearchLocation value={value} onChange={onChange} />
-          <Input style={{ width: 70 }} placeholder="Apt.#" />
-        </Space.Compact>
-        {/* <div className="flex flex-col">
-          <span>{name}</span>
-          <small>{value && value.address}</small>
-        </div> */}
+
+        <div className="flex justify-between w-full gap-1">
+          <div className="flex flex-col flex-1 gap-1">
+            <span>{name}</span>
+            <SearchLocation
+              value={value}
+              onChange={(location) => onChange({ ...value, location })}
+            />
+            {/* <small>{value && value.address}</small> */}
+          </div>
+          <Input
+            style={{ width: 70 }}
+            placeholder="Apt.#"
+            onChange={(e) => onChange({ ...value, apt: e.target.value })}
+          />
+        </div>
       </div>
     </Card>
   );
