@@ -6,7 +6,7 @@ import { useThemeToken } from 'src/utils/common';
 
 const AuthLayout = ({ children }) => {
   const router = useRouter();
-  const { authenticated } = useAuth();
+  const { authenticated, type } = useAuth();
 
   useEffect(() => {
     if (authenticated) {

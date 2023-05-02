@@ -51,6 +51,12 @@ export const BUDGET_OPTION_LIST = {
 // Address Option List
 export const ADDRESS_OPTION_PICKUP = 'pickUp';
 export const ADDRESS_OPTION_DROPOFF = 'dropOff';
+export const ADDRESS_OPTION_NORMAL = 'normal';
+export const ADDRESS_OPTION_LIST = {
+  [ADDRESS_OPTION_PICKUP]: 'Pick Up',
+  [ADDRESS_OPTION_DROPOFF]: 'Drop Off',
+  [ADDRESS_OPTION_NORMAL]: '',
+};
 
 // Post Option List
 export const POST_OPTION_FIRST_HELPER = 'first';

@@ -5,8 +5,12 @@ import PlacesAutocomplete, {
   geocodeByPlaceId,
 } from 'react-places-autocomplete';
 
-export default ({ value, onChange, ...props }) => {
+export default ({ value, onChange, prefix = null, ...props }) => {
   const [search, setSearch] = useState('');
+
+  const getKey = (key) => {
+    return prefix ? `${prefix}${key[0].toUpperCase()}${key.slice(1)}` : key;
+  };
 
   useEffect(() => {
     if (value && typeof value == 'string') {
@@ -21,18 +25,18 @@ export default ({ value, onChange, ...props }) => {
       place.address_components.find((c) => c.types.includes('postal_code')) ||
       '';
     await onChange({
-      zipcode,
-      latitude,
-      longitude,
-      address: place.formatted_address,
-      country:
+      [getKey('zipcode')]: zipcode,
+      [getKey('latitude')]: latitude,
+      [getKey('longitude')]: longitude,
+      [getKey('address')]: place.formatted_address,
+      [getKey('country')]:
         place.address_components.length > 0 &&
         place.address_components[0].long_name,
-      state:
+      [getKey('state')]:
         place.address_components.length > 1
           ? place.address_components[1].long_name
           : '',
-      city:
+      [getKey('city')]:
         place.address_components.length > 2
           ? place.address_components[2].long_name
           : '',
@@ -50,6 +54,7 @@ export default ({ value, onChange, ...props }) => {
         return (
           <Select
             {...props}
+            searchValue={search}
             showSearch
             loading={loading}
             onSearch={(v) => getInputProps().onChange({ target: { value: v } })}
@@ -61,6 +66,7 @@ export default ({ value, onChange, ...props }) => {
                 getSuggestionItemProps(selected).onClick();
               }
             }}
+            onBlur={() => setSearch(value)}
             options={
               suggestions &&
               suggestions.length > 0 &&
