@@ -31,8 +31,6 @@ export default () => {
       data.bids.find((item) => item.providerId === userDetail.id),
     [data]
   );
-  console.log('myBid', myBid);
-  console.log('bids', data.bids);
 
   useEffect(() => {
     if (jobSlug) {
@@ -85,7 +83,7 @@ export default () => {
       </Row>
       <BidModal
         {...modal}
-        onOk={(data) => dispatch(jobBid(data))}
+        onOk={(data) => dispatch(jobBid(data, jobSlug))}
         onCancel={() => setModal({ open: false })}
       />
     </>

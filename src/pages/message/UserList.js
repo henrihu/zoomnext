@@ -35,7 +35,10 @@ export default ({ data, loading, chatLoading, selected, setSelected }) => {
             onClick={() => setSelected(item)}
             className={[
               'user-item',
-              selected && selected.id === item.id && 'user-item-selected',
+              selected &&
+                selected.userId === item.userId &&
+                selected.jobId === item.jobId &&
+                'user-item-selected',
             ]}
           >
             <div className="flex items-center p-2">

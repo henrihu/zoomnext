@@ -1,4 +1,10 @@
-import { INIT_STORE, SET_DATA, SET_LOADING, SET_PENDING } from './actions';
+import {
+  INIT_STORE,
+  SET_DATA,
+  SET_LOADING,
+  SET_PENDING,
+  SET_MESSENGER,
+} from './actions';
 
 const initialState = {
   service_list: { data: [], loading: false },
@@ -9,11 +15,17 @@ const initialState = {
   },
   converstations: { data: [], loading: false },
   chats: { data: [], loading: false },
+  messenger: null,
   pending: {},
 };
 
 export default (state = initialState, action) => {
   switch (action.type) {
+    case SET_MESSENGER:
+      return {
+        ...state,
+        messenger: action.data,
+      };
     case SET_DATA:
       return {
         ...state,

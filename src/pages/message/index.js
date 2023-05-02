@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from 'react-redux';
 
 // Components
 import Meta from '@/components/Meta/index';
-import { Card, Row, Col, Spin, Space, Button } from 'antd';
+import { Row, Col, Spin } from 'antd';
 import UserList from './UserList';
 import MessageList from './MessageList';
 
@@ -12,13 +12,15 @@ import {
   getChats,
   getConversations,
   initStore,
+  setMessenger,
 } from 'src/store/common/actions';
 import { setData as setAuthData } from 'src/store/auth/actions';
 
 export default () => {
   const dispatch = useDispatch();
-  const { converstations, chats } = useSelector(({ common }) => common);
-  const [selected, setSelected] = useState();
+  const { converstations, chats, messenger } = useSelector(
+    ({ common }) => common
+  );
   const [label, setLabel] = useState('Messages');
 
   useEffect(() => {
@@ -33,19 +35,19 @@ export default () => {
 
   useEffect(() => {
     let id;
-    if (selected && selected.id) {
+    if (messenger) {
       id = setInterval(() => {
-        if (selected && selected.id) {
-          dispatch(getChats(selected, false));
+        if (messenger) {
+          dispatch(getChats(messenger, false));
         }
       }, 10000);
-      dispatch(getChats(selected));
-      setLabel(selected.firstName);
+      dispatch(getChats(messenger));
+      setLabel(messenger.firstName);
     }
     return () => {
       clearInterval(id);
     };
-  }, [selected]);
+  }, [messenger]);
 
   return (
     <>
@@ -61,15 +63,15 @@ export default () => {
               data={converstations.data}
               chatLoading={chats.loading}
               loading={converstations.loading}
-              selected={selected}
-              setSelected={setSelected}
+              selected={messenger}
+              setSelected={(param) => dispatch(setMessenger(param))}
             />
           </Col>
           <Col xs={24} sm={24} md={16}>
             <MessageList
               data={chats.data}
               loading={chats.loading}
-              selected={selected}
+              selected={messenger}
             />
           </Col>
         </Row>

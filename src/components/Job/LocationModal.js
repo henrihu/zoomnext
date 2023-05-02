@@ -1,15 +1,26 @@
 import { Modal, Divider } from 'antd';
 import { useRouter } from 'next/router';
 import GoogleMap from '@/components/GoogleMap';
+import { useDispatch } from 'react-redux';
+import { setMessenger } from 'src/store/common/actions';
 
-export default ({ open, onOk, onCancel, data }) => {
+export default ({ open, onCancel, data }) => {
   const router = useRouter();
+  const dispatch = useDispatch();
   const modal_props = {
     title: 'My Assigned Jobs',
     open,
     okText: 'Send Message',
     cancelButtonProps: { style: { display: 'none' } },
     onOk: () => {
+      dispatch(
+        setMessenger({
+          firstName: data.firstName,
+          lastName: data.lastName,
+          jobId: data.id,
+          userId: data.userId,
+        })
+      );
       router.push('/message');
     },
     onCancel,
