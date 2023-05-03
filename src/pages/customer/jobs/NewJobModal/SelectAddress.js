@@ -33,7 +33,6 @@ export default ({ type }) => {
       </Space.Compact>
 
       <Form.Item
-        // label="Select Location"
         name={`${type}Location`}
         rules={[
           {
@@ -42,7 +41,7 @@ export default ({ type }) => {
           },
         ]}
       >
-        <SelectLocation name={showLabel + ' Address'} />
+        <SelectLocation name={showLabel + ' Address'} prefix={type} />
       </Form.Item>
     </>
   );

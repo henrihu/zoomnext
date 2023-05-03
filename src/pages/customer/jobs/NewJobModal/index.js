@@ -43,12 +43,6 @@ export default ({ data, open, onOk, onCancel }) => {
       onOk: () => {
         form.validateFields().then((values) => {
           const param = form.getFieldValue();
-          const cleaning = {
-            numberOfBedRooms: param.beds.count,
-            numberOfBathrooms: param.baths.count,
-            isMyOwnSupplier: param.supply === CLEANING_OPTION_HAVE ? 1 : 0,
-            isBringYourSupplier: param.supply === CLEANING_OPTION_BRING ? 1 : 0,
-          };
           let res = {
             ...data,
             ...param.location,
@@ -59,6 +53,13 @@ export default ({ data, open, onOk, onCancel }) => {
             noOfHours: param.budget === BUDGET_OPTION_HOURLY ? param.hour : 0,
           };
           if (categoryType === CATEGORY_TYPE_CLEANING) {
+            const cleaning = {
+              numberOfBedRooms: param.beds.count,
+              numberOfBathrooms: param.baths.count,
+              isMyOwnSupplier: param.supply === CLEANING_OPTION_HAVE ? 1 : 0,
+              isBringYourSupplier:
+                param.supply === CLEANING_OPTION_BRING ? 1 : 0,
+            };
             res = { ...res, ...cleaning };
           }
           if (categoryType === CATEGORY_TYPE_DELIVERY) {
@@ -66,27 +67,20 @@ export default ({ data, open, onOk, onCancel }) => {
               param.pickUpDate,
               param.pickUpTime
             );
+            res = { ...res, ...param.pickUpLocation };
+            res.pickUpaddress = res.pickUpAddress;
+
+            //In case of delivery, job date and location is set by pickUp...
             res.jobDateAndTime = res.pickUpDateAndTime;
-            res.pickUpaddress = param.pickUpLocation.address;
-            Object.keys(param.pickUpLocation).map(
-              (item, ind) =>
-                (res['pickUp' + item[0].toUpperCase() + item.slice(1)] =
-                  param.pickUpLocation[item])
-            );
 
             res.dropOffDateAndTime = MergeDateTime(
               param.dropOffDate,
               param.dropOffTime
             );
-            Object.keys(param.dropOffLocation).map(
-              (item, ind) =>
-                (res['dropOff' + item[0].toUpperCase() + item.slice(1)] =
-                  param.dropOffLocation[item])
-            );
+            res = { ...res, ...param.dropOffLocation };
           } else {
             res.jobDateAndTime = MergeDateTime(param.date, param.time);
           }
-          console.log('res', res);
           setValues(res);
           setStep(1);
         });

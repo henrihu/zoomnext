@@ -15,6 +15,12 @@ export default ({
   const router = useRouter();
   const { authenticated } = useAuth();
 
+  useEffect(() => {
+    if (authenticated) {
+      router.push('/services');
+    }
+  }, []);
+
   return (
     <Layout>
       <Meta title={title} description={description} />

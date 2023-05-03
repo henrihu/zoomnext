@@ -51,6 +51,7 @@ export default wrapper.withRedux(({ Component, pageProps }) => {
       <script
         src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false&libraries=places&key=AIzaSyDENhFGFVKG1zYscVGqQ-SEU0bg3v36y-c"
         async={true}
+        defer={true}
       />
       <Authorization>
         {progress && <TopBarProgress />}

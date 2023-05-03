@@ -27,10 +27,7 @@ const renderItem = (item) => (
   </Row>
 );
 
-export default ({
-  data: { id, status, type, jobStatusHistory = [] },
-  completeJob,
-}) => {
+export default ({ data, completeJob }) => {
   const [reviewModal, setReviewModal] = useState({ open: false });
   const [locationModal, setLocationModal] = useState({ open: false });
   const router = useRouter();
@@ -41,20 +38,22 @@ export default ({
         <h1>Status</h1>
       </Col>
       <Col span={24}>
-        <Timeline
-          mode="left"
-          items={[
-            ...jobStatusHistory.map((item) => {
-              return { children: renderItem(item) };
-            }),
-            {
-              color: 'gray',
-              children: <h3 className="text-gray">Finish</h3>,
-            },
-          ]}
-        />
+        {data && data.jobStatusHistory && (
+          <Timeline
+            mode="left"
+            items={[
+              ...data.jobStatusHistory.map((item) => {
+                return { children: renderItem(item) };
+              }),
+              {
+                color: 'gray',
+                children: <h3 className="text-gray">Finish</h3>,
+              },
+            ]}
+          />
+        )}
       </Col>
-      {status !== JOB_STATUS_COMPLETE && (
+      {data && data.status !== JOB_STATUS_COMPLETE && (
         <>
           <Col span={24}>
             <Button
@@ -62,11 +61,11 @@ export default ({
               size="large"
               shape="round"
               className="mr-4"
-              onClick={() => setReviewModal({ open: true, id: id })}
+              onClick={() => setReviewModal({ open: true, id: data.id })}
             >
               Complete Job
             </Button>
-            {type === CATEGORY_TYPE_DELIVERY && (
+            {data.type === CATEGORY_TYPE_DELIVERY && (
               <Button
                 type="primary"
                 size="large"
@@ -84,6 +83,7 @@ export default ({
           />
           <LocationModal
             onCancel={() => setLocationModal({ open: false })}
+            data={data}
             {...locationModal}
           />
         </>

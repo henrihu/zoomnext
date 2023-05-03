@@ -6,7 +6,7 @@ import { Card, Row, Col, Tag } from 'antd';
 import { CalendarOutlined, EnvironmentOutlined } from '@ant-design/icons';
 
 // Constants
-import { JOB_STATUS } from 'src/utils/constants';
+import { CATEGORY_TYPE_DELIVERY, JOB_STATUS } from 'src/utils/constants';
 
 export default ({ data, loading }) => {
   const router = useRouter();
@@ -47,7 +47,11 @@ export default ({ data, loading }) => {
           <h3>
             <EnvironmentOutlined className="mr-2" />
           </h3>
-          <h3>{data && data.address}</h3>
+          <h3>
+            {data && data.type === CATEGORY_TYPE_DELIVERY
+              ? data.pickUpaddress
+              : data.address}
+          </h3>
         </Col>
       </Row>
     </Card>

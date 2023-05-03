@@ -55,15 +55,7 @@ export default () => {
     if (type === TYPE_HELPER && info.workAddress) {
       info = {
         ...info,
-        ...Object.keys(values.workAddress).reduce(
-          (res, key) => ({
-            ...res,
-            [`work${key[0].toUpperCase()}${key.slice(1)}`]: values.workAddress[
-              key
-            ],
-          }),
-          {}
-        ),
+        ...info.workAddress,
       };
     }
     dispatch(updateProfile(info));
@@ -188,7 +180,11 @@ export default () => {
                         },
                       ]}
                     >
-                      <SearchLocation size="large" placeholder="Location" />
+                      <SearchLocation
+                        size="large"
+                        placeholder="Location"
+                        prefix="work"
+                      />
                     </Form.Item>
                   )}
                   {type === TYPE_CUSTOMER && (
