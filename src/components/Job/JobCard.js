@@ -1,7 +1,7 @@
 import moment from 'moment';
 
 // Components
-import { Card, Divider, Row, Col, Tag, Button, Space } from 'antd';
+import { Card, Divider, Row, Col, Tag, Button, Space, Modal } from 'antd';
 import { DoubleRightOutlined, CloseOutlined } from '@ant-design/icons';
 
 // Constants
@@ -118,7 +118,14 @@ export default ({ data, type, onDetail, onCancel, parent }) => {
                       size="small"
                       danger
                       icon={<CloseOutlined />}
-                      onClick={() => onCancel({ jobId: data.id })}
+                      onClick={() => {
+                        Modal.confirm({
+                          content: 'Are you sure you want to continue?',
+                          okText: 'Yes',
+                          cancelText: 'No',
+                          onOk: () => onCancel({ jobId: data.id }),
+                        });
+                      }}
                     >
                       {type === TYPE_CUSTOMER ? 'Close' : 'Cancel'}
                     </Button>

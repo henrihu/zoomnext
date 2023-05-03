@@ -41,32 +41,28 @@ export const getMyJobList = () => {
   };
 };
 
-export const jobDetail = async (dispatch, params) => {
-  const key = 'job_detail';
-  try {
-    dispatch(setLoading(key, true));
-    const {
-      data: {
-        status,
-        message,
-        result: { job },
-      },
-    } = await API.getJobDetail(params);
-    if (status !== 1) {
-      showError(message);
-      dispatch(setLoading(key, false));
-      return;
-    }
-    dispatch(setData(key, job));
-  } catch (err) {
-    console.error(err);
-  }
-  dispatch(setLoading(key, false));
-};
-
 export const getJobDetail = (params) => {
   return async (dispatch) => {
-    await jobDetail(dispatch, params);
+    const key = 'job_detail';
+    try {
+      dispatch(setLoading(key, true));
+      const {
+        data: {
+          status,
+          message,
+          result: { job },
+        },
+      } = await API.getJobDetail(params);
+      if (status !== 1) {
+        showError(message);
+        dispatch(setLoading(key, false));
+        return;
+      }
+      dispatch(setData(key, job));
+    } catch (err) {
+      console.error(err);
+    }
+    dispatch(setLoading(key, false));
   };
 };
 
@@ -127,7 +123,7 @@ export const approveBid = (params, jobSlug) => {
         return false;
       }
       showSuccess(data.message);
-      jobDetail({ jobSlug });
+      dispatch(getJobDetail({ jobSlug }));
       return data.result;
     } catch (err) {
       console.error(err);
@@ -149,7 +145,7 @@ export const customerCompleteJob = (params, jobSlug) => {
         return false;
       }
       showSuccess(data.message);
-      jobDetail({ jobSlug });
+      dispatch(getJobDetail({ jobSlug }));
       return data.result;
     } catch (err) {
       console.error(err);
@@ -171,7 +167,7 @@ export const createJobMilestones = (params, jobSlug) => {
         return false;
       }
       showSuccess(data.message);
-      jobDetail({ jobSlug });
+      dispatch(getJobDetail({ jobSlug }));
       return data.result;
     } catch (err) {
       console.error(err);

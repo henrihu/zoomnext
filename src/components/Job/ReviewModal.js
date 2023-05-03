@@ -23,6 +23,7 @@ const helper = {
 };
 
 export default ({ open, id, onOk, onCancel }) => {
+  const [pending, setPending] = useState(false);
   const [rating, setRating] = useState(1);
   const [review, setReview] = useState();
   const [hasTip, setHasTip] = useState(true);
@@ -33,6 +34,7 @@ export default ({ open, id, onOk, onCancel }) => {
     okText: 'Submit',
     cancelButtonProps: { style: { display: 'none' } },
     onOk: async () => {
+      setPending(true);
       const isSuccess = await onOk({
         id,
         providerRating: rating,
@@ -43,7 +45,9 @@ export default ({ open, id, onOk, onCancel }) => {
       if (isSuccess) {
         onCancel();
       }
+      setPending(false);
     },
+    confirmLoading: pending,
     onCancel,
   };
   return (

@@ -25,7 +25,6 @@ export default () => {
   const dispatch = useDispatch();
   const router = useRouter();
   const jobSlug = router.query.jobSlug;
-  const [isReload, setIsReload] = useState(true);
   const { type } = useAuth();
   const {
     job_detail: { data, loading },
@@ -35,7 +34,7 @@ export default () => {
     if (jobSlug) {
       dispatch(getJobDetail({ jobSlug }));
     }
-  }, [jobSlug, isReload]);
+  }, [jobSlug]);
 
   return (
     <>
@@ -63,10 +62,9 @@ export default () => {
                 data={data.jobMilestones}
                 type={type}
                 status={data.status}
-                onCreate={(params) => {
-                  dispatch(createJobMilestones(params, jobSlug));
-                  setIsReload(!isReload);
-                }}
+                onCreate={(params) =>
+                  dispatch(createJobMilestones(params, jobSlug))
+                }
               />
             )}
           </Col>
@@ -75,18 +73,14 @@ export default () => {
               <BidList
                 data={data.bids}
                 router={router}
-                approveBid={(data) => {
-                  dispatch(approveBid(data, jobSlug));
-                  setIsReload(!isReload);
-                }}
+                approveBid={(data) => dispatch(approveBid(data, jobSlug))}
               />
             ) : (
               <StatusList
                 data={data}
-                completeJob={(data) => {
-                  dispatch(customerCompleteJob(data, jobSlug));
-                  setIsReload(!isReload);
-                }}
+                completeJob={(data) =>
+                  dispatch(customerCompleteJob(data, jobSlug))
+                }
               />
             )}
           </Col>

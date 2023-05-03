@@ -9,6 +9,7 @@ import {
 } from 'src/utils/constants';
 
 export default ({ jobId, open, onOk, onCancel }) => {
+  const [pending, setPending] = useState(false);
   const [description, setDescription] = useState('');
   const [budget, setBudget] = useState(BUDGET_OPTION_TOTAL_JOB);
   const [price, setPrice] = useState();
@@ -19,6 +20,7 @@ export default ({ jobId, open, onOk, onCancel }) => {
     okText: 'Done',
     cancelButtonProps: { style: { display: 'none' } },
     onOk: async () => {
+      setPending(true);
       const isSuccess = await onOk({
         jobId,
         description,
@@ -29,7 +31,9 @@ export default ({ jobId, open, onOk, onCancel }) => {
       if (isSuccess) {
         onCancel();
       }
+      setPending(false);
     },
+    confirmLoading: pending,
     onCancel,
   };
   return (
