@@ -112,11 +112,9 @@ export const signInWithToken = (router) => {
       }
       dispatch(setPageLoading(true));
       await setAuthorization(getStorageItem('access_token'));
-      console.log('signINwithOtk');
       const {
         data: { status, result, message },
       } = await API.getUserDetail();
-      console.log('signINwithOtk');
       if (status === 1) {
         await dispatch({
           type: SET_DATA,

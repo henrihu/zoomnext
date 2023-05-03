@@ -1,22 +1,33 @@
 import React from 'react';
-import GoogleMapReact, { marker } from 'google-map-react';
+import GoogleMapReact from 'google-map-react';
+import { EnvironmentFilled } from '@ant-design/icons';
 import { Tag } from 'antd';
 import { useThemeToken } from 'src/utils/common';
+import { mt } from 'date-fns/locale';
 
-const AnyReactComponent = ({ text }) => {
+const Marker = ({ text }) => {
   const token = useThemeToken();
   return (
-    <div>
-      <Tag
-        color="red"
-        className="rounded-lg font-bold text-lg"
-        style={{
-          backgroundColor: token.colorBgContainer,
-          color: token.colorPrimary,
-        }}
-      >
-        {text}
-      </Tag>
+    <div
+      style={{ width: 200, left: -100 }}
+      className="flex justify-center absolute bottom-0"
+    >
+      <div className="flex flex-col items-center gap-1">
+        <Tag
+          color="red"
+          className="rounded-lg font-bold"
+          style={{
+            backgroundColor: token.colorBgContainer,
+            color: token.colorPrimary,
+          }}
+        >
+          {text}
+        </Tag>
+        <EnvironmentFilled
+          className="font-bold"
+          style={{ color: token.colorPrimary }}
+        />
+      </div>
     </div>
   );
 };
@@ -53,8 +64,6 @@ export default ({
     }
   };
 
-  console.log('makres', markers);
-
   return (
     <GoogleMapReact
       bootstrapURLKeys={{ key: 'AIzaSyDENhFGFVKG1zYscVGqQ-SEU0bg3v36y-c' }}
@@ -65,7 +74,7 @@ export default ({
     >
       {markers &&
         markers.length > 0 &&
-        markers.map((m, index) => <AnyReactComponent {...m} key={index} />)}
+        markers.map((m, index) => <Marker {...m} key={index} />)}
     </GoogleMapReact>
   );
 };

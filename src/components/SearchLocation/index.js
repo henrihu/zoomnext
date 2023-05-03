@@ -66,7 +66,11 @@ export default ({ value, onChange, prefix = null, ...props }) => {
                 getSuggestionItemProps(selected).onClick();
               }
             }}
-            onBlur={() => setSearch(value)}
+            onBlur={() => {
+              if (typeof value === 'string') {
+                setSearch(value);
+              }
+            }}
             options={
               suggestions &&
               suggestions.length > 0 &&
