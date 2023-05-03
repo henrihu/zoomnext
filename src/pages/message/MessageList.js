@@ -86,7 +86,12 @@ export default ({ data, loading, selected }) => {
   return (
     <Card
       title={
-        <h2>{selected && `${selected.firstName} ${selected.lastName}`}</h2>
+        <h2>
+          {selected &&
+            (selected.fullName
+              ? selected.fullName
+              : `${selected.firstName} ${selected.lastName}`)}
+        </h2>
       }
       bodyStyle={{ padding: 0 }}
     >

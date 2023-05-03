@@ -5,8 +5,11 @@ import {
   APPROVE_MODE_REJECT,
   COLOR_CUSTOMER,
 } from 'src/utils/constants';
+import { setMessenger } from 'src/store/common/actions';
+import { useDispatch } from 'react-redux';
 
 export default ({ data, approveBid, router }) => {
+  const dispatch = useDispatch();
   return (
     <Row gutter={[16, 16]}>
       <Col span={24}>
@@ -53,7 +56,7 @@ export default ({ data, approveBid, router }) => {
                 }
                 description={item.comment}
               />
-              <Space justify className="w-full justify-end">
+              <Space className="w-full justify-end">
                 <Button
                   shape="round"
                   type="primary"
@@ -82,8 +85,18 @@ export default ({ data, approveBid, router }) => {
                 </Button>
                 <Button
                   size="small"
+                  type="icon"
                   icon={<MessageOutlined />}
-                  onClick={() => router.push('/message')}
+                  onClick={() => {
+                    dispatch(
+                      setMessenger({
+                        fullName: item.bidpvfullName,
+                        jobId: item.jobId,
+                        userId: item.providerId,
+                      })
+                    );
+                    router.push('/message');
+                  }}
                 />
               </Space>
             </List.Item>
