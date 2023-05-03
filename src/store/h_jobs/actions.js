@@ -78,6 +78,29 @@ export const getHelperCategories = () => {
   };
 };
 
+export const cancelJob = (param) => {
+  return async (dispatch) => {
+    const key = 'cancel_job';
+    try {
+      dispatch(setLoading(key, true));
+      const {
+        data: { status, message },
+      } = await API.cancelJob({ ...param, type: TYPE_HELPER });
+      dispatch(setLoading(key, false));
+      if (status !== 1) {
+        showError(message);
+        return false;
+      }
+      showSuccess(message);
+      dispatch(getJobList());
+      return true;
+    } catch (err) {
+      console.error(err);
+      return false;
+    }
+  };
+};
+
 export const getJobDetail = (params) => {
   return async (dispatch) => {
     const key = 'job_detail';
@@ -103,7 +126,7 @@ export const getJobDetail = (params) => {
   };
 };
 
-export const jobBid = (param) => {
+export const jobBid = (param, jobSlug) => {
   return async (dispatch) => {
     const key = 'send_bid';
     try {
@@ -117,6 +140,7 @@ export const jobBid = (param) => {
         return false;
       }
       showSuccess(message);
+      dispatch(getJobDetail({ jobSlug }));
       return true;
     } catch (err) {
       console.error(err);
@@ -125,29 +149,7 @@ export const jobBid = (param) => {
   };
 };
 
-export const cancelJob = (param) => {
-  return async (dispatch) => {
-    const key = 'cancel_job';
-    try {
-      dispatch(setLoading(key, true));
-      const {
-        data: { status, message },
-      } = await API.cancelJob({ ...param, type: TYPE_HELPER });
-      dispatch(setLoading(key, false));
-      if (status !== 1) {
-        showError(message);
-        return false;
-      }
-      showSuccess(message);
-      return true;
-    } catch (err) {
-      console.error(err);
-      return false;
-    }
-  };
-};
-
-export const startJobPickUp = (param) => {
+export const startJobPickUp = (param, jobSlug) => {
   return async (dispatch) => {
     const key = 'start_job_pick_up';
     try {
@@ -161,6 +163,7 @@ export const startJobPickUp = (param) => {
         return false;
       }
       showSuccess(message);
+      dispatch(getJobDetail({ jobSlug }));
       return true;
     } catch (err) {
       console.error(err);

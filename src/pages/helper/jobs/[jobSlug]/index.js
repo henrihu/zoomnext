@@ -21,6 +21,7 @@ import {
 import MoreWork from '@/components/Job/MoreWork';
 import { useAuth } from 'src/store/auth/actions';
 import LocationModal from '@/components/Job/LocationModal';
+import { setMessenger } from 'src/store/common/actions';
 
 export default () => {
   const dispatch = useDispatch();
@@ -63,13 +64,16 @@ export default () => {
           onClick={() => {
             console.log('start');
             dispatch(
-              startJobPickUp({
-                jobId: data.id,
-                currentProviderLatitude: 0,
-                currentProviderLongitude: 0,
-                isJobStart: data.isJobStart,
-                isAllowBackground: 1,
-              })
+              startJobPickUp(
+                {
+                  jobId: data.id,
+                  currentProviderLatitude: 0,
+                  currentProviderLongitude: 0,
+                  isJobStart: data.isJobStart,
+                  isAllowBackground: 1,
+                },
+                jobSlug
+              )
             );
           }}
         >
@@ -83,7 +87,15 @@ export default () => {
         size="large"
         shape="round"
         onClick={() => {
-          console.log('Send Message');
+          dispatch(
+            setMessenger({
+              firstName: data.firstName,
+              lastName: data.lastName,
+              jobId: data.id,
+              userId: data.userId,
+            })
+          );
+          router.push('/message');
         }}
       >
         Send Message
@@ -126,6 +138,7 @@ export default () => {
           </Row>
           <LocationModal
             {...modal}
+            data={data}
             onCancel={() => setModal({ open: false })}
           />
         </Col>

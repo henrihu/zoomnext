@@ -3,6 +3,7 @@ import { setData as setAuthData } from 'src/store/auth/actions';
 import { getTimeZone } from 'src/utils/common';
 import { showError, showSuccess } from 'src/utils/messages';
 
+export const SET_MESSENGER = '[COMMON] SET MESSENGER]';
 export const SET_DATA = '[COMMON] SET DATA]';
 export const SET_LOADING = '[COMMON] SET LOADING';
 export const SET_PENDING = '[COMMON] SET PENDING';
@@ -164,7 +165,7 @@ export const getConversations = () => {
   return async (dispatch) => {
     const key = 'converstations';
     try {
-      dispatch(setLoading(key, true));
+      // dispatch(setLoading(key, true));
       const { data } = await API.getConversations({ timeZone: getTimeZone() });
       if (data.status === 1) {
         dispatch(setData(key, data.result.conversations));
@@ -174,7 +175,7 @@ export const getConversations = () => {
     } catch (err) {
       console.error(err);
     }
-    dispatch(setLoading(key, false));
+    // dispatch(setLoading(key, false));
   };
 };
 
@@ -219,6 +220,7 @@ export const sendMessage = (info) => {
             data.result.lastMessage,
           ])
         );
+        dispatch(getConversations());
         return true;
       } else {
         showError(data.message);
@@ -302,6 +304,7 @@ export const changePassword = (info) => {
   };
 };
 
+export const setMessenger = (data) => ({ type: SET_MESSENGER, data });
 export const setData = (key, data) => ({ type: SET_DATA, key, data });
 export const setLoading = (key, loading) => ({
   type: SET_LOADING,
