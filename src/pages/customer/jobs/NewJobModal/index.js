@@ -35,11 +35,8 @@ export default ({ data, open, onOk, onCancel }) => {
     return calcBudget(values.budget, values.price, values.hour);
   }, [budget, price, hour, step]);
 
-  const STEP_ITEMS = {
+  const STEP_ACTIONS = {
     0: {
-      title: 'Job',
-      oktext: 'Next',
-      props: { form, budget, type: categoryType },
       onOk: () => {
         form.validateFields().then((values) => {
           const param = form.getFieldValue();
@@ -85,13 +82,8 @@ export default ({ data, open, onOk, onCancel }) => {
           setStep(1);
         });
       },
-      // rendercomponent: (props) => <JobStep {...props} />,
     },
     1: {
-      title: 'Review',
-      oktext: 'Post Job',
-      canceltext: 'Prev',
-      props: { data: values, type: categoryType },
       onOk: () => {
         Modal.confirm({
           content: 'Confirm your post?',
@@ -108,7 +100,20 @@ export default ({ data, open, onOk, onCancel }) => {
       onCancel: () => {
         setStep(0);
       },
-      // rendercomponent: (props) => <ReviewStep {...props} />,
+    },
+  };
+
+  const STEP_ITEMS = {
+    0: {
+      title: 'Job',
+      oktext: 'Next',
+      props: { form, budget, type: categoryType },
+    },
+    1: {
+      title: 'Review',
+      oktext: 'Post Job',
+      canceltext: 'Prev',
+      props: { data: values, type: categoryType },
     },
   };
 
@@ -134,7 +139,6 @@ export default ({ data, open, onOk, onCancel }) => {
         <Col span={24}>
           {step === 0 && <JobStep {...STEP_ITEMS[step].props} />}
           {step === 1 && <ReviewStep {...STEP_ITEMS[step].props} />}
-          {/* {STEP_ITEMS[step].rendercomponent(STEP_ITEMS[step].props)} */}
         </Col>
         <Col span={24}>
           <Divider style={{ margin: '4px 0px' }} />
@@ -153,11 +157,11 @@ export default ({ data, open, onOk, onCancel }) => {
         <Col span={24} className="flex justify-end">
           <Space>
             {STEP_ITEMS[step].canceltext && (
-              <Button onClick={STEP_ITEMS[step].onCancel}>
+              <Button onClick={STEP_ACTIONS[step].onCancel}>
                 {STEP_ITEMS[step].canceltext}
               </Button>
             )}
-            <Button type="primary" onClick={STEP_ITEMS[step].onOk}>
+            <Button type="primary" onClick={STEP_ACTIONS[step].onOk}>
               {STEP_ITEMS[step].oktext}
             </Button>
           </Space>

@@ -44,7 +44,7 @@ export default () => {
         label="My Job Details"
       />
       <Spin spinning={loading}>
-        <Row gutter={[16, 16]} loading={loading}>
+        <Row gutter={[30, 16]}>
           <Col span={24}>
             <Button
               type="link"
@@ -54,8 +54,8 @@ export default () => {
               Back to List
             </Button>
           </Col>
-          <Col sm={24} md={8} className="flex flex-col gap-2">
-            <DetailCard data={data} loading={loading} />
+          <Col sm={24} md={10} className="flex flex-col gap-2">
+            <DetailCard data={data} />
             {data.status !== JOB_STATUS_PENDING && (
               <MoreWork
                 jobId={data.id}
@@ -68,7 +68,7 @@ export default () => {
               />
             )}
           </Col>
-          <Col sm={24} md={16}>
+          <Col sm={24} md={14}>
             {data.status == JOB_STATUS_PENDING ? (
               <BidList
                 data={data.bids}
