@@ -163,20 +163,20 @@ export default () => {
               href: '/helper/job_categories',
             },
             {
+              key: 'paymenthistory',
+              label: 'Payout History',
+              icon: <ShopOutlined />,
+              href: '/payment_history',
+            },
+            {
               key: 'paymentmethod',
               label: 'Payment Method',
               icon: <ShopOutlined />,
               href: '/payment_method',
             },
             {
-              key: 'paymenthistory',
-              label: 'Payment History',
-              icon: <ShopOutlined />,
-              href: '/payment_history',
-            },
-            {
               key: 'paymentsettings',
-              label: 'Payment Settings',
+              label: 'Payout Settings',
               icon: <ShopOutlined />,
               href: '/helper/payment_settings',
             },
