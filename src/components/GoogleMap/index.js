@@ -3,7 +3,6 @@ import GoogleMapReact from 'google-map-react';
 import { EnvironmentFilled } from '@ant-design/icons';
 import { Tag } from 'antd';
 import { useThemeToken } from 'src/utils/common';
-import { mt } from 'date-fns/locale';
 
 const Marker = ({ text }) => {
   const token = useThemeToken();
@@ -17,7 +16,7 @@ const Marker = ({ text }) => {
           color="red"
           className="rounded-lg font-bold"
           style={{
-            backgroundColor: token.colorBgContainer,
+            backgroundColor: token.colorPrimaryBg,
             color: token.colorPrimary,
           }}
         >
@@ -42,11 +41,18 @@ export default ({
   destination,
   markers = [],
 }) => {
+  const token = useThemeToken();
   const apiIsLoaded = (map, maps) => {
     if (origin && destination) {
       const directionsService = new google.maps.DirectionsService();
       const directionsRenderer = new google.maps.DirectionsRenderer();
       directionsRenderer.setMap(map);
+      directionsRenderer.setOptions({
+        markerOptions: {
+          color: '#ffffff00',
+        },
+        polylineOptions: { strokeColor: token.colorPrimary, strokeWeight: 4 },
+      });
       directionsService.route(
         {
           origin: origin,

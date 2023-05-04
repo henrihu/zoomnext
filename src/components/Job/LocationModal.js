@@ -3,6 +3,7 @@ import { useRouter } from 'next/router';
 import GoogleMap from '@/components/GoogleMap';
 import { useDispatch } from 'react-redux';
 import { setMessenger } from 'src/store/common/actions';
+import { useMemo } from 'react';
 
 export default ({ open, onCancel, data }) => {
   const router = useRouter();
@@ -26,23 +27,34 @@ export default ({ open, onCancel, data }) => {
     onCancel,
     width: '100vw',
   };
+
+  const origin = useMemo(
+    () => ({
+      lat: data && Number(data.pickUpLatitude),
+      lng: data && Number(data.pickUpLongitude),
+      text: 'Pick Up',
+    }),
+    [data]
+  );
+
+  const destination = useMemo(
+    () => ({
+      lat: data && Number(data.dropOffLatitude),
+      lng: data && Number(data.dropOffLongitude),
+      text: 'Drop Off',
+    }),
+    [data]
+  );
+
   return (
     <Modal {...modal_props}>
       <Divider />
       <div style={{ width: '100%', height: '500px' }}>
         <GoogleMap
-          defaultCenter={{
-            lat: data && Number(data.pickUpLatitude),
-            lng: data && Number(data.pickUpLongitude),
-          }}
-          origin={{
-            lat: data && Number(data.pickUpLatitude),
-            lng: data && Number(data.pickUpLongitude),
-          }}
-          destination={{
-            lat: data && Number(data.dropOffLatitude),
-            lng: data && Number(data.dropOffLongitude),
-          }}
+          defaultCenter={origin}
+          origin={origin}
+          destination={destination}
+          // markers={[origin, destination]}
         />
       </div>
       <Divider className="my-2" />
