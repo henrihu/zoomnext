@@ -34,7 +34,7 @@ export default ({ data, loading }) => {
       headStyle={{ cursor: 'default' }}
     >
       <Row gutter={[8, 8]}>
-        <Col span={24} className="flex justify-center">
+        <Col span={24} className="flex justify-center disp-text">
           {data && data.description}
         </Col>
         <Col span={24} className="flex items-center">

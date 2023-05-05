@@ -4,7 +4,7 @@ import { useRouter } from 'next/router';
 
 // Components
 import Meta from '@/components/Meta/index';
-import { Row, Col, Button, Spin } from 'antd';
+import { Row, Col, Button, Spin, Card } from 'antd';
 import { ArrowLeftOutlined } from '@ant-design/icons';
 import DetailCard from 'src/components/Job/DetailCard';
 import BidList from 'src/components/Job/BidList';
@@ -20,6 +20,7 @@ import {
 } from 'src/store/c_jobs/actions';
 import { JOB_STATUS_PENDING } from 'src/utils/constants';
 import { useAuth } from 'src/store/auth/actions';
+import JobDetail from '@/components/Job/JobDetail';
 
 export default () => {
   const dispatch = useDispatch();
@@ -44,7 +45,7 @@ export default () => {
         label="My Job Details"
       />
       <Spin spinning={loading}>
-        <Row gutter={[30, 16]}>
+        <Row gutter={[16, 16]}>
           <Col span={24}>
             <Button
               type="link"
@@ -54,36 +55,43 @@ export default () => {
               Back to List
             </Button>
           </Col>
-          <Col sm={24} md={10} className="flex flex-col gap-2">
-            <DetailCard data={data} />
-            {data.status !== JOB_STATUS_PENDING && (
-              <MoreWork
-                jobId={data.id}
-                data={data.jobMilestones}
-                type={type}
-                status={data.status}
-                onCreate={(params) =>
-                  dispatch(createJobMilestones(params, jobSlug))
-                }
-              />
-            )}
+          <Col sm={24} md={data.status !== JOB_STATUS_PENDING ? 8 : 10}>
+            {/* <DetailCard data={data} /> */}
+            <Card hoverable>
+              <JobDetail data={data} type={type} />
+            </Card>
           </Col>
-          <Col sm={24} md={14}>
-            {data.status == JOB_STATUS_PENDING ? (
+          {data.status !== JOB_STATUS_PENDING ? (
+            <>
+              <Col sm={24} md={8}>
+                <StatusList
+                  data={data}
+                  completeJob={(data) =>
+                    dispatch(customerCompleteJob(data, jobSlug))
+                  }
+                />
+              </Col>
+              <Col sm={24} md={8}>
+                <MoreWork
+                  jobId={data.id}
+                  data={data.jobMilestones}
+                  type={type}
+                  status={data.status}
+                  onCreate={(params) =>
+                    dispatch(createJobMilestones(params, jobSlug))
+                  }
+                />
+              </Col>
+            </>
+          ) : (
+            <Col sm={24} md={14}>
               <BidList
                 data={data.bids}
                 router={router}
                 approveBid={(data) => dispatch(approveBid(data, jobSlug))}
               />
-            ) : (
-              <StatusList
-                data={data}
-                completeJob={(data) =>
-                  dispatch(customerCompleteJob(data, jobSlug))
-                }
-              />
-            )}
-          </Col>
+            </Col>
+          )}
         </Row>
       </Spin>
     </>

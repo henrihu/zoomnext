@@ -171,3 +171,7 @@ video {
   min-height: 100vh;
   gap: 16px;
 }
+
+.ant-timeline .ant-timeline-item-last {
+  padding-bottom: 0px;
+}

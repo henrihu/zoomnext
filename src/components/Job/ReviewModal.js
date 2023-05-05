@@ -15,14 +15,7 @@ import {
 import { StarFilled } from '@ant-design/icons';
 import { FEE_RATE } from 'src/utils/constants';
 
-const helper = {
-  avatar: '/images/service.png',
-  name: 'Robert Range',
-  rating: 4.8,
-  job_count: 9,
-};
-
-export default ({ open, id, onOk, onCancel }) => {
+export default ({ open, data = {}, onOk, onCancel }) => {
   const [pending, setPending] = useState(false);
   const [rating, setRating] = useState(1);
   const [review, setReview] = useState();
@@ -36,7 +29,7 @@ export default ({ open, id, onOk, onCancel }) => {
     onOk: async () => {
       setPending(true);
       const isSuccess = await onOk({
-        id,
+        id: data.id,
         providerRating: rating,
         ratingDesc: review,
         isTip: hasTip ? 1 : 0,
@@ -57,17 +50,18 @@ export default ({ open, id, onOk, onCancel }) => {
         <Col span={24} className="flex justify-center">
           <Row>
             <Col span={24} className="flex justify-center">
-              <Avatar src={helper.avatar} size={100} />
+              <Avatar src={data.pvavatarImage} size={100} />
             </Col>
             <Col span={24} className="flex justify-center">
-              <h2>{helper.name}</h2>
+              <h2>{data.pvfullName}</h2>
             </Col>
             <Col span={24} className="flex justify-center items-center">
               <span className="text-gray mr-4">User Ratings</span>
               <Tag>
                 <StarFilled style={{ color: '#FADB14' }} />
                 <span className="text-bold">
-                  <b>{helper.rating}</b> ({helper.job_count})
+                  <b>{data.providerRating}</b>
+                  {/* ({helper.job_count}) */}
                 </span>
               </Tag>
             </Col>

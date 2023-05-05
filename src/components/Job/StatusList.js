@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Timeline, Row, Col, Button } from 'antd';
+import { Timeline, Row, Col, Button, Card, Divider } from 'antd';
 import { ClockCircleOutlined, CalendarOutlined } from '@ant-design/icons';
 
 import ReviewModal from './ReviewModal';
@@ -33,61 +33,59 @@ export default ({ data, completeJob }) => {
   const router = useRouter();
 
   return (
-    <Row gutter={[16, 16]}>
-      <Col span={24}>
-        <h1>Status</h1>
-      </Col>
-      <Col span={24}>
-        {data && data.jobStatusHistory && (
-          <Timeline
-            mode="left"
-            items={[
-              ...data.jobStatusHistory.map((item) => {
-                return { children: renderItem(item) };
-              }),
-              {
-                color: 'gray',
-                children: <h3 className="text-gray">Finish</h3>,
-              },
-            ]}
-          />
-        )}
-      </Col>
-      {data && data.status !== JOB_STATUS_COMPLETE && (
-        <>
-          <Col span={24}>
-            <Button
-              type="primary"
-              size="large"
-              shape="round"
-              className="mr-4"
-              onClick={() => setReviewModal({ open: true, id: data.id })}
-            >
-              Complete Job
-            </Button>
-            {data.type === CATEGORY_TYPE_DELIVERY && (
+    <Card hoverable title={<h3>Status</h3>}>
+      <Row gutter={[16, 0]}>
+        <Col span={24}>
+          {data && data.jobStatusHistory && (
+            <Timeline
+              mode="left"
+              items={[
+                ...data.jobStatusHistory.map((item) => {
+                  return { children: renderItem(item) };
+                }),
+                data.status === JOB_STATUS_COMPLETE && {
+                  color: 'gray',
+                  children: <h3 className="text-gray">Finish</h3>,
+                },
+              ]}
+            />
+          )}
+        </Col>
+        {data && data.status !== JOB_STATUS_COMPLETE && (
+          <>
+            <Col span={24} className="flex justify-center">
               <Button
                 type="primary"
-                size="large"
                 shape="round"
-                onClick={() => setLocationModal({ open: true })}
+                className="mr-4 mb-2"
+                onClick={() => setReviewModal({ open: true, data })}
               >
-                Location on Map
+                Complete Job
               </Button>
-            )}
-          </Col>
-          <ReviewModal
-            {...reviewModal}
-            onOk={completeJob}
-            onCancel={() => setReviewModal({ open: false })}
-          />
-          <LocationModal
-            onCancel={() => setLocationModal({ open: false })}
-            data={data}
-            {...locationModal}
-          />
-        </>
-      )}
-    </Row>
+              {data.type === CATEGORY_TYPE_DELIVERY && (
+                <Button
+                  type="primary"
+                  shape="round"
+                  className="mb-2"
+                  onClick={() => setLocationModal({ open: true })}
+                >
+                  Location on Map
+                </Button>
+              )}
+            </Col>
+          </>
+        )}
+      </Row>
+      <ReviewModal
+        {...reviewModal}
+        onOk={completeJob}
+        onCancel={() => setReviewModal({ open: false })}
+      />
+      <LocationModal
+        onCancel={() => setLocationModal({ open: false })}
+        data={data}
+        {...locationModal}
+      />
+    </Card>
   );
 };

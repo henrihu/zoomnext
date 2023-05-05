@@ -1,13 +1,12 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useRouter } from 'next/router';
 
 // Components
 import Meta from '@/components/Meta/index';
-import { Row, Col, Button, Card, Space } from 'antd';
+import { Row, Col, Button, Card, Modal, InputNumber, Input } from 'antd';
 import { ArrowLeftOutlined } from '@ant-design/icons';
 import JobDetail from '@/components/Job/JobDetail';
-import BidModal from './BidModal';
 
 // Actions
 import { getJobDetail, jobBid } from 'src/store/h_jobs/actions';
@@ -22,7 +21,6 @@ export default () => {
   const {
     job_detail: { data, loading },
   } = useSelector(({ h_jobs }) => h_jobs);
-  const [modal, setModal] = useState({ open: false });
 
   const myBid = useMemo(
     () =>
@@ -31,6 +29,23 @@ export default () => {
       data.bids.find((item) => item.providerId === userDetail.id),
     [data]
   );
+
+  const [confirm, setConfirm] = useState(false);
+  const [amount, setAmount] = useState();
+  const [comment, setComment] = useState();
+
+  const handleSend = useCallback(async () => {
+    const param = { jobId: data.id, price: amount, comment };
+    const isSuccess = await dispatch(jobBid(param, jobSlug));
+    if (isSuccess) {
+      setConfirm(true);
+    }
+  }, [data, amount, comment, jobSlug]);
+
+  useEffect(() => {
+    setAmount(myBid && Number(myBid.price));
+    setComment(myBid && myBid.comment);
+  }, [myBid]);
 
   useEffect(() => {
     if (jobSlug) {
@@ -56,16 +71,42 @@ export default () => {
             <JobDetail data={data} type={TYPE_HELPER} />
           </Card>
         </Col>
-        {/* <Col sm={24} md={8}>
-            <Card hoverable loading={loading}>
-              <Space className="w-full" direction="vertical" size={[4, 0]}>
-                <div className="text-gray">My Bid</div>
-                <div className="font-bold">{myBid.comment}</div>
-              </Space>
-            </Card>
-          </Col> */}
         <Col sm={24} md={8}>
-          <Button
+          <Card
+            title="Send Bid"
+            hoverable
+            actions={[
+              <Button type="primary" onClick={!myBid ? handleSend : () => {}}>
+                {!myBid ? 'Send Bid' : 'Already Sent Bid'}
+              </Button>,
+            ]}
+          >
+            <Row gutter={[16, 16]}>
+              <Col span={24}>
+                <InputNumber
+                  prefix="$"
+                  className="w-full"
+                  size="large"
+                  placeholder="Enter Bid Amount"
+                  readOnly={myBid}
+                  value={amount}
+                  onChange={(value) => setAmount(value)}
+                  min={0}
+                />
+              </Col>
+              <Col span={24}>
+                <Input.TextArea
+                  autoSize={{ minRows: 3, maxRows: 5 }}
+                  placeholder="Comment"
+                  size="large"
+                  readOnly={myBid}
+                  value={comment}
+                  onChange={(e) => setComment(e.target.value)}
+                />
+              </Col>
+            </Row>
+          </Card>
+          {/* <Button
             type="primary"
             size="large"
             shape="round"
@@ -78,14 +119,28 @@ export default () => {
             {myBid === undefined || myBid.length === 0
               ? 'Send Bid'
               : 'Already Sent Bid'}
-          </Button>
+          </Button> */}
         </Col>
       </Row>
-      <BidModal
-        {...modal}
-        onOk={(data) => dispatch(jobBid(data, jobSlug))}
-        onCancel={() => setModal({ open: false })}
-      />
+      <Modal
+        open={confirm}
+        closable={false}
+        footer={null}
+        width={300}
+        centered={true}
+      >
+        <div className="flex flex-col items-center gap-2">
+          <h2>${amount}</h2>
+          <span>Your bid has been sent</span>
+          <Button
+            type="primary"
+            shape="round"
+            onClick={() => setConfirm(false)}
+          >
+            Okay
+          </Button>
+        </div>
+      </Modal>
     </>
   );
 };

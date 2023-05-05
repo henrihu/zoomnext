@@ -158,8 +158,12 @@ export default ({
                     </Checkbox>
                     <DatePicker.RangePicker
                       format="YYYY-MM-DD"
-                      onChange={([startDate, endDate]) =>
-                        onSetFilter({ startDate, endDate })
+                      onChange={(param) =>
+                        param &&
+                        onSetFilter({
+                          startDate: param.startDate,
+                          endDate: param.endDate,
+                        })
                       }
                     />
                   </div>

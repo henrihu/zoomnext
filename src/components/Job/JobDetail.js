@@ -118,7 +118,7 @@ export default ({ data, type }) => {
           {/* {BUDGET_OPTION_LIST[budget].label} - ${formatNumber(data.totalPrice)} */}
           {data && data.isHourly
             ? `Hourly $${formatNumber(data.price)}  ${data.noOfHours} hours`
-            : `$${formatNumber(data.totalPrice)}`}
+            : `Job Total $${formatNumber(data.totalPrice)}`}
         </DescItem>
       </Col>
       {data.type === CATEGORY_TYPE_CLEANING && (
