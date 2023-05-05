@@ -2,19 +2,10 @@ import { useState, useMemo } from 'react';
 import { Modal, Input, Divider, Space, Form, Button, Tooltip } from 'antd';
 import { InfoCircleOutlined } from '@ant-design/icons';
 import Image from 'next/image';
-import { setNotificationDrawer } from 'src/store/setting/actions';
-
-const helper = {
-  avatar: '/images/service.png',
-  name: 'Robert Range',
-  rating: 4.8,
-  job_count: 9,
-};
 
 export default ({ open, onOk, onCancel }) => {
   const [form] = Form.useForm();
   const [pending, setPending] = useState(false);
-  const [info, setInfo] = useState(false);
   const modal_props = {
     title: 'Payment Detail',
     open,
@@ -90,7 +81,6 @@ export default ({ open, onOk, onCancel }) => {
                       className="text-gray"
                       type="text"
                       size="small"
-                      onClick={() => () => setInfo(true)}
                     />
                   </Tooltip>
                 }

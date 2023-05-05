@@ -67,8 +67,8 @@ export default () => {
         <div style={{ width: '100%', height: '100vh' }}>
           <GoogleMap
             defaultCenter={{
-              lat: Number(userDetail.workLatitude),
-              lng: Number(userDetail.workLongitude),
+              lat: userDetail ? Number(userDetail.workLatitude): 0,
+              lng: userDetail ? Number(userDetail.workLongitude) :0,
             }}
             markers={MARKERS}
           />

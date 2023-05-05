@@ -107,7 +107,7 @@ export default ({ data, loading, selected }) => {
         >
           <Space direction="vertical" className="w-full">
             {data.map((item, index) => (
-              <Message data={item} key={index} />
+              <Message data={item} key={index} selected={selected} />
             ))}
           </Space>
         </Col>

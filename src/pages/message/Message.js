@@ -41,17 +41,17 @@ const renderMessageBox = (data) => {
   );
 };
 
-export default ({ data }) => {
+export default ({ data, selected }) => {
   const { userDetail } = useAuth();
   return (
     <Row
-      justify={userDetail && data.senderId === userDetail.id ? 'start' : 'end'}
+      justify={userDetail && data.senderId !== userDetail.id ? 'start' : 'end'}
     >
       <Col span={16}>
-        {userDetail && data.senderId === userDetail.id ? (
+        {userDetail && data.senderId !== userDetail.id ? (
           <div className="flex">
             <Avatar
-              src={userDetail && userDetail.avatarImage}
+              src={selected && selected.profileImage}
               className="mr-2"
               style={{ minWidth: 32, minHeight: 32 }}
             />

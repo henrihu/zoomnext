@@ -26,7 +26,7 @@ export default ({ items }) => {
   const router = useRouter();
   const { token } = theme.useToken();
   const { menu_drawer } = useSelector(({ setting }) => setting);
-  const { type } = useAuth();
+  const { type, userDetail } = useAuth();
   return (
     <Drawer
       open={menu_drawer}
@@ -38,8 +38,9 @@ export default ({ items }) => {
         <Col span={24}>
           <Space direction="vertical" className="flex flex-col items-center">
             <Avatar
-              src="/images/service.png"
+              src={userDetail.avatarImage}
               size={80}
+              className="cursor-pointer"
               style={{ border: `2px solid ${token.colorPrimary}` }}
               onClick={() => {
                 router.push('/profile');

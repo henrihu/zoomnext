@@ -45,6 +45,7 @@ import {
   TYPE_HELPER,
 } from 'src/utils/constants';
 import { useScreen } from 'src/utils/common';
+import Logo from '@/components/Logo';
 
 export default () => {
   const router = useRouter();
@@ -277,13 +278,14 @@ export default () => {
     >
       {!isXsSm && (
         <>
-          <Link
-            href="/services"
-            className="text-4xl font-bold"
-            style={{ width: 250 }}
-          >
-            Zoom Errands
-          </Link>
+          <div className="px-4">
+            <Logo
+              type={type}
+              className="cursor-pointer"
+              onClick={() => router.push('/services')}
+            />
+          </div>
+
           <Menu
             mode="horizontal"
             defaultSelectedKeys={[

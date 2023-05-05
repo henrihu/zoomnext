@@ -10,6 +10,7 @@ export const CUSTOMER = {
   value: TYPE_CUSTOMER,
   color: '#4ABDDA',
   backgroundColor: '#C9F2FF',
+  logoUrl: '/images/logos/logo_blue.png',
 };
 
 export const HELPER = {
@@ -17,6 +18,7 @@ export const HELPER = {
   value: TYPE_HELPER,
   color: '#F77B25',
   backgroundColor: '#C9F2FF',
+  logoUrl: '/images/logos/logo_orange.png',
 };
 
 // Job Status List
