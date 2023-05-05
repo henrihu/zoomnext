@@ -149,7 +149,7 @@ const Login = () => {
             <Button
               type="link"
               size="small"
-              onClick={() => setTermModal({ open: true })}
+              // onClick={() => setTermModal({ open: true })}
             >
               terms
             </Button>
