@@ -16,7 +16,10 @@ export const removeStorageItem = (key) => {
 };
 
 export const formatNumber = (num, decimalScale = 2) => {
-  return Number(num).toFixed(decimalScale);
+  const x = Number(num).toFixed(decimalScale);
+  var parts = x.toString().split('.');
+  parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ' ');
+  return parts.join('.');
 };
 
 export const divideNumber = (num, den = 1, decimalScale = 1) => {

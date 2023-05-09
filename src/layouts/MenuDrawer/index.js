@@ -21,7 +21,7 @@ import {
   TYPE_HELPER,
 } from 'src/utils/constants';
 
-export default ({ items }) => {
+export default ({ items, selectedKeys }) => {
   const dispatch = useDispatch();
   const router = useRouter();
   const { token } = theme.useToken();
@@ -51,31 +51,27 @@ export default ({ items }) => {
           </Space>
         </Col>
         <Col span={24}>
-          <Menu
-            mode="vertical"
-            defaultSelectedKeys={
-              items.find(({ href }) => router.pathname.indexOf(href) !== -1) &&
-              items.find(({ href }) => router.pathname.indexOf(href) !== -1).key
-            }
-          >
-            {items.map(({ label, icon, href, count }, index) => (
-              <Menu.Item
-                key={index}
-                icon={icon}
-                onClick={() => {
-                  router.push(href);
-                  dispatch(setMenuDrawer(false));
-                }}
-              >
-                {label}
-                <Badge
-                  count={count}
-                  overflowCount={100}
-                  className="ml-2 mb-1"
-                />
-              </Menu.Item>
-            ))}
-          </Menu>
+          {items && items.length > 0 && (
+            <Menu mode="vertical" selectedKeys={selectedKeys}>
+              {items.map(({ label, icon, href, count }, index) => (
+                <Menu.Item
+                  key={index}
+                  icon={icon}
+                  onClick={() => {
+                    router.push(href);
+                    dispatch(setMenuDrawer(false));
+                  }}
+                >
+                  {label}
+                  <Badge
+                    count={count}
+                    overflowCount={100}
+                    className="ml-2 mb-1"
+                  />
+                </Menu.Item>
+              ))}
+            </Menu>
+          )}
         </Col>
         <Col span={24}>
           <Button

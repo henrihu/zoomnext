@@ -2,17 +2,6 @@ import { Card, Row, Col, Space } from 'antd';
 import moment from 'moment';
 import { formatNumber } from 'src/utils/common';
 
-// amount: 60;
-// commission: 3;
-// gift: 'Yes';
-// id: 90;
-// jobId: 61;
-// jobSlug: '';
-// totalPrice: '63';
-// transactionCharge: 2.13;
-// type: 'credit';
-// userId: 6;
-
 export default ({ data }) => {
   return (
     <Card hoverable size="small" bodyStyle={{ padding: 0 }}>

@@ -268,6 +268,15 @@ export default () => {
     ],
     [type]
   );
+
+  const selectedKeys = useMemo(
+    () => [
+      ITEM_LIST.find(({ href }) => router.pathname.indexOf(href) !== -1) &&
+        ITEM_LIST.find(({ href }) => router.pathname.indexOf(href) !== -1).key,
+    ],
+    [router.pathname]
+  );
+
   return (
     <Layout.Header
       className="header"
@@ -288,14 +297,7 @@ export default () => {
 
           <Menu
             mode="horizontal"
-            defaultSelectedKeys={[
-              ITEM_LIST.find(
-                ({ href }) => router.pathname.indexOf(href) !== -1
-              ) &&
-                ITEM_LIST.find(
-                  ({ href }) => router.pathname.indexOf(href) !== -1
-                ).key,
-            ]}
+            selectedKeys={selectedKeys}
             inlineIndent={0}
             className="flex justify-between flex-auto font-bold min-w-0"
           >
@@ -357,7 +359,7 @@ export default () => {
           />
         </Badge>
       </div>
-      {isXsSm && <MenuDrawer items={ITEM_LIST} />}
+      {isXsSm && <MenuDrawer items={ITEM_LIST} selectedKeys={selectedKeys} />}
     </Layout.Header>
   );
 };
