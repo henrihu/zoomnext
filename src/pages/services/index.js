@@ -12,7 +12,7 @@ import GoogleMap from '@/components/GoogleMap';
 import { getServiceList } from 'src/store/common/actions';
 
 // Utils
-import { findStrInObj } from 'src/utils/common';
+import { findStrInObj, formatNumber } from 'src/utils/common';
 import NewJobModal from '../customer/jobs/NewJobModal';
 import { createJob } from 'src/store/c_jobs/actions';
 import { useAuth } from 'src/store/auth/actions';
@@ -44,7 +44,7 @@ export default () => {
       browse_job_list.data.data.map((item, index) => ({
         lat: Number(item.latitude),
         lng: Number(item.longitude),
-        text: `$ ${item.totalPrice}`,
+        text: `$ ${formatNumber(item.totalPrice)}`,
       })),
     [browse_job_list.data]
   );
@@ -67,8 +67,8 @@ export default () => {
         <div style={{ width: '100%', height: '100vh' }}>
           <GoogleMap
             defaultCenter={{
-              lat: userDetail ? Number(userDetail.workLatitude): 0,
-              lng: userDetail ? Number(userDetail.workLongitude) :0,
+              lat: userDetail ? Number(userDetail.workLatitude) : 0,
+              lng: userDetail ? Number(userDetail.workLongitude) : 0,
             }}
             markers={MARKERS}
           />

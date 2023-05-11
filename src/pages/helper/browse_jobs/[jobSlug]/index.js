@@ -33,13 +33,16 @@ export default () => {
   const [confirm, setConfirm] = useState(false);
   const [amount, setAmount] = useState();
   const [comment, setComment] = useState();
+  const [pending, setPending] = useState(false);
 
   const handleSend = useCallback(async () => {
     const param = { jobId: data.id, price: amount, comment };
+    setPending(true);
     const isSuccess = await dispatch(jobBid(param, jobSlug));
     if (isSuccess) {
       setConfirm(true);
     }
+    setPending(false);
   }, [data, amount, comment, jobSlug]);
 
   useEffect(() => {
@@ -76,7 +79,11 @@ export default () => {
             title="Send Bid"
             hoverable
             actions={[
-              <Button type="primary" onClick={!myBid ? handleSend : () => {}}>
+              <Button
+                type="primary"
+                onClick={!myBid ? handleSend : () => {}}
+                loading={pending}
+              >
                 {!myBid ? 'Send Bid' : 'Already Sent Bid'}
               </Button>,
             ]}
@@ -106,20 +113,6 @@ export default () => {
               </Col>
             </Row>
           </Card>
-          {/* <Button
-            type="primary"
-            size="large"
-            shape="round"
-            onClick={
-              myBid === undefined || myBid.length === 0
-                ? () => setModal({ open: true, jobId: data.id })
-                : () => {}
-            }
-          >
-            {myBid === undefined || myBid.length === 0
-              ? 'Send Bid'
-              : 'Already Sent Bid'}
-          </Button> */}
         </Col>
       </Row>
       <Modal

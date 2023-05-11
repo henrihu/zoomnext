@@ -54,7 +54,7 @@ export default ({ open, onCancel, data }) => {
           defaultCenter={origin}
           origin={origin}
           destination={destination}
-          // markers={[origin, destination]}
+          markers={[origin, destination]}
         />
       </div>
       <Divider className="my-2" />

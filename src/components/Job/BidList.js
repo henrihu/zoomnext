@@ -1,4 +1,4 @@
-import { Avatar, List, Button, Row, Col, Space, Tag, Card } from 'antd';
+import { Avatar, List, Button, Row, Col, Space, Tag, Card, Empty } from 'antd';
 import { StarFilled, MessageOutlined } from '@ant-design/icons';
 import {
   APPROVE_MODE_ACCEPT,
@@ -29,6 +29,9 @@ export default ({ data, approveBid, router }) => {
           <List
             itemLayout="vertical"
             dataSource={data}
+            locale={{
+              emptyText: <Empty description="This job has no bids yet." />,
+            }}
             renderItem={(item, index) => (
               <List.Item
                 extra={

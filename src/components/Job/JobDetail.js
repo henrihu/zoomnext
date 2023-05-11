@@ -56,7 +56,9 @@ export default ({ data, type }) => {
       </Col>
       <Col span={24}>
         <DescItem label="Job Description">
-          <Typography.Text>{data.description}</Typography.Text>
+          <Typography.Text className="whitespace-pre-wrap">
+            {data.description}
+          </Typography.Text>
         </DescItem>
       </Col>
       {data.type !== CATEGORY_TYPE_DELIVERY && (
@@ -71,32 +73,30 @@ export default ({ data, type }) => {
         </Col>
       )}
       {data.type === CATEGORY_TYPE_DELIVERY && (
-        <Col span={24}>
-          <Row gutter={[8, 8]}>
-            <Col span={12}>
-              <DescItem label="Pick Up Details">
-                <AddressDetail
-                  data={{
-                    location: data.pickUpaddress,
-                    date: data.pickUpDateAndTime,
-                    time: data.pickUpDateAndTime,
-                  }}
-                />
-              </DescItem>
-            </Col>
-            <Col span={12}>
-              <DescItem label="Drop Off Details">
-                <AddressDetail
-                  data={{
-                    location: data.dropOffAddress,
-                    date: data.dropOffDateAndTime,
-                    time: data.dropOffDateAndTime,
-                  }}
-                />
-              </DescItem>
-            </Col>
-          </Row>
-        </Col>
+        <>
+          <Col span={24}>
+            <DescItem label="Pick Up Details">
+              <AddressDetail
+                data={{
+                  location: data.pickUpaddress,
+                  date: data.pickUpDateAndTime,
+                  time: data.pickUpDateAndTime,
+                }}
+              />
+            </DescItem>
+          </Col>
+          <Col span={24}>
+            <DescItem label="Drop Off Details">
+              <AddressDetail
+                data={{
+                  location: data.dropOffAddress,
+                  date: data.dropOffDateAndTime,
+                  time: data.dropOffDateAndTime,
+                }}
+              />
+            </DescItem>
+          </Col>
+        </>
       )}
       {data.type === CATEGORY_TYPE_CLEANING && (
         <>

@@ -20,11 +20,13 @@ import {
 
 import Message from './Message';
 import { sendMessage, uploadImage } from 'src/store/common/actions';
+import { useScreen, useThemeToken } from 'src/utils/common';
 
 export default ({ data, loading, selected }) => {
   const dispatch = useDispatch();
   const [pending, setPending] = useState(false);
   const [message, setMessage] = useState('');
+  const isXsSm = useScreen();
 
   useEffect(() => {
     setMessage('');
@@ -86,13 +88,20 @@ export default ({ data, loading, selected }) => {
   return (
     <Card
       title={
-        <h2>
-          {selected &&
-            (selected.fullName
-              ? selected.fullName
-              : `${selected.firstName} ${selected.lastName}`)}
-        </h2>
+        isXsSm ? null : (
+          <h2>
+            {selected &&
+              (selected.fullName
+                ? selected.fullName
+                : `${selected.firstName} ${selected.lastName}`)}
+          </h2>
+        )
       }
+      headStyle={{
+        backgroundColor: useThemeToken().colorPrimary,
+        color: 'white',
+        fontWeight: 'bold',
+      }}
       bodyStyle={{ padding: 0 }}
     >
       <Row>

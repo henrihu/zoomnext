@@ -7,7 +7,7 @@ import JobStep from './JobStep';
 import ReviewStep from './ReviewStep';
 
 // Utils & Constants
-import { calcBudget, MergeDateTime } from 'src/utils/common';
+import { calcBudget, formatNumber, MergeDateTime } from 'src/utils/common';
 import {
   POST_OPTION_BID,
   CLEANING_OPTION_BRING,
@@ -74,7 +74,17 @@ export default ({ data, open, onOk, onCancel }) => {
               param.dropOffDate,
               param.dropOffTime
             );
-            res = { ...res, ...param.dropOffLocation };
+            res = {
+              ...res,
+              ...param.dropOffLocation,
+              latitude: res.pickUpLatitude,
+              longitude: res.pickUpLongitude,
+              jobDateAndTime: res.pickUpDateAndTime,
+              state: res.pickUpState,
+              city: res.pickUpCity,
+              country: res.pickUpCountry,
+              address: res.pickUpaddress,
+            };
           } else {
             res.jobDateAndTime = MergeDateTime(param.date, param.time);
           }
@@ -151,7 +161,7 @@ export default ({ data, open, onOk, onCancel }) => {
               </div>
               <span className="text-gray">(Includes 5% processing fee)</span>
             </div>
-            <h1 className="font-bold">${estimatedBudget}</h1>
+            <h1 className="font-bold">${formatNumber(estimatedBudget)}</h1>
           </div>
         </Col>
         <Col span={24} className="flex justify-end">

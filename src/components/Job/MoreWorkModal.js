@@ -1,6 +1,6 @@
 import { Modal, Divider, Row, Col, Input, Radio, InputNumber } from 'antd';
 import { useState } from 'react';
-import { calcBudget } from 'src/utils/common';
+import { calcBudget, formatNumber } from 'src/utils/common';
 import {
   BUDGET_OPTION_HOURLY,
   BUDGET_OPTION_LIST,
@@ -94,7 +94,9 @@ export default ({ jobId, open, onOk, onCancel }) => {
             <div className="flex flex-col">
               <div className="font-bold text-lg">Estimate Budget</div>
             </div>
-            <h1 className="font-bold">${calcBudget(budget, price, hour)}</h1>
+            <h1 className="font-bold">
+              ${formatNumber(calcBudget(budget, price, hour))}
+            </h1>
           </div>
         </Col>
       </Row>

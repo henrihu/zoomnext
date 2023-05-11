@@ -42,7 +42,7 @@ export default () => {
         }
       }, 10000);
       dispatch(getChats(messenger));
-      setLabel(messenger.firstName);
+      setLabel(messenger.firstName + ' ' + messenger.lastName);
     }
     return () => {
       clearInterval(id);
