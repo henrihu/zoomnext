@@ -142,7 +142,7 @@ export default ({ data, loading, selected }) => {
               }
               disabled={!selected}
               onKeyDown={(e) => {
-                if (e.key === 'Enter' && message.length > 0) {
+                if (e.key === 'Enter' && message.length > 0 && !pending) {
                   handleSendMessage();
                 }
               }}

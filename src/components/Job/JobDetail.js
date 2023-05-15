@@ -45,9 +45,9 @@ export default ({ data, type }) => {
     <Row justify="center" gutter={[8, 8]}>
       <Col span={24}>
         <div className="flex justify-center items-center cursor-pointer">
-          <Avatar className="mr-2" size={40} src={data.avatarImage} />
+          <Avatar className="mr-2" size={40} src={data.pvavatarImage} />
           <h2 className="font-bold" style={{ fontSize: 18 }}>
-            {data.fullName}
+            {data.pvfullName}
           </h2>
         </div>
       </Col>

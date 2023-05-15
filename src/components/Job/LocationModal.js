@@ -16,10 +16,9 @@ export default ({ open, onCancel, data }) => {
     onOk: () => {
       dispatch(
         setMessenger({
-          firstName: data.firstName,
-          lastName: data.lastName,
+          fullName: data.pvfullName,
           jobId: data.id,
-          userId: data.userId,
+          userId: data.pvUserId,
         })
       );
       router.push('/message');
