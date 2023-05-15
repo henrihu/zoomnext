@@ -46,12 +46,10 @@ export default ({ data, loading, chatLoading, selected, setSelected }) => {
         collapsible={!isXsSm && 'disabled'}
         key="1"
         showArrow={isXsSm}
-        headStyle={{
+        style={{
           backgroundColor: useThemeToken().colorPrimary,
-          color: 'white',
-          fontWeight: 'bold',
+          borderRadius: '8px 8px 0 0',
         }}
-        style={{ backgroundColor: useThemeToken().colorPrimary }}
       >
         <Input
           placeholder="Search"

@@ -37,7 +37,11 @@ export default () => {
       />
       <Space wrap className="w-full flex justify-center">
         {data.map(({ key, title }) => (
-          <Card hoverable bodyStyle={{ width: 320 }} key={key}>
+          <Card
+            hoverable
+            bodyStyle={{ width: 320, cursor: 'default' }}
+            key={key}
+          >
             <div className="flex justify-between items-center">
               <h3>{title}</h3>
               <Switch

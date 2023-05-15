@@ -88,14 +88,16 @@ export default ({ data, loading, selected }) => {
   return (
     <Card
       title={
-        isXsSm ? null : (
-          <h2>
-            {selected &&
-              (selected.fullName
+        !isXsSm && selected ? (
+          <div className="flex items-center gap-2">
+            <Avatar src={selected.profileImage} />
+            <h2>
+              {selected.fullName
                 ? selected.fullName
-                : `${selected.firstName} ${selected.lastName}`)}
-          </h2>
-        )
+                : `${selected.firstName} ${selected.lastName}`}
+            </h2>
+          </div>
+        ) : null
       }
       headStyle={{
         backgroundColor: useThemeToken().colorPrimary,
@@ -108,7 +110,8 @@ export default ({ data, loading, selected }) => {
         <Col
           span={24}
           style={{
-            maxHeight: 'calc(100vh - 105px - 64px - 64px - 110px)',
+            maxHeight: 'calc(100vh - 276px)',
+            height: 'calc(100vh - 276px)',
             overflow: 'auto',
             padding: 16,
           }}

@@ -19,6 +19,7 @@ export default ({ open, onCancel, data }) => {
           fullName: data.pvfullName,
           jobId: data.id,
           userId: data.pvUserId,
+          profileImage: data.pvavatarImage,
         })
       );
       router.push('/message');

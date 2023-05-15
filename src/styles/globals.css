@@ -74,21 +74,6 @@ video {
   white-space: pre-wrap;
 }
 
-/* Scroll Bar */
-::-webkit-scrollbar {
-  width: 6px;
-}
-::-webkit-scrollbar-track {
-  border-radius: 8px;
-  background-color: #e7e7e7;
-  border: 1px solid #cacaca;
-  box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
-}
-::-webkit-scrollbar-thumb {
-  border-radius: 8px;
-  background-color: #535252;
-}
-
 .avatar-container {
   border: 2px solid black;
   border-radius: 50%;
@@ -174,4 +159,19 @@ video {
 
 .ant-timeline .ant-timeline-item-last {
   padding-bottom: 0px;
+}
+
+/* Scroll Bar */
+::-webkit-scrollbar {
+  width: 6px;
+}
+::-webkit-scrollbar-track {
+  border-radius: 8px;
+  background-color: #e7e7e7;
+  border: 1px solid #cacaca;
+  box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+}
+::-webkit-scrollbar-thumb {
+  border-radius: 8px;
+  background-color: #535252;
 }

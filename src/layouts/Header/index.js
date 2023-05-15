@@ -291,7 +291,7 @@ export default () => {
             <Logo
               type={type}
               className="cursor-pointer"
-              onClick={() => router.push('/services')}
+              onClick={() => router.push(process.env.NEXT_PUBLIC_APP_URL)}
             />
           </div>
 
