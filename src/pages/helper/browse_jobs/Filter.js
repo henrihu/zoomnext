@@ -112,7 +112,10 @@ export default ({
       </Col>
       <Col span={24}>
         <Collapse>
-          <Collapse.Panel header="Search Jobs" className="bg-white font-bold">
+          <Collapse.Panel
+            header="Search Jobs"
+            className="bg-white font-bold round-lg"
+          >
             <Row gutter={[8, 8]}>
               <Col span={24}>
                 <Wrapper label="Select Category">

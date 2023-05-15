@@ -1,8 +1,10 @@
 import { Card, Row, Col, Space } from 'antd';
-import moment from 'moment';
+import { useAuth } from 'src/store/auth/actions';
 import { formatNumber } from 'src/utils/common';
+import { TYPE_CUSTOMER } from 'src/utils/constants';
 
 export default ({ data }) => {
+  const { type } = useAuth();
   return (
     <Card hoverable size="small" bodyStyle={{ padding: 0 }}>
       <Row align="center">
@@ -28,13 +30,15 @@ export default ({ data }) => {
           md={6}
           className="flex flex-col justify-center items-end md:items-center border-t-2 border-t-gray md:border-t-0 pr-4 md:pr-0"
         >
-          <div className="font-bold mb-1 text-2xl" style={{ color: '#89CE9D' }}>
+          <div className="font-bold text-2xl" style={{ color: '#89CE9D' }}>
             ${formatNumber(data.totalPrice)}
           </div>
-          <div className="flex justify-between font-bold text-lg text-gray">
-            <div>${formatNumber(data.amount)}</div> +{' '}
-            <div>${formatNumber(data.commission)}</div>
-          </div>
+          {type === TYPE_CUSTOMER && (
+            <div className="flex justify-between font-bold text-lg text-gray mt-1">
+              <div>${formatNumber(data.amount)}</div> +{' '}
+              <div>${formatNumber(data.commission)}</div>
+            </div>
+          )}
         </Col>
       </Row>
     </Card>
