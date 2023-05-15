@@ -91,6 +91,7 @@ export default () => {
             setMessenger({
               firstName: data.firstName,
               lastName: data.lastName,
+              profileImage: data.avatarImage,
               jobId: data.id,
               userId: data.userId,
             })
