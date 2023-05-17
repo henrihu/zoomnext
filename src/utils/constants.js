@@ -125,3 +125,6 @@ export const MEDIA_TYPE_VIDEO = 'Video';
 
 // Otp Type
 export const OTP_TYPE_PASSWORD_RESET = 'OTP_PASSWORD_REST';
+
+// Google Map
+export const GOOGLE_MAP_API_KEY = 'AIzaSyDENhFGFVKG1zYscVGqQ-SEU0bg3v36y-c';

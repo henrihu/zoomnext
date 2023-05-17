@@ -3,6 +3,7 @@ import GoogleMapReact from 'google-map-react';
 import { EnvironmentFilled } from '@ant-design/icons';
 import { Tag } from 'antd';
 import { useThemeToken } from 'src/utils/common';
+import { GOOGLE_MAP_API_KEY } from 'src/utils/constants';
 
 const Marker = ({ text }) => {
   const token = useThemeToken();
@@ -72,7 +73,7 @@ export default ({
 
   return (
     <GoogleMapReact
-      bootstrapURLKeys={{ key: 'AIzaSyDENhFGFVKG1zYscVGqQ-SEU0bg3v36y-c' }}
+      bootstrapURLKeys={{ key: GOOGLE_MAP_API_KEY }}
       defaultCenter={defaultCenter}
       defaultZoom={defaultZoom}
       yesIWantToUseGoogleMapApiInternals

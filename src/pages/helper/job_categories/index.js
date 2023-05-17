@@ -11,7 +11,7 @@ import {
   setData,
   useHelperJobs,
 } from 'src/store/h_jobs/actions';
-import { providerUpdateProfile } from 'src/store/auth/actions';
+import { providerUpdateProfile, useAuth } from 'src/store/auth/actions';
 import JobCategoryCard from '@/components/JobCategoryCard';
 
 export default () => {
@@ -19,6 +19,7 @@ export default () => {
   const {
     provider_categories: { data, loading },
   } = useHelperJobs();
+  const { userDetail } = useAuth();
   const [pending, setPending] = useState(false);
 
   useEffect(() => {
@@ -45,6 +46,7 @@ export default () => {
         categoryId: data
           .filter(({ isSelectCategory }) => isSelectCategory)
           .map(({ id }) => id),
+        legalInformation: userDetail.legalInformationImageName,
       })
     );
     setPending(false);

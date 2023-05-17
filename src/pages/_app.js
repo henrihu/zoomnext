@@ -7,7 +7,12 @@ import progressBarConfig from '@/config/progress-bar/index';
 import { ConfigProvider } from 'antd';
 import wrapper from 'src/store';
 import '@/styles/globals.css';
-import { CUSTOMER, HELPER, TYPE_CUSTOMER } from 'src/utils/constants';
+import {
+  CUSTOMER,
+  GOOGLE_MAP_API_KEY,
+  HELPER,
+  TYPE_CUSTOMER,
+} from 'src/utils/constants';
 import { Layout, Authorization } from '../layouts';
 import { setProgress } from 'src/store/setting/actions';
 
@@ -49,7 +54,7 @@ export default wrapper.withRedux(({ Component, pageProps }) => {
       }}
     >
       <script
-        src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false&libraries=places&key=AIzaSyDENhFGFVKG1zYscVGqQ-SEU0bg3v36y-c"
+        src={`https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false&libraries=places&key=${GOOGLE_MAP_API_KEY}`}
         async={true}
         defer={true}
       />
