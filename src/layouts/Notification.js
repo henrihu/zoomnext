@@ -51,7 +51,6 @@ export default () => {
       open={notification_drawer}
       onClose={() => dispatch(setNotificationDrawer(false))}
       width={350}
-      closable={false}
       bodyStyle={{ padding: '16px 0px' }}
       headerStyle={{
         backgroundColor: useThemeToken().colorPrimary,

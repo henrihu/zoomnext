@@ -57,7 +57,7 @@ export const useScreen = () => {
 
 export const getTimeZone = () => {
   const offset = moment().utcOffset();
-  return `${offset < 0 ? '-' : ''}${parseInt(Math.abs(offset) / 60)}:${
+  return `${offset > 0 ? '+' : '-'}${parseInt(Math.abs(offset) / 60)}:${
     Math.abs(offset) % 60
   }`;
 };

@@ -10,9 +10,15 @@ import {
   Space,
   theme,
   Badge,
+  Modal,
 } from 'antd';
 import { ArrowsAltOutlined } from '@ant-design/icons';
-import { logOut, setType, useAuth } from 'src/store/auth/actions';
+import {
+  logOut,
+  setPageLoading,
+  setType,
+  useAuth,
+} from 'src/store/auth/actions';
 import { setMenuDrawer } from 'src/store/setting/actions';
 import {
   CUSTOMER,
@@ -21,7 +27,7 @@ import {
   TYPE_HELPER,
 } from 'src/utils/constants';
 
-export default ({ items, selectedKeys }) => {
+export default ({ items, selectedKeys, handleBecomeProviderCustomer }) => {
   const dispatch = useDispatch();
   const router = useRouter();
   const { token } = theme.useToken();
@@ -74,28 +80,69 @@ export default ({ items, selectedKeys }) => {
           )}
         </Col>
         <Col span={24}>
-          <Button
-            type="link"
-            onClick={() => {
-              router.push('/services');
-              dispatch(
-                setType(type === TYPE_CUSTOMER ? TYPE_HELPER : TYPE_CUSTOMER)
-              );
-            }}
-          >
-            {`Switch to ${
-              type === TYPE_CUSTOMER ? HELPER.label : CUSTOMER.label
-            }`}
-            <ArrowsAltOutlined />
-          </Button>
+          {!(userDetail.isProvider && userDetail.isCustomer) ? (
+            <Button
+              type="link"
+              onClick={() => {
+                Modal.confirm({
+                  content: 'Are you sure you want to continue?',
+                  okText: 'Yes',
+                  cancelText: 'No',
+                  onOk: async () => {
+                    dispatch(setPageLoading(true));
+                    await router.push('/services');
+                    dispatch(setMenuDrawer(false));
+                    dispatch(
+                      setType(
+                        type === TYPE_CUSTOMER ? TYPE_HELPER : TYPE_CUSTOMER
+                      )
+                    );
+                    dispatch(setPageLoading(false));
+                  },
+                });
+              }}
+            >
+              {`Switch to ${
+                type === TYPE_CUSTOMER ? HELPER.label : CUSTOMER.label
+              }`}
+              <ArrowsAltOutlined />
+            </Button>
+          ) : (
+            <Button
+              type="link"
+              onClick={() => {
+                Modal.confirm({
+                  content: 'Are you sure you want to continue?',
+                  okText: 'Yes',
+                  cancelText: 'No',
+                  onOk: () => {
+                    handleBecomeProviderCustomer();
+                    dispatch(setMenuDrawer(false));
+                  },
+                });
+              }}
+            >
+              {`Become a ${
+                type === TYPE_CUSTOMER ? HELPER.label : CUSTOMER.label
+              }`}
+              <ArrowsAltOutlined />
+            </Button>
+          )}
         </Col>
         <Col span={24}>
           <Button
             type="text"
             danger
             onClick={() => {
-              dispatch(logOut(router));
-              dispatch(setMenuDrawer(false));
+              Modal.confirm({
+                content: 'Are you sure you want to log out?',
+                okText: 'Yes',
+                cancelText: 'No',
+                onOk: () => {
+                  dispatch(logOut(router));
+                  dispatch(setMenuDrawer(false));
+                },
+              });
             }}
           >
             Log Out

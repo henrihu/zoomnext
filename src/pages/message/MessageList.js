@@ -112,16 +112,13 @@ export default ({ data, loading, selected }) => {
           style={{
             maxHeight: 'calc(100vh - 276px)',
             height: 'calc(100vh - 276px)',
-            overflow: 'auto',
-            padding: 16,
           }}
+          className="overflow-y-auto p-4 flex flex-col gap-2"
           id="chat-board"
         >
-          <Space direction="vertical" className="w-full">
-            {data.map((item, index) => (
-              <Message data={item} key={index} selected={selected} />
-            ))}
-          </Space>
+          {data.map((item, index) => (
+            <Message data={item} key={index} selected={selected} />
+          ))}
         </Col>
         <Col span={24}>
           <Divider className="my-2" />

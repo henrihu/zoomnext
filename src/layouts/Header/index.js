@@ -359,7 +359,13 @@ export default () => {
           />
         </Badge>
       </div>
-      {isXsSm && <MenuDrawer items={ITEM_LIST} selectedKeys={selectedKeys} />}
+      {isXsSm && (
+        <MenuDrawer
+          items={ITEM_LIST}
+          selectedKeys={selectedKeys}
+          handleBecomeProviderCustomer={handleBecomeProviderCustomer}
+        />
+      )}
     </Layout.Header>
   );
 };
