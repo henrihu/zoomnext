@@ -52,7 +52,7 @@ export default () => {
 
   const hadleUpdateProfile = (values) => {
     let info = { ...values, type };
-    if (type === TYPE_HELPER && info.workAddress) {
+    if (type === TYPE_HELPER && typeof info.workAddress === 'object') {
       info = {
         ...info,
         ...info.workAddress,

@@ -15,6 +15,7 @@ import {
   SortAscendingOutlined,
   SortDescendingOutlined,
 } from '@ant-design/icons';
+import { useScreen } from 'src/utils/common';
 
 const Wrapper = ({ label, children }) => {
   return (
@@ -35,12 +36,23 @@ export default ({
   const [totalPrice, setTotalPrice] = useState('asc');
   const [distance, setDistance] = useState('asc');
   const [categoryId, setCategoryId] = useState([]);
+  const isXsSm = useScreen();
+  const [collpase, setCollapse] = useState(['1']);
+
+  useEffect(() => {
+    if (isXsSm) {
+      setCollapse([]);
+    } else {
+      setCollapse(['1']);
+    }
+  }, [isXsSm]);
 
   useEffect(() => {
     setCategoryId(filter.categoryId);
   }, [filter.categoryId]);
 
   const handleFilter = async () => {
+    if (isXsSm) setCollapse(['1']);
     await onSetFilter({ categoryId });
     onFilter();
   };
@@ -111,7 +123,11 @@ export default ({
         <Divider className="my-2" />
       </Col>
       <Col span={24}>
-        <Collapse>
+        <Collapse
+          defaultActiveKey={['1']}
+          activeKey={collpase}
+          onChange={(v) => setCollapse(v)}
+        >
           <Collapse.Panel
             header="Search Jobs"
             className="bg-white font-bold round-lg"
@@ -151,23 +167,16 @@ export default ({
               <Col span={24}>
                 <Wrapper label="Select Date">
                   <div className="flex flex-col gap-1">
-                    <Checkbox
-                      checked={filter.isNewestFirst}
-                      onChange={(e) =>
-                        onSetFilter({ isNewestFirst: e.target.checked })
-                      }
-                    >
-                      Newest Pay
-                    </Checkbox>
                     <DatePicker.RangePicker
                       format="YYYY-MM-DD"
-                      onChange={(param) =>
+                      // defaultValue={[filter.startDate, filter.endDate]}
+                      onChange={(param) => {
                         param &&
-                        onSetFilter({
-                          startDate: param.startDate,
-                          endDate: param.endDate,
-                        })
-                      }
+                          onSetFilter({
+                            startDate: param[0],
+                            endDate: param[1],
+                          });
+                      }}
                     />
                   </div>
                 </Wrapper>

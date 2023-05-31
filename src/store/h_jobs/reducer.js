@@ -1,3 +1,5 @@
+import moment from 'moment';
+import { DATE_FORMAT } from 'src/utils/constants';
 import { SET_DATA, SET_LOADING, SET_FILTER } from './actions';
 
 const initialState = {
@@ -13,10 +15,10 @@ const initialState = {
     orderKey: 'jobDateAndTime',
     orderValue: 'asc',
     latitude: 0,
-    longitude: 20,
+    longitude: 100,
     categoryId: [],
-    startDate: '',
-    endDate: '',
+    startDate: moment(),
+    endDate: moment().add(7, 'days'),
     isNewestFirst: true,
     isHighestPay: false,
   },

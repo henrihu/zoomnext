@@ -1,11 +1,12 @@
-import React from 'react';
+import React, { useState } from 'react';
 import GoogleMapReact from 'google-map-react';
 import { EnvironmentFilled } from '@ant-design/icons';
-import { Tag } from 'antd';
+import { Tag, Tooltip } from 'antd';
 import { useThemeToken } from 'src/utils/common';
 
-const Marker = ({ text }) => {
+const Marker = ({ text, tooltip = null }) => {
   const token = useThemeToken();
+  const [open, setOpen] = useState(false);
   return (
     <div
       style={{ width: 200, left: -100 }}
@@ -14,18 +15,22 @@ const Marker = ({ text }) => {
       <div className="flex flex-col items-center gap-1">
         <Tag
           color="red"
-          className="rounded-lg font-bold"
+          className="rounded-lg font-bold cursor-pointer"
           style={{
             backgroundColor: token.colorPrimaryBg,
             color: token.colorPrimary,
           }}
+          onClick={() => setOpen(!open && !!tooltip)}
         >
           {text}
         </Tag>
-        <EnvironmentFilled
-          className="font-bold"
-          style={{ color: token.colorPrimary }}
-        />
+        <Tooltip title={tooltip ? tooltip : <></>} color="white" open={open}>
+          <EnvironmentFilled
+            className="font-bold cursor-pointer"
+            style={{ color: token.colorPrimary }}
+            onClick={() => setOpen(!open && !!tooltip)}
+          />
+        </Tooltip>
       </div>
     </div>
   );
@@ -36,7 +41,7 @@ export default ({
     lat: 40.756795,
     lng: -73.954298,
   },
-  defaultZoom = 10,
+  defaultZoom = 12,
   origin,
   destination,
   markers = [],

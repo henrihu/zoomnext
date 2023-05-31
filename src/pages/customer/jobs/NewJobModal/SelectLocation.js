@@ -16,9 +16,8 @@ export default ({ name = 'Location', value, onChange, prefix }) => {
           className="mr-2"
           shape="circle"
         />
-
-        <div className="flex justify-between flex-1 gap-1">
-          <div className="flex flex-col flex-1 gap-1">
+        <div className="flex justify-between gap-1 w-full">
+          <div className="flex flex-col gap-1 w-full max-w-full">
             <span>{name}</span>
             <SearchLocation
               value={value}
